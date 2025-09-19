@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
@@ -21,6 +23,17 @@ class User
 
     #[ORM\Column]
     private ?int $nb_character = null;
+
+    /**
+     * @var Collection<int, Character>
+     */
+    #[ORM\OneToMany(targetEntity: Character::class, mappedBy: 'owner')]
+    private Collection $characters;
+
+    public function __construct()
+    {
+        $this->characters = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -59,6 +72,36 @@ class User
     public function setNbCharacter(int $nb_character): static
     {
         $this->nb_character = $nb_character;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Character>
+     */
+    public function getCharacters(): Collection
+    {
+        return $this->characters;
+    }
+
+    public function addCharacter(Character $character): static
+    {
+        if (!$this->characters->contains($character)) {
+            $this->characters->add($character);
+            $character->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCharacter(Character $character): static
+    {
+        if ($this->characters->removeElement($character)) {
+            // set the owning side to null (unless already changed)
+            if ($character->getOwner() === $this) {
+                $character->setOwner(null);
+            }
+        }
 
         return $this;
     }

@@ -67,6 +67,9 @@ class Character
     #[ORM\OneToMany(targetEntity: Transfer::class, mappedBy: 'recipient')]
     private Collection $transfers_recipient;
 
+    #[ORM\ManyToOne(inversedBy: 'characters')]
+    private ?User $owner = null;
+
     public function __construct()
     {
         $this->buildings = new ArrayCollection();
@@ -304,6 +307,18 @@ class Character
                 $transfersRecipient->setRecipient(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getOwner(): ?User
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(?User $owner): static
+    {
+        $this->owner = $owner;
 
         return $this;
     }
