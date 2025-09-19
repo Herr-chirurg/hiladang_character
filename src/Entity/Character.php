@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CharacterRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -40,6 +42,17 @@ class Character
 
     #[ORM\Column]
     private ?int $end_activity = null;
+
+    /**
+     * @var Collection<int, Building>
+     */
+    #[ORM\OneToMany(targetEntity: Building::class, mappedBy: 'owner')]
+    private Collection $buildings;
+
+    public function __construct()
+    {
+        $this->buildings = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -150,6 +163,36 @@ class Character
     public function setEndActivity(int $end_activity): static
     {
         $this->end_activity = $end_activity;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Building>
+     */
+    public function getBuildings(): Collection
+    {
+        return $this->buildings;
+    }
+
+    public function addBuilding(Building $building): static
+    {
+        if (!$this->buildings->contains($building)) {
+            $this->buildings->add($building);
+            $building->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBuilding(Building $building): static
+    {
+        if ($this->buildings->removeElement($building)) {
+            // set the owning side to null (unless already changed)
+            if ($building->getOwner() === $this) {
+                $building->setOwner(null);
+            }
+        }
 
         return $this;
     }

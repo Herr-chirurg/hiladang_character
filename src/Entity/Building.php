@@ -19,6 +19,9 @@ class Building
     #[ORM\Column(length: 255)]
     private ?string $type = null;
 
+    #[ORM\ManyToOne(inversedBy: 'buildings')]
+    private ?Character $owner = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -44,6 +47,18 @@ class Building
     public function setType(string $type): static
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function getOwner(): ?Character
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(?Character $owner): static
+    {
+        $this->owner = $owner;
 
         return $this;
     }
