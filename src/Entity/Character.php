@@ -55,10 +55,24 @@ class Character
     #[ORM\OneToMany(targetEntity: Activity::class, mappedBy: 'participant')]
     private Collection $activities;
 
+    /**
+     * @var Collection<int, Transfer>
+     */
+    #[ORM\OneToMany(targetEntity: Transfer::class, mappedBy: 'initiator')]
+    private Collection $transfers_initiator;
+
+    /**
+     * @var Collection<int, Transfer>
+     */
+    #[ORM\OneToMany(targetEntity: Transfer::class, mappedBy: 'recipient')]
+    private Collection $transfers_recipient;
+
     public function __construct()
     {
         $this->buildings = new ArrayCollection();
         $this->activities = new ArrayCollection();
+        $this->transfers_initiator = new ArrayCollection();
+        $this->transfers_recipient = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -228,6 +242,66 @@ class Character
             // set the owning side to null (unless already changed)
             if ($activity->getParticipant() === $this) {
                 $activity->setParticipant(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Transfer>
+     */
+    public function getTransfersInitiator(): Collection
+    {
+        return $this->transfers_initiator;
+    }
+
+    public function addTransfersInitiator(Transfer $transfersInitiator): static
+    {
+        if (!$this->transfers_initiator->contains($transfersInitiator)) {
+            $this->transfers_initiator->add($transfersInitiator);
+            $transfersInitiator->setInitiator($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTransfersInitiator(Transfer $transfersInitiator): static
+    {
+        if ($this->transfers_initiator->removeElement($transfersInitiator)) {
+            // set the owning side to null (unless already changed)
+            if ($transfersInitiator->getInitiator() === $this) {
+                $transfersInitiator->setInitiator(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Transfer>
+     */
+    public function getTransfersRecipient(): Collection
+    {
+        return $this->transfers_recipient;
+    }
+
+    public function addTransfersRecipient(Transfer $transfersRecipient): static
+    {
+        if (!$this->transfers_recipient->contains($transfersRecipient)) {
+            $this->transfers_recipient->add($transfersRecipient);
+            $transfersRecipient->setRecipient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTransfersRecipient(Transfer $transfersRecipient): static
+    {
+        if ($this->transfers_recipient->removeElement($transfersRecipient)) {
+            // set the owning side to null (unless already changed)
+            if ($transfersRecipient->getRecipient() === $this) {
+                $transfersRecipient->setRecipient(null);
             }
         }
 

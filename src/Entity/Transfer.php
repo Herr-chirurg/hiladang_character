@@ -23,6 +23,14 @@ class Transfer
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 0)]
     private ?string $extra_pr = null;
 
+    #[ORM\ManyToOne(inversedBy: 'transfers_initiator')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Character $initiator = null;
+
+    #[ORM\ManyToOne(inversedBy: 'transfers_recipient')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Character $recipient = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -60,6 +68,30 @@ class Transfer
     public function setExtraPr(string $extra_pr): static
     {
         $this->extra_pr = $extra_pr;
+
+        return $this;
+    }
+
+    public function getInitiator(): ?Character
+    {
+        return $this->initiator;
+    }
+
+    public function setInitiator(?Character $initiator): static
+    {
+        $this->initiator = $initiator;
+
+        return $this;
+    }
+
+    public function getRecipient(): ?Character
+    {
+        return $this->recipient;
+    }
+
+    public function setRecipient(?Character $recipient): static
+    {
+        $this->recipient = $recipient;
 
         return $this;
     }
