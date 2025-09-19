@@ -34,6 +34,9 @@ class Token
     #[ORM\ManyToOne(inversedBy: 'tokens')]
     private ?Character $character = null;
 
+    #[ORM\Column]
+    private ?\DateTime $date_of_reception = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -119,6 +122,18 @@ class Token
     public function setCharacter(?Character $character): static
     {
         $this->character = $character;
+
+        return $this;
+    }
+
+    public function getDateOfReception(): ?\DateTime
+    {
+        return $this->date_of_reception;
+    }
+
+    public function setDateOfReception(\DateTime $date_of_reception): static
+    {
+        $this->date_of_reception = $date_of_reception;
 
         return $this;
     }
