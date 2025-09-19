@@ -31,6 +31,9 @@ class Token
     #[ORM\ManyToOne(inversedBy: 'tokens')]
     private ?Scenario $scenario = null;
 
+    #[ORM\ManyToOne(inversedBy: 'tokens')]
+    private ?Character $character = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -104,6 +107,18 @@ class Token
     public function setScenario(?Scenario $scenario): static
     {
         $this->scenario = $scenario;
+
+        return $this;
+    }
+
+    public function getCharacter(): ?Character
+    {
+        return $this->character;
+    }
+
+    public function setCharacter(?Character $character): static
+    {
+        $this->character = $character;
 
         return $this;
     }

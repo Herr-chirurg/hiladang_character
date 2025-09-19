@@ -70,12 +70,19 @@ class Character
     #[ORM\ManyToOne(inversedBy: 'characters')]
     private ?User $owner = null;
 
+    /**
+     * @var Collection<int, Token>
+     */
+    #[ORM\OneToMany(targetEntity: Token::class, mappedBy: 'character')]
+    private Collection $tokens;
+
     public function __construct()
     {
         $this->buildings = new ArrayCollection();
         $this->activities = new ArrayCollection();
         $this->transfers_initiator = new ArrayCollection();
         $this->transfers_recipient = new ArrayCollection();
+        $this->tokens = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -319,6 +326,36 @@ class Character
     public function setOwner(?User $owner): static
     {
         $this->owner = $owner;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Token>
+     */
+    public function getTokens(): Collection
+    {
+        return $this->tokens;
+    }
+
+    public function addToken(Token $token): static
+    {
+        if (!$this->tokens->contains($token)) {
+            $this->tokens->add($token);
+            $token->setCharacter($this);
+        }
+
+        return $this;
+    }
+
+    public function removeToken(Token $token): static
+    {
+        if ($this->tokens->removeElement($token)) {
+            // set the owning side to null (unless already changed)
+            if ($token->getCharacter() === $this) {
+                $token->setCharacter(null);
+            }
+        }
 
         return $this;
     }
