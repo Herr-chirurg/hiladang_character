@@ -44,9 +44,6 @@ class Character
     #[ORM\ManyToOne(inversedBy: 'Owner')]
     private ?Building $buildings = null;
 
-    #[ORM\ManyToOne(inversedBy: 'participant')]
-    private ?Activity $activities = null;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -168,18 +165,6 @@ class Character
     public function setBuildings(?Building $buildings): static
     {
         $this->buildings = $buildings;
-
-        return $this;
-    }
-
-    public function getActivities(): ?Activity
-    {
-        return $this->activities;
-    }
-
-    public function setActivities(?Activity $activities): static
-    {
-        $this->activities = $activities;
 
         return $this;
     }
