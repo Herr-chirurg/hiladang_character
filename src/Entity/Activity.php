@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ActivityRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -31,6 +33,17 @@ class Activity
 
     #[ORM\Column(length: 1000)]
     private ?string $description = null;
+
+    /**
+     * @var Collection<int, Character>
+     */
+    #[ORM\OneToMany(targetEntity: Character::class, mappedBy: 'activities')]
+    private Collection $participant;
+
+    public function __construct()
+    {
+        $this->participant = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -105,6 +118,36 @@ class Activity
     public function setDescription(string $description): static
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Character>
+     */
+    public function getParticipant(): Collection
+    {
+        return $this->participant;
+    }
+
+    public function addParticipant(Character $participant): static
+    {
+        if (!$this->participant->contains($participant)) {
+            $this->participant->add($participant);
+            $participant->setActivities($this);
+        }
+
+        return $this;
+    }
+
+    public function removeParticipant(Character $participant): static
+    {
+        if ($this->participant->removeElement($participant)) {
+            // set the owning side to null (unless already changed)
+            if ($participant->getActivities() === $this) {
+                $participant->setActivities(null);
+            }
+        }
 
         return $this;
     }
