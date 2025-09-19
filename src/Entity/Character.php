@@ -41,6 +41,9 @@ class Character
     #[ORM\Column]
     private ?int $end_activity = null;
 
+    #[ORM\ManyToOne(inversedBy: 'Owner')]
+    private ?Building $buildings = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -150,6 +153,18 @@ class Character
     public function setEndActivity(int $end_activity): static
     {
         $this->end_activity = $end_activity;
+
+        return $this;
+    }
+
+    public function getBuildings(): ?Building
+    {
+        return $this->buildings;
+    }
+
+    public function setBuildings(?Building $buildings): static
+    {
+        $this->buildings = $buildings;
 
         return $this;
     }
