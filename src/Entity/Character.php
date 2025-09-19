@@ -47,6 +47,12 @@ class Character
     #[ORM\ManyToOne(inversedBy: 'participant')]
     private ?Activity $activities = null;
 
+    #[ORM\ManyToOne(inversedBy: 'initiator')]
+    private ?Transfer $transfers_initiated = null;
+
+    #[ORM\ManyToOne(inversedBy: 'recipient')]
+    private ?Transfer $transfers_recipient = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -180,6 +186,30 @@ class Character
     public function setActivities(?Activity $activities): static
     {
         $this->activities = $activities;
+
+        return $this;
+    }
+
+    public function getTransfersInitiated(): ?Transfer
+    {
+        return $this->transfers_initiated;
+    }
+
+    public function setTransfersInitiated(?Transfer $transfers_initiated): static
+    {
+        $this->transfers_initiated = $transfers_initiated;
+
+        return $this;
+    }
+
+    public function getTransfersRecipient(): ?Transfer
+    {
+        return $this->transfers_recipient;
+    }
+
+    public function setTransfersRecipient(?Transfer $transfers_recipient): static
+    {
+        $this->transfers_recipient = $transfers_recipient;
 
         return $this;
     }
