@@ -49,9 +49,16 @@ class Character
     #[ORM\OneToMany(targetEntity: Building::class, mappedBy: 'owner')]
     private Collection $buildings;
 
+    /**
+     * @var Collection<int, Activity>
+     */
+    #[ORM\OneToMany(targetEntity: Activity::class, mappedBy: 'participant')]
+    private Collection $activities;
+
     public function __construct()
     {
         $this->buildings = new ArrayCollection();
+        $this->activities = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -191,6 +198,36 @@ class Character
             // set the owning side to null (unless already changed)
             if ($building->getOwner() === $this) {
                 $building->setOwner(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Activity>
+     */
+    public function getActivities(): Collection
+    {
+        return $this->activities;
+    }
+
+    public function addActivity(Activity $activity): static
+    {
+        if (!$this->activities->contains($activity)) {
+            $this->activities->add($activity);
+            $activity->setParticipant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeActivity(Activity $activity): static
+    {
+        if ($this->activities->removeElement($activity)) {
+            // set the owning side to null (unless already changed)
+            if ($activity->getParticipant() === $this) {
+                $activity->setParticipant(null);
             }
         }
 

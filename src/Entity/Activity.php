@@ -32,6 +32,9 @@ class Activity
     #[ORM\Column(length: 1000)]
     private ?string $description = null;
 
+    #[ORM\ManyToOne(inversedBy: 'activities')]
+    private ?Character $participant = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -105,6 +108,18 @@ class Activity
     public function setDescription(string $description): static
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getParticipant(): ?Character
+    {
+        return $this->participant;
+    }
+
+    public function setParticipant(?Character $participant): static
+    {
+        $this->participant = $participant;
 
         return $this;
     }
