@@ -30,9 +30,16 @@ class User
     #[ORM\OneToMany(targetEntity: Character::class, mappedBy: 'owner')]
     private Collection $characters;
 
+    /**
+     * @var Collection<int, Scenario>
+     */
+    #[ORM\OneToMany(targetEntity: Scenario::class, mappedBy: 'game_master')]
+    private Collection $scenarios;
+
     public function __construct()
     {
         $this->characters = new ArrayCollection();
+        $this->scenarios = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -100,6 +107,36 @@ class User
             // set the owning side to null (unless already changed)
             if ($character->getOwner() === $this) {
                 $character->setOwner(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Scenario>
+     */
+    public function getScenarios(): Collection
+    {
+        return $this->scenarios;
+    }
+
+    public function addScenario(Scenario $scenario): static
+    {
+        if (!$this->scenarios->contains($scenario)) {
+            $this->scenarios->add($scenario);
+            $scenario->setGameMaster($this);
+        }
+
+        return $this;
+    }
+
+    public function removeScenario(Scenario $scenario): static
+    {
+        if ($this->scenarios->removeElement($scenario)) {
+            // set the owning side to null (unless already changed)
+            if ($scenario->getGameMaster() === $this) {
+                $scenario->setGameMaster(null);
             }
         }
 

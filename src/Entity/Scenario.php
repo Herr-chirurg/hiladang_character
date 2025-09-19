@@ -38,6 +38,9 @@ class Scenario
     #[ORM\Column(length: 255)]
     private ?string $status = null;
 
+    #[ORM\ManyToOne(inversedBy: 'scenarios')]
+    private ?User $game_master = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -135,6 +138,18 @@ class Scenario
     public function setStatus(string $status): static
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getGameMaster(): ?User
+    {
+        return $this->game_master;
+    }
+
+    public function setGameMaster(?User $game_master): static
+    {
+        $this->game_master = $game_master;
 
         return $this;
     }
