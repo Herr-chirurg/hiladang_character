@@ -28,6 +28,9 @@ class Token
     #[ORM\Column]
     private ?int $value_pr = null;
 
+    #[ORM\ManyToOne(inversedBy: 'tokens')]
+    private ?Scenario $scenario = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -89,6 +92,18 @@ class Token
     public function setValuePr(int $value_pr): static
     {
         $this->value_pr = $value_pr;
+
+        return $this;
+    }
+
+    public function getScenario(): ?Scenario
+    {
+        return $this->scenario;
+    }
+
+    public function setScenario(?Scenario $scenario): static
+    {
+        $this->scenario = $scenario;
 
         return $this;
     }
