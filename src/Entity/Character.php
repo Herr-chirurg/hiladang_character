@@ -16,31 +16,31 @@ class Character
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $title = null;
 
-    #[ORM\Column(type: Types::BLOB)]
+    #[ORM\Column(type: Types::BLOB, nullable: true)]
     private $img;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?int $level = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 7, scale: 0)]
+    #[ORM\Column(type: Types::DECIMAL, precision: 7, scale: 0, nullable: true)]
     private ?string $xp_current = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 7, scale: 0)]
+    #[ORM\Column(type: Types::DECIMAL, precision: 7, scale: 0, nullable: true)]
     private ?string $xp_current_mj = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 8, scale: 2)]
+    #[ORM\Column(type: Types::DECIMAL, precision: 8, scale: 2, nullable: true)]
     private ?string $gp = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 0)]
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 0, nullable: true)]
     private ?string $pr = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?int $end_activity = null;
 
     /**
