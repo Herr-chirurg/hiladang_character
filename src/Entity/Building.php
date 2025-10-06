@@ -22,6 +22,9 @@ class Building
     #[ORM\ManyToOne(inversedBy: 'buildings')]
     private ?Character $owner = null;
 
+    #[ORM\ManyToOne(inversedBy: 'buildings')]
+    private ?Location $location = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -59,6 +62,18 @@ class Building
     public function setOwner(?Character $owner): static
     {
         $this->owner = $owner;
+
+        return $this;
+    }
+
+    public function getLocation(): ?Location
+    {
+        return $this->location;
+    }
+
+    public function setLocation(?Location $location): static
+    {
+        $this->location = $location;
 
         return $this;
     }
