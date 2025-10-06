@@ -32,6 +32,9 @@ class Building
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $bonus = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $alias = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -105,6 +108,18 @@ class Building
     public function setBonus(?string $bonus): static
     {
         $this->bonus = $bonus;
+
+        return $this;
+    }
+
+    public function getAlias(): ?string
+    {
+        return $this->alias;
+    }
+
+    public function setAlias(?string $alias): static
+    {
+        $this->alias = $alias;
 
         return $this;
     }
