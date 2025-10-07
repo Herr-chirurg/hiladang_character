@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}BuildingBase index{% endblock %}
+
+{% block body %}
+    <h1>BuildingBase index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Type</th>
+                <th>Production</th>
+                <th>Bonus</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for building_base in building_bases %}
+            <tr>
+                <td>{{ building_base.id }}</td>
+                <td>{{ building_base.name }}</td>
+                <td>{{ building_base.price }}</td>
+                <td>{{ building_base.type }}</td>
+                <td>{{ building_base.production }}</td>
+                <td>{{ building_base.bonus }}</td>
+                <td>
+                    <a href="{{ path('app_building_base_show', {'id': building_base.id}) }}">show</a>
+                    <a href="{{ path('app_building_base_edit', {'id': building_base.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_building_base_new') }}">Create new</a>
+{% endblock %}

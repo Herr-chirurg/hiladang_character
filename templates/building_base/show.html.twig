@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}BuildingBase{% endblock %}
+
+{% block body %}
+    <h1>BuildingBase</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ building_base.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ building_base.name }}</td>
+            </tr>
+            <tr>
+                <th>Price</th>
+                <td>{{ building_base.price }}</td>
+            </tr>
+            <tr>
+                <th>Type</th>
+                <td>{{ building_base.type }}</td>
+            </tr>
+            <tr>
+                <th>Production</th>
+                <td>{{ building_base.production }}</td>
+            </tr>
+            <tr>
+                <th>Bonus</th>
+                <td>{{ building_base.bonus }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_building_base_index') }}">back to list</a>
+
+    <a href="{{ path('app_building_base_edit', {'id': building_base.id}) }}">edit</a>
+
+    {{ include('building_base/_delete_form.html.twig') }}
+{% endblock %}

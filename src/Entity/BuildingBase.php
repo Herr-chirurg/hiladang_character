@@ -45,6 +45,13 @@ class BuildingBase
 
     public function __construct(?string $name, ?string $type, ?string $price, ?string $production, ?string $bonus)
     {
+
+        $this->name = $name;
+        $this->type = $type;
+        $this->price = $price;
+        $this->production = $production;
+        $this->bonus = $bonus;
+
         $this->upgrade_to = new ArrayCollection();
         $this->upgrade_from = new ArrayCollection();
     }
