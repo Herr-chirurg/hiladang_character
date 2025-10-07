@@ -16,14 +16,14 @@ class Location
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 0, nullable: true)]
-    private ?string $price = null;
-
     /**
      * @var Collection<int, Building>
      */
     #[ORM\OneToMany(targetEntity: Building::class, mappedBy: 'location')]
     private Collection $buildings;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $name = null;
 
     public function __construct()
     {
@@ -33,18 +33,6 @@ class Location
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getPrice(): ?string
-    {
-        return $this->price;
-    }
-
-    public function setPrice(?string $price): static
-    {
-        $this->price = $price;
-
-        return $this;
     }
 
     /**
@@ -73,6 +61,18 @@ class Location
                 $building->setLocation(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(?string $name): static
+    {
+        $this->name = $name;
 
         return $this;
     }
