@@ -43,7 +43,7 @@ class BuildingBase
     #[ORM\ManyToMany(targetEntity: self::class, mappedBy: 'upgrade_to')]
     private Collection $upgrade_from;
 
-    public function __construct()
+    public function __construct(?string $name, ?string $type, ?string $price, ?string $production, ?string $bonus)
     {
         $this->upgrade_to = new ArrayCollection();
         $this->upgrade_from = new ArrayCollection();
