@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Location;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use APP\Entity\Character;
@@ -23,6 +24,7 @@ class AppFixtures extends Fixture
         $this->createCharacters(50);
         $this->createUsers(50);
         $this->createBuildingBases();
+        $this->createLocation(10);
 
         $this->manager->flush();
     }
@@ -176,6 +178,20 @@ class AppFixtures extends Fixture
         $building = new BuildingBase(	"Palace"	                , "Spectacle"	    , 13450	, 675	, "Bonus de 3 à un jet de profession"	);
         $this->manager->persist($building);
 
+    }
+
+    private function createLocation(int $nbUser): void {
+        for ($i = 0; $i < $nbUser; $i++) {
+        
+            $location = new Location();
+
+            // Génération de données aléatoires avec Faker
+            // On utilise $this->fake->unique() pour garantir un nom unique.
+            $location->setName($this->faker->unique()->city()); //($this->faker->unique()->firstName . ' ' . $this->faker->lastName);
+
+            $this->manager->persist($location);
+
+        }
     }
 
     
