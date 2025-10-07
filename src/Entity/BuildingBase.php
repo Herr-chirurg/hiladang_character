@@ -43,17 +43,23 @@ class BuildingBase
     #[ORM\ManyToMany(targetEntity: self::class, mappedBy: 'upgrade_to')]
     private Collection $upgrade_from;
 
-    public function __construct(?string $name, ?string $type, ?string $price, ?string $production, ?string $bonus)
+    public function __construct()
     {
-
-        $this->name = $name;
-        $this->type = $type;
-        $this->price = $price;
-        $this->production = $production;
-        $this->bonus = $bonus;
-
         $this->upgrade_to = new ArrayCollection();
         $this->upgrade_from = new ArrayCollection();
+    }
+
+    static function CreateFromNameTypePriceProductionBonus(?string $name, ?string $type, ?string $price, ?string $production, ?string $bonus)
+    {
+        $buildingBase = new BuildingBase;
+
+        return $buildingBase
+            ->setName($name)
+            ->setType($type)
+            ->setPrice($price)
+            ->setProduction($production)
+            ->setBonus($bonus);
+
     }
 
     public function getId(): ?int
