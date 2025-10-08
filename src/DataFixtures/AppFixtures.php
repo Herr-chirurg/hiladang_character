@@ -108,11 +108,15 @@ class AppFixtures extends Fixture
         
             $user = new User();
 
-            
+            $firstName = $this->faker->unique()->firstName;
+            $lastName = $this->faker->unique()->lastName;
+
+            $user->setDiscordId($firstName);
+            $user->setPassword($firstName);
 
             // Génération de données aléatoires avec Faker
             // On utilise $this->fake->unique() pour garantir un nom unique.
-            $user->setUsername($this->faker->unique()->firstName . ' ' . $this->faker->lastName);
+            $user->setUsername($firstName . ' ' . $this->faker->lastName);
             $user->setRole($this->faker->jobTitle);
 
             // Pour une image, utilisez un placeholder ou une valeur aléatoire dans une liste prédéfinie
