@@ -28,7 +28,7 @@ class Transfer
     private ?Character $initiator = null;
 
     #[ORM\ManyToOne(inversedBy: 'transfers_recipient')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Character $recipient = null;
 
     #[ORM\Column(length: 1000)]
@@ -87,7 +87,7 @@ class Transfer
         return $this;
     }
 
-    public function getRecipient(): ?Character
+    public function getRecipient(): Character
     {
         return $this->recipient;
     }
