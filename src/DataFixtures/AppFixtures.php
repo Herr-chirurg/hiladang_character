@@ -2,7 +2,12 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Activity;
+use App\Entity\Building;
 use App\Entity\Location;
+use App\Entity\Scenario;
+use App\Entity\Token;
+use App\Entity\Transfer;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use APP\Entity\Character;
@@ -20,19 +25,48 @@ class AppFixtures extends Fixture
     {       
         $this->faker = \Faker\Factory::create('fr_FR'); 
         $this->manager = $manager;
-        
-        $this->createCharacters(50);
-        $this->createUsers(50);
-        $this->createBuildingBases();
-        $this->createLocation(10);
 
-        $this->manager->flush();
+        //creation location
+        $this->createLocations(10);
+
+        //creation users
+        $this->createUsers(40);
+
+        //creation characters
+        //ajout à des users existants   
+        $this->createCharacters(50);
+
+        //creation de buildings bases
+        $this->createBuildingBases();
+
+        //creations de buildings à partir de building bases
+        //associations de la moitiés des bâtiments à des characters
+        $this->createBuildings(50);
+
+        //creation de scénarios
+        $this->createScenarios(10);
+
+        //tokens MJ, les tokens non PJ sont générés dans les scénarios.
+        $this->createTokens(10);
+        
+        //création de transfers
+        //association de destinataires à des characters
+        $this->createTransfers(10);
+        
+        //association d'activités à des characters
+        $this->createActivities(10);
+        
     }
 
-    private function createCharacters(int $nbCharacter): void {
-        for ($i = 0; $i < $nbCharacter; $i++) {
+    private function createCharacters(int $nbCharacters): void {
+
+        $users = $this->manager->getRepository(User::class)->findAll();
+
+        for ($i = 0; $i < $nbCharacters; $i++) {
         
             $character = new Character();
+
+            $character->setOwner($this->faker->randomElement($users));
 
             // Génération de données aléatoires avec Faker
             // On utilise $this->fake->unique() pour garantir un nom unique.
@@ -65,12 +99,16 @@ class AppFixtures extends Fixture
             $this->manager->persist($character);
 
         }
+
+        $this->manager->flush();
     }
 
-    private function createUsers(int $nbUser): void {
-        for ($i = 0; $i < $nbUser; $i++) {
+    private function createUsers(int $nbUsers): void {
+        for ($i = 0; $i < $nbUsers; $i++) {
         
             $user = new User();
+
+            
 
             // Génération de données aléatoires avec Faker
             // On utilise $this->fake->unique() pour garantir un nom unique.
@@ -88,6 +126,8 @@ class AppFixtures extends Fixture
             $this->manager->persist($user);
 
         }
+
+        $this->manager->flush();
     }
 
      private function createBuildingBases(): void {
@@ -178,20 +218,199 @@ class AppFixtures extends Fixture
         $building = BuildingBase::CreateFromNameTypePriceProductionBonus(	"Palace"	                , "Spectacle"	    , 13450	, 675	, "Bonus de 3 à un jet de profession"	);
         $this->manager->persist($building);
 
+        $this->manager->flush();
+
     }
 
-    private function createLocation(int $nbUser): void {
-        for ($i = 0; $i < $nbUser; $i++) {
+    private function createLocations(int $nbLocations): void {
+        for ($i = 0; $i < $nbLocations; $i++) {
         
             $location = new Location();
 
-            // Génération de données aléatoires avec Faker
-            // On utilise $this->fake->unique() pour garantir un nom unique.
             $location->setName($this->faker->unique()->city()); //($this->faker->unique()->firstName . ' ' . $this->faker->lastName);
 
             $this->manager->persist($location);
 
         }
+
+        $this->manager->flush();
+    }
+
+    private function createScenarios(int $nbScenarios): void {
+
+        $users = $this->manager->getRepository(User::class)->findAll();
+
+        $statuses = ['Draft', 'Published', 'Archived', 'Pending Review'];
+
+        $concepts = [
+                'Le Mystère', 'L\'Ombre', 'Le Secret', 'La Malédiction', 'L\'Héritage', 
+                'La Chute', 'Le Réveil', 'L\'Ascension', 'Le Pillage', 'Le Pacte'
+        ];
+        
+        $adjectives = [
+            'Oublié', 'Éternel', 'Sanglant', 'Cristallin', 'Interdit', 'Céleste', 'Funeste'
+        ];
+
+        for ($i = 0; $i < $nbScenarios; $i++) {
+
+            $gameMaster = $this->faker->randomElement($users); 
+
+            $characters = $this->manager->getRepository(Character::class)->findAll();
+
+            $concept = $this->faker->randomElement($concepts);
+            $lieu = $this->faker->city();
+            $adjectif = $this->faker->randomElement($adjectives);
+
+            $scenarioTitle = sprintf('%s de %s %s', $concept, $lieu, $adjectif);
+            
+            $scenarioTitle = str_replace('de La', 'de la', $scenarioTitle);
+        
+            $scenario = new Scenario();
+
+            $scenario->setGameMaster($gameMaster);
+
+            $scenario->setNbCharacter($this->faker->numberBetween(1, 10));
+
+            for ($i = 0; $i < $scenario->getNbCharacter(); $i++) {
+                $scenario->addCharacter($this->faker->randomElement($characters));
+            }
+            
+            $scenario->setName($scenarioTitle);
+
+            $scenario->setLevel($this->faker->numberBetween(1, 20));
+            
+            $scenario->setDate($this->faker->dateTimeBetween('-6 months', 'now'));
+
+            $scenario->setDescription($this->faker->paragraphs(3, true)); // 3 paragraphes joints en une seule chaîne
+
+            $binaryData = random_bytes(256);
+            $scenario->setImg($binaryData); 
+
+            $scenario->setPostLink('https://perdu.com/');
+
+            $scenario->setSummaryLink('https://perdu.com/');
+
+            $scenario->setStatus($this->faker->randomElement($statuses));
+
+            $this->manager->persist($scenario);
+
+        }
+        
+        $this->manager->flush();
+    }
+
+    private function createTokens(int $nbToken): void {
+
+        $characters = $this->manager->getRepository(Character::class)->findAll();
+        $users = $this->manager->getRepository(User::class)->findAll();
+
+        for ($i = 0; $i < floor($nbToken/2); $i++) {
+        
+            $token = new Token();
+
+            $token->setName("placeholder");
+
+            $token->setType("MJ");
+            if ($i%2) {
+                $token->setType("MJ");
+                $token->setCharacter($this->faker->randomElement($characters));
+            } else {
+                $token->setOwnerUser($this->faker->randomElement($users));
+            }
+            
+            $token->setDateOfReception($this->faker->dateTimeBetween('-2 months', 'now'));
+            $token->setUsageRate($this->faker->numberBetween(0,200));
+            $token->setValue($this->faker->numberBetween(1,));
+            $token->setValuePr($i%2 ? 0 : $this->faker->numberBetween(1,5));
+
+            $this->manager->persist($token);
+        }
+
+        $this->manager->flush();
+    }
+
+    
+    private function createActivities(int $nbActivity): void {
+
+        $characters = $this->manager->getRepository(Character::class)->findAll();
+
+        for ($i = 0; $i < $nbActivity; $i++) {
+        
+            $activity = new Activity();
+
+            $activity->setParticipant($this->faker->randomElement($characters));
+            
+            // Assumons que $faker a été initialisé via : $faker = Factory::create('fr_FR');
+
+            // Définitions des listes
+            $activityTypes = ['Exploration', 'Restauration', 'Combat', 'Formation'];
+
+            // L'objet Activity
+            $activity->setType($this->faker->randomElement($activityTypes));
+            $activity->setDate($this->faker->dateTimeBetween('-1 year', 'now')); // Date passée, jusqu'à aujourd'hui
+            $activity->setCostGp($this->faker->numberBetween(1, 1000)); // Coût en Gold Pieces (GP)
+            $activity->setCostPr($this->faker->numberBetween(10, 5000)); // Coût en Platinum Rank (PR)
+            $activity->setDuration($this->faker->numberBetween(1, 48)); // Durée en heures ou unités de temps
+            $activity->setDescription($this->faker->paragraphs(2, true)); // Deux paragraphes de texte
+
+
+            $this->manager->persist($activity);
+
+        }
+
+        $this->manager->flush();
+    }
+
+    private function createTransfers(int $nbTransfer): void {
+
+        $characters = $this->manager->getRepository(Character::class)->findAll();
+
+        for ($i = 0; $i < $nbTransfer; $i++) {
+        
+            $transfer = new Transfer();
+
+            $transfer->setGp($this->faker->randomFloat(2, 0.01, 50000.99));
+            $transfer->setPr($this->faker->numberBetween(100, 9999999999)); 
+            $transfer->setExtraPr($this->faker->numberBetween(0, 100));
+            $transfer->setDescription(''. $this->faker->sentence(3) .'');
+            
+            $transfer->setInitiator($this->faker->randomElement($characters));
+            $transfer->setRecipient($i%2 ? $this->faker->randomElement($characters) : null);
+
+            $this->manager->persist($transfer);
+
+        }
+
+        $this->manager->flush();
+    }
+
+    private function createBuildings(int $nbBuilding): void {
+
+        $characters = $this->manager->getRepository(Character::class)->findAll();
+        $locations = $this->manager->getRepository(Location::class)->findAll();
+
+        for ($i = 0; $i < $nbBuilding; $i++) {
+        
+            $building = new Building();
+
+            $owner = $i%2 ?$this->faker->randomElement($characters) : null;
+
+            $building->setOwner($i%2 ?$this->faker->randomElement($characters) : null);
+            $building->setLocation($this->faker->randomElement($locations));
+
+            $building->setName($this->faker->unique()->word() . ' ' . $this->faker->lastName());
+            $building->setType($this->faker->randomElement(['Maison', 'Ferme', 'Caserne', 'Mine d\'Or', 'Bâtiment Administratif']));
+
+            $building->setProduction($this->faker->randomElement(['100', '500', '1000', '2500', '5000']));
+            $building->setBonus($this->faker->optional(0.7)->randomElement(['+1 Morale', '+2 Defense', 'Fast Travel', 'Resource Multiplier']));
+            
+            $building->setAlias($building->getName());
+
+            $this->manager->persist($building);
+
+        }
+        
+        $this->manager->flush();
     }
 
     
