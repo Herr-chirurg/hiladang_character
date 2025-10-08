@@ -76,6 +76,12 @@ class Character
     #[ORM\OneToMany(targetEntity: Token::class, mappedBy: 'character')]
     private Collection $tokens;
 
+    /**
+     * @var Collection<int, Scenario>
+     */
+    #[ORM\ManyToMany(targetEntity: Scenario::class, mappedBy: 'characters')]
+    private Collection $scenarios;
+
     public function __construct()
     {
         $this->buildings = new ArrayCollection();
@@ -83,6 +89,7 @@ class Character
         $this->transfers_initiator = new ArrayCollection();
         $this->transfers_recipient = new ArrayCollection();
         $this->tokens = new ArrayCollection();
+        $this->scenarios = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -355,6 +362,33 @@ class Character
             if ($token->getCharacter() === $this) {
                 $token->setCharacter(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Scenario>
+     */
+    public function getScenarios(): Collection
+    {
+        return $this->scenarios;
+    }
+
+    public function addScenario(Scenario $scenario): static
+    {
+        if (!$this->scenarios->contains($scenario)) {
+            $this->scenarios->add($scenario);
+            $scenario->addCharacter($this);
+        }
+
+        return $this;
+    }
+
+    public function removeScenario(Scenario $scenario): static
+    {
+        if ($this->scenarios->removeElement($scenario)) {
+            $scenario->removeCharacter($this);
         }
 
         return $this;
