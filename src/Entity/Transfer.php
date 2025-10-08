@@ -31,6 +31,9 @@ class Transfer
     #[ORM\JoinColumn(nullable: false)]
     private ?Character $recipient = null;
 
+    #[ORM\Column(length: 1000)]
+    private ?string $description = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -92,6 +95,18 @@ class Transfer
     public function setRecipient(?Character $recipient): static
     {
         $this->recipient = $recipient;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): static
+    {
+        $this->description = $description;
 
         return $this;
     }
