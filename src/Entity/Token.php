@@ -37,6 +37,9 @@ class Token
     #[ORM\Column]
     private ?\DateTime $date_of_reception = null;
 
+    #[ORM\ManyToOne(inversedBy: 'tokens')]
+    private ?User $owner_user = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -134,6 +137,18 @@ class Token
     public function setDateOfReception(\DateTime $date_of_reception): static
     {
         $this->date_of_reception = $date_of_reception;
+
+        return $this;
+    }
+
+    public function getOwnerUser(): ?User
+    {
+        return $this->owner_user;
+    }
+
+    public function setOwnerUser(?User $owner_user): static
+    {
+        $this->owner_user = $owner_user;
 
         return $this;
     }
