@@ -36,10 +36,17 @@ class User
     #[ORM\OneToMany(targetEntity: Scenario::class, mappedBy: 'game_master')]
     private Collection $scenarios;
 
+    /**
+     * @var Collection<int, Token>
+     */
+    #[ORM\OneToMany(targetEntity: Token::class, mappedBy: 'owner_user')]
+    private Collection $tokens;
+
     public function __construct()
     {
         $this->characters = new ArrayCollection();
         $this->scenarios = new ArrayCollection();
+        $this->tokens = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -137,6 +144,36 @@ class User
             // set the owning side to null (unless already changed)
             if ($scenario->getGameMaster() === $this) {
                 $scenario->setGameMaster(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Token>
+     */
+    public function getTokens(): Collection
+    {
+        return $this->tokens;
+    }
+
+    public function addToken(Token $token): static
+    {
+        if (!$this->tokens->contains($token)) {
+            $this->tokens->add($token);
+            $token->setOwnerUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeToken(Token $token): static
+    {
+        if ($this->tokens->removeElement($token)) {
+            // set the owning side to null (unless already changed)
+            if ($token->getOwnerUser() === $this) {
+                $token->setOwnerUser(null);
             }
         }
 
