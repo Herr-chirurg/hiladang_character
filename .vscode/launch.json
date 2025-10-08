@@ -1,0 +1,20 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        // ... (Vos autres configurations, comme "Listen for Xdebug" sont ici)
+        
+        {
+            "name": "Debug Symfony Fixtures (Console)",
+            "type": "php",
+            "request": "launch",
+            "port": 9003,
+            "program": "${workspaceRoot}/bin/console",
+            "runtimeArgs": [
+                "-dxdebug.mode=debug",
+                "-dxdebug.start_with_request=yes"
+            ],
+            // Le débugueur s'attachera à l'exécution de bin/console
+            "args": [] 
+        }
+    ]
+}
