@@ -55,6 +55,9 @@ class Scenario
     #[ORM\ManyToMany(targetEntity: Character::class, inversedBy: 'scenarios')]
     private Collection $characters;
 
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 0)]
+    private ?string $nb_character = null;
+
     public function __construct()
     {
         $this->tokens = new ArrayCollection();
@@ -224,6 +227,18 @@ class Scenario
     public function removeCharacter(Character $character): static
     {
         $this->characters->removeElement($character);
+
+        return $this;
+    }
+
+    public function getNbCharacter(): ?string
+    {
+        return $this->nb_character;
+    }
+
+    public function setNbCharacter(string $nb_character): static
+    {
+        $this->nb_character = $nb_character;
 
         return $this;
     }
