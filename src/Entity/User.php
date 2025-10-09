@@ -30,7 +30,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $role = null;
 
     #[ORM\Column]
-    private ?int $nb_character = 0;
+    private ?int $nb_character_max = 0;
 
     /**
      * @var list<string> The user roles
@@ -110,14 +110,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getNbCharacter(): ?int
+    public function getNbCharacterMax(): ?int
     {
-        return $this->nb_character;
+        return $this->nb_character_max;
     }
 
-    public function setNbCharacter(int $nb_character): static
+    public function setNbCharacterMax(int $nb_character): static
     {
-        $this->nb_character = $nb_character;
+        $this->nb_character_max = $nb_character;
 
         return $this;
     }

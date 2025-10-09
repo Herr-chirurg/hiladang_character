@@ -123,9 +123,8 @@ class AppFixtures extends Fixture
             //$imageOptions = ['warrior.png', 'mage.png', 'rogue.png', 'cleric.png'];
             //$character->setImg($imageOptions[array_rand($imageOptions)]);
 
-            // Niveaux aléatoires entre 1 et 20
-            $level = $this->faker->numberBetween(1, 50);
-            $user->setNbCharacter($level);
+            // Niveaux aléatoires entre 1 et 2
+            $user->setNbCharacterMax($this->faker->numberBetween(1, 2));
 
             $this->manager->persist($user);
 
