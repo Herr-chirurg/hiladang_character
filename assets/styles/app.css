@@ -45,6 +45,14 @@ a {
     display: block; /* S'assure que le style est appliqué à la cellule */
 }
 
+table.index tr {
+    cursor: pointer;
+}
+
+table.index tr:hover {
+    background-color: #f0f0f0;
+}
+    
 /* Style des données (colonne de droite) */
 .table td {
     width: 200px;

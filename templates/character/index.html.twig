@@ -5,7 +5,7 @@
 {% block body %}
     <h2>Character index</h1>
 
-    <table class="table">
+    <table class="table index">
         <thead>
             <tr>
                 <th>Id</th>
@@ -14,12 +14,11 @@
                 <th>Niveau</th>
                 <th>Réputation</th>
                 <th>End_activity</th>
-                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
         {% for character in characters %}
-            <tr>
+            <tr onclick="document.location = '{{ path('app_character_show', {'id': character.id}) }}';">
                 <td>{{ character.id }}</td>
                 <td>{{ character.name }}</td>
                 <td>{{ character.title }}</td>
@@ -32,10 +31,6 @@
                     <td>Disponible</td>
                 {% endif %}
 
-                <td>
-                    <a href="{{ path('app_character_show', {'id': character.id}) }}">show</a>
-                    <a href="{{ path('app_character_edit', {'id': character.id}) }}">edit</a>
-                </td>
             </tr>
         {% else %}
             <tr>
