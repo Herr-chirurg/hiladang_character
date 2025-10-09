@@ -9,43 +9,46 @@
         <tbody>
             <tr>
                 <th>Id</th>
-                <td>{{ character.id }}</td>
+                <td>{{ "%04d"|format(character.id) }}</td>
             </tr>
             <tr>
-                <th>Name</th>
+                <th>Propriétaire</th>
+                <td>{{ character.owner.username }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
                 <td>{{ character.name }}</td>
             </tr>
             <tr>
-                <th>Title</th>
+                <th>Titre</th>
                 <td>{{ character.title }}</td>
             </tr>
             <tr>
-                <th>Img</th>
-                <td>{{ character.img }}</td>
-            </tr>
-            <tr>
-                <th>Level</th>
+                <th>Niveau</th>
                 <td>{{ character.level }}</td>
             </tr>
             <tr>
-                <th>Xp_current</th>
-                <td>{{ character.xpCurrent }}</td>
+                <th>XP actuel</th>
+                <td>{{ character.xpCurrent + character.xpCurrentMj }} XP</td>
+                <td>/ XXXXXXX XP</td>
             </tr>
             <tr>
-                <th>Xp_current_mj</th>
-                <td>{{ character.xpCurrentMj }}</td>
+                <th>XP actuel de maitrise</th>
+                <td>{{ character.xpCurrentMj }} XP</td>
+                <td>/ XXXXXXX XP</td>
             </tr>
             <tr>
-                <th>Gp</th>
-                <td>{{ character.gp }}</td>
+                <th>Richesse</th>
+                <td>{{ character.gp }} GP</td>
+                <td>/ XXXXXXX GP</td>
             </tr>
             <tr>
-                <th>Pr</th>
-                <td>{{ character.pr }}</td>
+                <th>Reputation</th>
+                <td>{{ character.pr }} PR</td>
             </tr>
             <tr>
-                <th>End_activity</th>
-                <td>{{ character.endActivity }}</td>
+                <th>Fin d'activité</th>
+                <td>Dans {{ character.endActivity }} jours</td>
             </tr>
         </tbody>
     </table>
