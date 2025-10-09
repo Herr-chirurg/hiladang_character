@@ -1,3 +1,206 @@
 body {
     background-color: skyblue;
 }
+
+/* -------------------------------------- */
+/* --- 1. Alignement du Header (Titre + Utilisateur) --- */
+/* -------------------------------------- */
+.app-header {
+    /* Clé : Utilise Flexbox pour aligner les enfants */
+    display: flex;
+    /* Clé : Pousse le titre à gauche et la zone utilisateur à droite */
+    justify-content: space-between;
+    /* Aligne tout verticalement au centre */
+    align-items: center;
+    
+    padding: 10px 20px;
+}
+
+.app-title-text a {
+    text-decoration: none;
+    color: #343a40;
+    font-size: 1.5rem;
+}
+
+/* -------------------------------------- */
+/* --- 2. Image de Profil & Menu Burger --- */
+/* -------------------------------------- */
+
+.user-area-container {
+    display: flex;
+    align-items: center;
+}
+
+.profile-pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 15px; /* Espace entre l'image et le menu burger */
+}
+
+/* -------------------------------------- */
+/* --- 3. Menu Burger (Positionnement) --- */
+/* -------------------------------------- */
+
+.menu-dropdown-wrapper {
+    position: relative; /* Point de référence pour le menu déroulant absolu */
+}
+
+.burger-menu-btn {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    font-size: 20px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.dropdown-menu {
+    /* Style du menu déroulant */
+    display: none; /* Masqué par défaut (JS gérera l'affichage) */
+    position: absolute;
+    top: 100%; /* Juste en dessous du bouton */
+    right: 0;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ccc;
+    z-index: 1000;
+    min-width: 150px;
+}
+
+.dropdown-menu a {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color: #343a40;
+}
+
+.dropdown-menu a:hover {
+    background-color: #f1f1f1;
+}
+
+/* -------------------------------------- */
+/* --- 3. Menu Burger (Positionnement) --- */
+/* -------------------------------------- */
+
+.dropdown-menu {
+    /* Style du menu déroulant */
+    display: none; /* Masqué par défaut */
+    /* ... autres styles ... */
+}
+
+/* CLASSE POUR AFFICHER LE MENU LORSQUE LE JS L'AJOUTE */
+.dropdown-menu.show {
+    display: block; /* Affiche le menu lorsque le JS ajoute la classe 'show' */
+}
+
+
+/* -------------------------------------- */
+/* --- 4. Style de la Navbar Principale (Optionnel) --- */
+/* -------------------------------------- */
+.main-navbar {
+    background-color: #343a40; /* Couleur sombre */
+    padding: 0;
+}
+
+.main-navbar .nav-list {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.main-navbar .nav-item a {
+    display: block;
+    padding: 10px 15px;
+    text-decoration: none;
+    color: white;
+}
+
+.main-navbar .nav-item a:hover {
+    background-color: #007bff;
+}
+
+.titre-centre {
+    /* Aligne le texte au centre de son conteneur (la balise h1) */
+    text-align: center;
+    
+    /* Optionnel : quelques styles pour rendre le titre plus visible */
+    color: #333;
+    padding: 20px;
+}
+
+/* -------------------------------------- */
+/* --- 1. Style de Base (Horizontal) --- */
+/* -------------------------------------- */
+
+.navbar {
+    background-color: #333; /* Couleur de fond foncée pour la barre */
+    padding: 0;
+}
+
+.nav-list {
+    /* ACTIVER FLEXBOX */
+    display: flex;
+    
+    /* Centrer verticalement (si la barre avait différentes hauteurs d'éléments) */
+    align-items: center;
+    
+    /* Supprimer les puces de liste */
+    list-style: none;
+    
+    /* Supprimer les marges/padding par défaut */
+    padding: 0;
+    margin: 0;
+}
+
+.nav-item {
+    /* Chaque élément prend une part égale de l'espace disponible */
+    flex-grow: 1; 
+    
+    /* Centrer le texte dans chaque élément de navigation */
+    text-align: center;
+}
+
+.nav-item a {
+    /* Rendre les liens cliquables sur toute la zone */
+    display: block;
+    
+    /* Styles de base des liens */
+    padding: 15px 10px;
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+}
+
+/* Effet au survol */
+.nav-item a:hover {
+    background-color: #555;
+}
+
+
+/* -------------------------------------- */
+/* ---        2. Responsive           --- */
+/* -------------------------------------- */
+
+/* Appliqué lorsque l'écran est 600px ou moins (ex: mobile) */
+@media (max-width: 600px) {
+    .nav-list {
+        /* Changer la direction de flex : les éléments deviennent verticaux */
+        flex-direction: column;
+    }
+    
+    .nav-item {
+        /* Les éléments ne s'étendent plus horizontalement */
+        flex-grow: 0; 
+        
+        /* Assurer que chaque élément prend toute la largeur disponible */
+        width: 100%; 
+    }
+    
+    .nav-item a {
+        /* Ajouter une bordure visuelle pour séparer les liens verticaux */
+        border-bottom: 1px solid #444; 
+    }
+}
