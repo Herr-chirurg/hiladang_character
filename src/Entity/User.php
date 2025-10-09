@@ -115,9 +115,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->nb_character_max;
     }
 
-    public function setNbCharacterMax(int $nb_character): static
+    public function setNbCharacterMax(int $nb_character_max): static
     {
-        $this->nb_character_max = $nb_character;
+        $this->nb_character_max = $nb_character_max;
 
         return $this;
     }

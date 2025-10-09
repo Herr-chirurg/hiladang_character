@@ -14,7 +14,7 @@ class UserType extends AbstractType
         $builder
             ->add('username')
             ->add('role')
-            ->add('nb_character')
+            ->add('nb_character_max')
         ;
     }
 

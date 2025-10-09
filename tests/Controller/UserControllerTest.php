@@ -50,7 +50,7 @@ final class UserControllerTest extends WebTestCase
         $this->client->submitForm('Save', [
             'user[username]' => 'Testing',
             'user[role]' => 'Testing',
-            'user[nb_character]' => 'Testing',
+            'user[nb_character_max]' => 'Testing',
         ]);
 
         self::assertResponseRedirects($this->path);
@@ -64,7 +64,7 @@ final class UserControllerTest extends WebTestCase
         $fixture = new User();
         $fixture->setUsername('My Title');
         $fixture->setRole('My Title');
-        $fixture->setNb_character('My Title');
+        $fixture->setNbCharacterMax('My Title');
 
         $this->manager->persist($fixture);
         $this->manager->flush();
@@ -83,7 +83,7 @@ final class UserControllerTest extends WebTestCase
         $fixture = new User();
         $fixture->setUsername('Value');
         $fixture->setRole('Value');
-        $fixture->setNb_character('Value');
+        $fixture->setNbCharacterMax('Value');
 
         $this->manager->persist($fixture);
         $this->manager->flush();
@@ -93,7 +93,7 @@ final class UserControllerTest extends WebTestCase
         $this->client->submitForm('Update', [
             'user[username]' => 'Something New',
             'user[role]' => 'Something New',
-            'user[nb_character]' => 'Something New',
+            'user[nb_character_max]' => 'Something New',
         ]);
 
         self::assertResponseRedirects('/user/');
@@ -111,7 +111,7 @@ final class UserControllerTest extends WebTestCase
         $fixture = new User();
         $fixture->setUsername('Value');
         $fixture->setRole('Value');
-        $fixture->setNb_character('Value');
+        $fixture->setNbCharacterMax('Value');
 
         $this->manager->persist($fixture);
         $this->manager->flush();
