@@ -42,8 +42,6 @@ body {
     justify-content: space-between;
     /* Aligne tout verticalement au centre */
     align-items: center;
-    
-    padding: 10px 20px;
 }
 
 .app-title-text a {
