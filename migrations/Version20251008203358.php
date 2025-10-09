@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20251008184025 extends AbstractMigration
+final class Version20251008203358 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -44,7 +44,9 @@ final class Version20251008184025 extends AbstractMigration
         $this->addSql('CREATE TABLE transfer (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, initiator_id INTEGER NOT NULL, recipient_id INTEGER DEFAULT NULL, gp NUMERIC(8, 2) NOT NULL, pr NUMERIC(10, 0) NOT NULL, extra_pr NUMERIC(10, 0) NOT NULL, description VARCHAR(1000) NOT NULL, CONSTRAINT FK_4034A3C07DB3B714 FOREIGN KEY (initiator_id) REFERENCES character (id) NOT DEFERRABLE INITIALLY IMMEDIATE, CONSTRAINT FK_4034A3C0E92F8F78 FOREIGN KEY (recipient_id) REFERENCES character (id) NOT DEFERRABLE INITIALLY IMMEDIATE)');
         $this->addSql('CREATE INDEX IDX_4034A3C07DB3B714 ON transfer (initiator_id)');
         $this->addSql('CREATE INDEX IDX_4034A3C0E92F8F78 ON transfer (recipient_id)');
-        $this->addSql('CREATE TABLE user (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, username VARCHAR(255) NOT NULL, role VARCHAR(255) NOT NULL, nb_character INTEGER NOT NULL)');
+        $this->addSql('CREATE TABLE user (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, discord_id VARCHAR(180) NOT NULL, username VARCHAR(255) NOT NULL, role VARCHAR(255) NOT NULL, nb_character INTEGER NOT NULL, roles CLOB NOT NULL --(DC2Type:json)
+        , password VARCHAR(255) NOT NULL)');
+        $this->addSql('CREATE UNIQUE INDEX UNIQ_IDENTIFIER_DISCORD_ID ON user (discord_id)');
         $this->addSql('CREATE TABLE messenger_messages (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, body CLOB NOT NULL, headers CLOB NOT NULL, queue_name VARCHAR(190) NOT NULL, created_at DATETIME NOT NULL --(DC2Type:datetime_immutable)
         , available_at DATETIME NOT NULL --(DC2Type:datetime_immutable)
         , delivered_at DATETIME DEFAULT NULL --(DC2Type:datetime_immutable)
