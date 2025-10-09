@@ -12,16 +12,20 @@
                 <td>{{ transfer.id }}</td>
             </tr>
             <tr>
-                <th>Gp</th>
-                <td>{{ transfer.gp }}</td>
+                <th>Emetteur</th>
+                <td>{{ transfer.initiator.name }}</td>
             </tr>
             <tr>
-                <th>Pr</th>
-                <td>{{ transfer.pr }}</td>
+                <th>Montant transmis Gp</th>
+                <td>{{ transfer.gp|number_format(0, '.', ' ') }} GP</td>
             </tr>
             <tr>
-                <th>Extra_pr</th>
-                <td>{{ transfer.extraPr }}</td>
+                <th>Montant transmis Pr</th>
+                <td>{{ transfer.pr|number_format(0, '.', ' ') }} PR </td>
+            </tr>
+            <tr>
+                <th>Recepteur</th>
+                <td>{{ transfer.recipient.name ?? "" }}</td>
             </tr>
         </tbody>
     </table>
@@ -32,3 +36,8 @@
 
     {{ include('transfer/_delete_form.html.twig') }}
 {% endblock %}
+
+
+
+
+
