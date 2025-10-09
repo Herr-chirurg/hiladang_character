@@ -9,16 +9,12 @@
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Name</th>
-                <th>Title</th>
-                <th>Img</th>
-                <th>Level</th>
-                <th>Xp_current</th>
-                <th>Xp_current_mj</th>
-                <th>Gp</th>
-                <th>Pr</th>
+                <th>Nom</th>
+                <th>Titre</th>
+                <th>Niveau</th>
+                <th>Réputation</th>
                 <th>End_activity</th>
-                <th>actions</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -27,13 +23,15 @@
                 <td>{{ character.id }}</td>
                 <td>{{ character.name }}</td>
                 <td>{{ character.title }}</td>
-                <td>{{ character.img }}</td>
                 <td>{{ character.level }}</td>
-                <td>{{ character.xpCurrent }}</td>
-                <td>{{ character.xpCurrentMj }}</td>
-                <td>{{ character.gp }}</td>
-                <td>{{ character.pr }}</td>
-                <td>{{ character.endActivity }}</td>
+                <td>{{ character.pr }} PR</td>
+
+                {% if character.endActivity %}
+                    <td>{{ "now"|date_modify('+' ~ character.endActivity ~ ' day')|date("d/m/Y")  }}</td>
+                {% else  %}
+                    <td>Disponible</td>
+                {% endif %}
+
                 <td>
                     <a href="{{ path('app_character_show', {'id': character.id}) }}">show</a>
                     <a href="{{ path('app_character_edit', {'id': character.id}) }}">edit</a>
