@@ -19,11 +19,11 @@
         <tbody>
         {% for character in characters %}
             <tr onclick="document.location = '{{ path('app_character_show', {'id': character.id}) }}';">
-                <td>{{ character.id }}</td>
+                <td>{{ "%04d"|format(character.id) }}</td>
                 <td>{{ character.name }}</td>
                 <td>{{ character.title }}</td>
                 <td>{{ character.level }}</td>
-                <td>{{ character.pr }} PR</td>
+                <td class="fixed-width-value">{{ "%7d"|format(character.pr) }} PR</td>
 
                 {% if character.endActivity %}
                     <td>{{ "now"|date_modify('+' ~ character.endActivity ~ ' day')|date("d/m/Y")  }}</td>
