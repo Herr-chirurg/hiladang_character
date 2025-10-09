@@ -2,6 +2,36 @@ body {
     background-color: skyblue;
 }
 
+/* Style de base du tableau */
+.table {
+    border-collapse: collapse; /* Supprime l'espacement entre les bordures */
+    margin-bottom: 20px;
+}
+
+/* Style des lignes */
+.table th {
+    border-bottom: 1px solid #ddd; /* Ligne de séparation douce */
+}
+
+/* Style des en-têtes (colonne de gauche) */
+.table th {
+    /* Largeur fixe pour aligner les données */
+    width: 150px; 
+    text-align: left;
+    padding: 10px 15px;
+    background-color: #e9ecef; /* Couleur de fond pour le contraste */
+    color: #495057; /* Couleur de texte sombre */
+    font-weight: 600; /* Plus gras que la colonne de droite */
+}
+
+/* Style des données (colonne de droite) */
+.table td {
+    padding: 10px 15px;
+    text-align: left;
+    /* Met en évidence les données importantes (ID, Level) */
+    color: #212529;
+}
+
 /* -------------------------------------- */
 /* --- 1. Alignement du Header (Titre + Utilisateur) --- */
 /* -------------------------------------- */
