@@ -3,29 +3,26 @@
 {% block title %}User index{% endblock %}
 
 {% block body %}
-    <h1>User index</h1>
+    <h2>User</h2>
 
-    <table class="table">
+    <table class="table index">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Username</th>
-                <th>Role</th>
-                <th>Nb_character</th>
-                <th>actions</th>
+                <th>Personnages</th>
+                <th>Personnage principal</th>
+                <th>Scénarios maitrisé</th>
+                <th>Scénarios joués</th>
             </tr>
         </thead>
         <tbody>
         {% for user in users %}
-            <tr>
-                <td>{{ user.id }}</td>
+            <tr onclick="document.location = '{{ path('app_user_show', {'id': user.id}) }}';">
                 <td>{{ user.username }}</td>
-                <td>{{ user.role }}</td>
-                <td>{{ user.nbCharacterMax }}</td>
-                <td>
-                    <a href="{{ path('app_user_show', {'id': user.id}) }}">show</a>
-                    <a href="{{ path('app_user_edit', {'id': user.id}) }}">edit</a>
-                </td>
+                <td> {{ user.characters.count }} / {{ user.nbCharacterMax }} </td>
+                <td></td>
+                <td>{{ user.scenarios.count }}</td>
+                <td></td>
             </tr>
         {% else %}
             <tr>

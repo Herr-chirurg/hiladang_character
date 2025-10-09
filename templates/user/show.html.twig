@@ -3,7 +3,7 @@
 {% block title %}User{% endblock %}
 
 {% block body %}
-    <h1>User</h1>
+    <h2>User</h2>
 
     <table class="table">
         <tbody>
@@ -16,12 +16,9 @@
                 <td>{{ user.username }}</td>
             </tr>
             <tr>
-                <th>Role</th>
-                <td>{{ user.role }}</td>
-            </tr>
-            <tr>
-                <th>Nb_character</th>
-                <td>{{ user.nbCharacter }}</td>
+                <th>Nombre de personnages</th>
+                <td> {{ user.characters.count }} </td>
+                <td>/ {{ user.nbCharacterMax }}</td>
             </tr>
         </tbody>
     </table>
