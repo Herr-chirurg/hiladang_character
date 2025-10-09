@@ -2,6 +2,20 @@ body {
     background-color: skyblue;
 }
 
+input {
+    width: 125px; /* Perfect for fields like quantity or ID */
+}
+
+body {
+    /* Roboto Mono, avec une police monospace générique comme fallback */
+    font-family: 'Roboto Mono', monospace;
+}
+
+a {
+  color: black;
+  text-decoration: none; /* no underline */
+}
+
 /* Style de base du tableau */
 .table {
     border-collapse: collapse; /* Supprime l'espacement entre les bordures */
@@ -16,17 +30,26 @@ body {
 /* Style des en-têtes (colonne de gauche) */
 .table th {
     /* Largeur fixe pour aligner les données */
-    width: 150px; 
+    width: 200px; 
     text-align: left;
-    padding: 10px 15px;
+    padding: 5px 20px;
     background-color: #e9ecef; /* Couleur de fond pour le contraste */
     color: #495057; /* Couleur de texte sombre */
     font-weight: 600; /* Plus gras que la colonne de droite */
 }
 
+.fixed-width-value {
+    font-family: 'Roboto Mono', monospace; /* ou 'Courier New', 'Consolas', etc. */
+    white-space: pre; /* CLÉ: force le navigateur à respecter les espaces générés par %7d */
+    text-align: right; /* Pour s'assurer que le contenu est poussé à droite de la cellule */
+    display: block; /* S'assure que le style est appliqué à la cellule */
+}
+
 /* Style des données (colonne de droite) */
 .table td {
-    padding: 10px 15px;
+    width: 200px;
+    height: 20px; 
+    padding: 0px 15px;
     text-align: left;
     /* Met en évidence les données importantes (ID, Level) */
     color: #212529;

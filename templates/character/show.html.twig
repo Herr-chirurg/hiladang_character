@@ -3,8 +3,10 @@
 {% block title %}Character{% endblock %}
 
 {% block body %}
-    <h1>Character</h1>
-
+    <h2>Character
+        <a class="fa-solid fa-arrow-left" href="{{ path('app_character_index', {'id': character.id})}}"></a> 
+        <a class="fa-solid fa-lock" href="{{ path('app_character_edit', {'id': character.id}) }}"></a>
+    </h2>
     <table class="table">
         <tbody>
             <tr>
@@ -28,34 +30,35 @@
                 <td>{{ character.level }}</td>
             </tr>
             <tr>
-                <th>XP actuel</th>
-                <td>{{ character.xpCurrent + character.xpCurrentMj }} XP</td>
+                <th>XP total</th>
+                <td class="fixed-width-value">XXXXXXX XP</td>
+            </tr>
+            <tr>
+                <th>XP avec XP maitrise</th>
+                <td class="fixed-width-value">{{ "%7d"|format(character.xpCurrent + character.xpCurrentMj) }} XP</td>
                 <td>/ XXXXXXX XP</td>
             </tr>
             <tr>
-                <th>XP actuel de maitrise</th>
-                <td>{{ character.xpCurrentMj }} XP</td>
+                <th>XP maitrise</th>
+                <td class="fixed-width-value">{{ "%7d"|format(character.xpCurrentMj) }} XP</td>
                 <td>/ XXXXXXX XP</td>
             </tr>
             <tr>
                 <th>Richesse</th>
-                <td>{{ character.gp }} GP</td>
+                <td class="fixed-width-value">{{ "%7d"|format(character.gp) }} GP</td>
                 <td>/ XXXXXXX GP</td>
             </tr>
             <tr>
                 <th>Reputation</th>
-                <td>{{ character.pr }} PR</td>
+                <td class="fixed-width-value">{{ "%7d"|format(character.pr) }} PR</td>
             </tr>
             <tr>
                 <th>Fin d'activité</th>
+
                 <td>Dans {{ character.endActivity }} jours</td>
             </tr>
         </tbody>
     </table>
 
     <a href="{{ path('app_character_index') }}">back to list</a>
-
-    <a href="{{ path('app_character_edit', {'id': character.id}) }}">edit</a>
-
-    {{ include('character/_delete_form.html.twig') }}
 {% endblock %}

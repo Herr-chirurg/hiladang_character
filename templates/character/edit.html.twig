@@ -3,11 +3,13 @@
 {% block title %}Edit Character{% endblock %}
 
 {% block body %}
-    <h1>Edit Character</h1>
+
+    <h2>Character
+        <a class="fa-solid fa-arrow-left" href="{{ path('app_character_index', {'id': character.id})}}"></a> 
+        <a class="fa-solid fa-unlock" href="{{ path('app_character_show', {'id': character.id}) }}"></a>
+    </h2>
 
     {{ include('character/_form.html.twig', {'button_label': 'Update'}) }}
 
     <a href="{{ path('app_character_index') }}">back to list</a>
-
-    {{ include('character/_delete_form.html.twig') }}
 {% endblock %}
