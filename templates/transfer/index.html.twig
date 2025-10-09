@@ -8,20 +8,21 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Gp</th>
+                <th>Emetteur</th>
+                <th>GP</th>
                 <th>Pr</th>
                 <th>Extra_pr</th>
-                <th>actions</th>
+                <th>Récepteur</th>
             </tr>
         </thead>
         <tbody>
         {% for transfer in transfers %}
             <tr>
-                <td>{{ transfer.id }}</td>
-                <td>{{ transfer.gp }}</td>
-                <td>{{ transfer.pr }}</td>
-                <td>{{ transfer.extraPr }}</td>
+                <td>{{ transfer.initiator.name }}</td>
+                <td>{{ transfer.gp|number_format(0, '.', ' ') }} GP</td>
+                <td>{{ transfer.pr|number_format(0, '.', ' ') }} PR </td>
+                <td>{{ transfer.recipient.name ?? "" }}</td>
+                <td>{{ transfer.extraPr|number_format(0, '.', ' ') }} PR</td>
                 <td>
                     <a href="{{ path('app_transfer_show', {'id': transfer.id}) }}">show</a>
                     <a href="{{ path('app_transfer_edit', {'id': transfer.id}) }}">edit</a>
