@@ -17,13 +17,21 @@
         {# 2. Lien pour la police Roboto Mono (avec les styles standard 400 et 700) #}
         <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
 
-        
+
         {% block stylesheets %}
         {% endblock %}
 
-        {% block header %}
-            {{ include('partials/_navbar.html.twig') }}
-        {% endblock %}
+ 
+        {% set current_route = app.request.attributes.get('_route') %}
+
+        {% if current_route in ['app_login', 'app_register'] %}
+            {# j'étais fatigué #}
+        {% else %}
+            {% block header %}
+                {{ include('partials/_navbar.html.twig') }}
+            {% endblock %}
+        {% endif %}
+
 
         {% block javascripts %}
             {% block importmap %}{{ importmap('app') }}{% endblock %}
