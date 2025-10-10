@@ -1,13 +1,71 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Character{% endblock %}
+{% block title %}Character{% endblock %}
 
 {% block body %}
+    <div class="app-header">
+        <h2 class="app-title-text">Character
+            <a class="fa-solid fa-arrow-left" href="{{ path('app_character_index', {'id': character.id})}}"></a> 
+            <a class="fa-solid fa-lock" href="{{ path('app_character_edit', {'id': character.id}) }}"></a>
+        </h2>
 
-    <h2>Character
-        <a class="fa-solid fa-arrow-left" href="{{ path('app_character_index', {'id': character.id})}}"></a> 
-        <a class="fa-solid fa-lock" href="{{ path('app_character_edit', {'id': character.id}) }}"></a>
-    </h2>
+        <h2>
+            Echanger avec un joueur
+            <a class="fa-solid fa-lock" href="{{ path('app_character_edit', {'id': character.id}) }}"></a>
+        </h2>
+    </div>
 
-    {{ include('character/_form.html.twig', {'button_label': 'Update'}) }}
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ "%04d"|format(character.id) }}</td>
+            </tr>
+            <tr>
+                <th>Propriétaire</th>
+                <td>{{ character.owner.username }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ character.name }}</td>
+            </tr>
+            <tr>
+                <th>Titre</th>
+                <td>{{ character.title }}</td>
+            </tr>
+            <tr>
+                <th>Niveau</th>
+                <td  class="fixed-width-value">{{ "%7d"|format(character.level) }}</td>    
+            </tr>
+            <tr>
+                <th>XP total</th>
+                <td class="fixed-width-value">XXXXXXX XP</td>
+            </tr>
+            <tr>
+                <th>XP avec XP maitrise</th>
+                <td class="fixed-width-value">{{ "%7d"|format(character.xpCurrent + character.xpCurrentMj) }} XP</td>
+                <td class="fixed-width-value">/ XXXXXXX XP</td>
+            </tr>
+            <tr>
+                <th>XP maitrise</th>
+                <td class="fixed-width-value">{{ "%7d"|format(character.xpCurrentMj) }} XP</td>
+                <td class="fixed-width-value">/ XXXXXXX XP</td>
+            </tr>
+            <tr>
+                <th>Richesse</th>
+                <td class="fixed-width-value">{{ "%7d"|format(character.gp) }} GP</td>
+                <td class="fixed-width-value">/ XXXXXXX GP</td>
+            </tr>
+            <tr>
+                <th>Reputation</th>
+                <td class="fixed-width-value">{{ "%7d"|format(character.pr) }} PR</td>
+            </tr>
+            <tr>
+                <th>Fin d'activité</th>
+
+                <td>Dans {{ character.endActivity }} jours</td>
+            </tr>
+        </tbody>
+    </table>
+
 {% endblock %}
