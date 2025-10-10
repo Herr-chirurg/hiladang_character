@@ -21,16 +21,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180)]
-    private ?string $discord_id = "discord_id_placeholder";
+    private ?string $discord_id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $username = "username_placeholder";
+    private ?string $username = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $role = null;
 
     #[ORM\Column]
-    private ?int $nb_character_max = 0;
+    private ?int $nb_character_max = 1;
 
     /**
      * @var list<string> The user roles
