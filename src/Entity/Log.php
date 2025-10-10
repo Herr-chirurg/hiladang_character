@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\LogRepository;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: LogRepository::class)]
@@ -35,7 +36,39 @@ class Log
     private ?string $description = null;
 
     #[ORM\Column(nullable: true)]
-    private ?int $user_id = null;
+    private ?string $user_id = null;
+
+    public static function create(
+        string $itemType,
+        int $itemId,
+        string $fieldName,
+        string $description,
+        ?string $oldValue = null,
+        ?string $newValue = null,
+        ?string $userId = null ): Log {
+        // 1. Instanciation de l'objet
+        $log = new Log();
+        
+        // 2. Initialisation des champs
+        $log->setItemType($itemType);
+        $log->setItemId($itemId);
+        $log->setFieldName($fieldName);
+        $log->setDescription($description);
+        
+        // 3. Initialisation des champs optionnels/variables
+        $log->setOldValue($oldValue);
+        $log->setNewValue($newValue);
+        $log->setUserId($userId);
+        
+        // 4. Gestion de la date de création (obligatoire mais initialisée à "now" si null)
+        $log->setCreatedAt($createdAt ?? new DateTimeImmutable()); 
+
+        return $log;
+    }
+
+    public function __construct() {
+        $this->setCreatedAt($createdAt ?? new DateTimeImmutable()); 
+    }
 
     public function getId(): ?int
     {
@@ -126,12 +159,12 @@ class Log
         return $this;
     }
 
-    public function getUserId(): ?int
+    public function getUserId(): ?string
     {
         return $this->user_id;
     }
 
-    public function setUserId(?int $user_id): static
+    public function setUserId(?string $user_id): static
     {
         $this->user_id = $user_id;
 
