@@ -9,6 +9,7 @@
         <thead>
             <tr>
                 <th>Id</th>
+                <th>Joueur</th>
                 <th>Nom</th>
                 <th>Titre</th>
                 <th>Niveau</th>
@@ -20,6 +21,7 @@
         {% for character in characters %}
             <tr onclick="document.location = '{{ path('app_character_show', {'id': character.id}) }}';">
                 <td>{{ "%04d"|format(character.id) }}</td>
+                <td>{{ character.owner.username ?? ""}}</td>
                 <td>{{ character.name }}</td>
                 <td>{{ character.title }}</td>
                 <td>{{ character.level }}</td>
