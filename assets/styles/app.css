@@ -2,6 +2,11 @@ body {
     background-color: skyblue;
 }
 
+/* Ciblage d'un input spécifique par une classe */
+.description-textarea {
+    width: 100%; /* CLÉ : Prend 100% de la largeur disponible */
+}
+
 input {
     width: 125px; /* Perfect for fields like quantity or ID */
 }

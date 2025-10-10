@@ -58,9 +58,17 @@ final class CharacterController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $character->setLevel($character->getLevel() + $form->get('level_add')->getData());
+            $character->setGp($character->getGp() + $form->get('gp_add')->getData());
+            $character->setPr($character->getPr() + $form->get('pr_add')->getData());
+            $character->setXpCurrent($character->getXpCurrent() + $form->get('xp_add')->getData());
+            $character->setXpCurrentMj($character->getXpCurrentMj() + $form->get('xp_mj_add')->getData());
+            $character->setEndActivity($character->getEndActivity() + $form->get('activity_add')->getData());
+
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_character_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_character_edit', ['id' => $character->getId()]);
         }
 
         return $this->render('character/edit.html.twig', [

@@ -5,6 +5,8 @@ namespace App\Form;
 use App\Entity\Character;
 use App\Entity\User;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -47,9 +49,11 @@ class CharacterEditType extends AbstractType
                 'required' => false,
                 'attr' => ['placeholder' => '+1'],
             ])
-            ->add('owner', EntityType::class, [
-                'class' => User::class,
-                'choice_label' => 'id',
+            ->add('description', TextType::class, [
+                'mapped' => false, 
+                'required' => true,
+                
+                'attr' => ['class' => 'description-textarea', 'placeholder' => 'achat de 10 feu alchimistes'],
             ])
         ;
     }
