@@ -39,10 +39,7 @@ a {
 }
 
 .fixed-width-value {
-    font-family: 'Roboto Mono', monospace; /* ou 'Courier New', 'Consolas', etc. */
-    white-space: pre; /* CLÉ: force le navigateur à respecter les espaces générés par %7d */
-    text-align: right; /* Pour s'assurer que le contenu est poussé à droite de la cellule */
-    display: block; /* S'assure que le style est appliqué à la cellule */
+    white-space: pre; 
 }
 
 table.index tr {
