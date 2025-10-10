@@ -3,7 +3,9 @@
 {% block title %}Character index{% endblock %}
 
 {% block body %}
-    <h2>Character index</h1>
+    <h2>Character
+        <a class="fa-solid fa-plus" href="{{ path('app_character_new') }}"></a>
+    </h1>
 
     <table class="table index">
         <thead>
@@ -21,7 +23,7 @@
         {% for character in characters %}
             <tr onclick="document.location = '{{ path('app_character_show', {'id': character.id}) }}';">
                 <td>{{ "%04d"|format(character.id) }}</td>
-                <td>{{ character.owner.username ?? ""}}</td>
+                <td>{{ character.owner.id ?? ""}}</td>
                 <td>{{ character.name }}</td>
                 <td>{{ character.title }}</td>
                 <td>{{ character.level }}</td>

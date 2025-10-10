@@ -1,0 +1,51 @@
+{{ form_start(form) }}
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ "%04d"|format(character.id) }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ form_widget(form.name) }}</td>
+            </tr>
+            <tr>
+                <th>Titre</th>
+                <td>{{ form_widget(form.title) }}</td>
+            </tr>
+            <tr>
+                <th>Niveau</th>
+                <td>{{ form_widget(form.level) }}</td>
+            </tr>
+            <tr>
+                <th>XP sans XP maitrise</th>
+                <td>{{ form_widget(form.xp_current) }} XP</td>
+            </tr>
+            <tr>
+                <th>XP maitrise</th>
+                <td>{{ form_widget(form.xp_current_mj) }} XP</td>
+            </tr>
+            <tr>
+                <th>Richesse</th>
+                <td>{{ form_widget(form.gp) }} GP</td>
+            </tr>
+            <tr>
+                <th>Reputation</th>
+                <td>{{ form_widget(form.pr) }} PR</td>
+            </tr>
+            <tr>
+                <th>Fin d'activité</th>
+                <td>{{ form_widget(form.end_activity) }} jours</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="form-group">
+    </div>
+    
+    <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+    
+    {{ form_widget(form._token) }}
+    
+</form> 
