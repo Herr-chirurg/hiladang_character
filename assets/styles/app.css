@@ -72,20 +72,9 @@ table.index tr:hover {
     align-items: center;
 }
 
-.app-title-text a {
-    text-decoration: none;
-    color: #343a40;
-    font-size: 1.5rem;
-}
-
 /* -------------------------------------- */
 /* --- 2. Image de Profil & Menu Burger --- */
 /* -------------------------------------- */
-
-.user-area-container {
-    display: flex;
-    align-items: center;
-}
 
 .profile-pic {
     width: 40px;
