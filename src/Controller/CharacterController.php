@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Character;
+use App\Form\CharacterEditType;
 use App\Form\CharacterType;
 use App\Repository\CharacterRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -53,7 +54,7 @@ final class CharacterController extends AbstractController
     #[Route('/{id}/edit', name: 'app_character_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Character $character, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(CharacterType::class, $character);
+        $form = $this->createForm(CharacterEditType::class, $character);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
