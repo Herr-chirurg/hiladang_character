@@ -34,7 +34,7 @@ final class CharacterController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $character->setOwner($this->getUser()->);
+            $character->setOwner($this->getUser());
 
             $entityManager->persist($character);
             $entityManager->flush();
