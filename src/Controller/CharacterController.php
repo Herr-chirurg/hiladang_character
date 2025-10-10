@@ -60,7 +60,6 @@ final class CharacterController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $user = 
 
             $logs = new ArrayCollection();
 
@@ -149,7 +148,7 @@ final class CharacterController extends AbstractController
                 ->setItemType(Character::class)
                 ->setItemId($character->getId())
                 ->setDescription($form->get('description')->getData())
-                ->setUserId($character->getOwner()->getUserIdentifier());
+                ->setUserId($this->getUser() ? $this->getUser()->getUserIdentifier() : null);
                 
                 $entityManager->persist($log);
             }
