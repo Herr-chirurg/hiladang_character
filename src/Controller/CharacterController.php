@@ -7,6 +7,7 @@ use App\Entity\Log;
 use App\Form\CharacterEditType;
 use App\Form\CharacterType;
 use App\Repository\CharacterRepository;
+use App\Repository\LogRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -49,15 +50,18 @@ final class CharacterController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_character_show', methods: ['GET'])]
-    public function show(Character $character): Response
+    public function show(LogRepository $logRepository, Character $character): Response
     {
+
+        $logs = $logRepository->findLogsByItemIdAndType($character->getId(), Character::class); 
         return $this->render('character/show.html.twig', [
+            'logs' => $logs,
             'character' => $character,
         ]);
     }
 
     #[Route('/{id}/edit', name: 'app_character_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Character $character, EntityManagerInterface $entityManager): Response
+    public function edit(LogRepository $logRepository, Request $request, Character $character, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(CharacterEditType::class, $character);
         $form->handleRequest($request);
@@ -161,7 +165,9 @@ final class CharacterController extends AbstractController
             return $this->redirectToRoute('app_character_edit', ['id' => $character->getId()]);
         }
 
+        $logs = $logRepository->findLogsByItemIdAndType($character->getId(), Character::class);
         return $this->render('character/edit.html.twig', [
+            'logs' => $logs,
             'character' => $character,
             'form' => $form,
         ]);

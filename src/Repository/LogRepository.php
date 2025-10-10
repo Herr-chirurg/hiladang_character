@@ -16,6 +16,19 @@ class LogRepository extends ServiceEntityRepository
         parent::__construct($registry, Log::class);
     }
 
+    public function findLogsByItemIdAndType(int $itemId, string $itemType): array
+    {
+        return $this->createQueryBuilder('l')
+            ->andWhere('l.item_id = :item_id') 
+            ->setParameter('item_id', $itemId)
+            ->andWhere('l.item_type = :item_type') 
+            ->setParameter('item_type', $itemType)
+            ->orderBy('l.created_at', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
 //    /**
 //     * @return Log[] Returns an array of Log objects
 //     */

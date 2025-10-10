@@ -68,4 +68,39 @@
         </tbody>
     </table>
 
+    <h1>Log index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Item_type</th>
+                <th>Item_id</th>
+                <th>Created_at</th>
+                <th>Field_name</th>
+                <th>Old_value</th>
+                <th>New_value</th>
+                <th>Description</th>
+                <th>User_id</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for log in logs %}
+            <tr>
+                <td>{{ log.id }}</td>
+                <td>{{ log.createdAt ? log.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ log.fieldName }}</td>
+                <td>{{ log.oldValue }}</td>
+                <td>{{ log.newValue }}</td>
+                <td>{{ log.description }}</td>
+                <td>{{ log.userId }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="10">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
 {% endblock %}
