@@ -1,0 +1,73 @@
+{{ form_start(form) }}
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ "%04d"|format(character.id) }}</td>
+            </tr>
+            <tr>
+                <th>Propriétaire</th>
+                <td>{{ character.owner.username }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ form_widget(form.name) }}</td>
+            </tr>
+            <tr>
+                <th>Titre</th>
+                <td>{{ form_widget(form.title) }}</td>
+            </tr>
+            <tr>
+                <th>Niveau</th>
+                <td  class="fixed-width-value">{{ "%7d"|format(character.level) }}</td>    
+                <td>{{ form_widget(form.level_add) }}</td>
+            </tr>
+            <tr>
+                <th>XP total</th>
+                <td class="fixed-width-value">XXXXXXX XP</td>
+            </tr>
+            <tr>
+                <th>XP sans XP maitrise</th>
+                <td class="fixed-width-value">{{ "%7d"|format(character.xpCurrent) }} XP</td>
+                <td>{{ form_widget(form.xp_add) }} XP</td>
+                <td class="fixed-width-value">/ XXXXXXX XP</td>
+            </tr>
+            <tr>
+                <th>XP maitrise</th>
+                <td class="fixed-width-value">{{ "%7d"|format(character.xpCurrentMj) }} XP</td>
+                <td>{{ form_widget(form.xp_mj_add) }} XP</td>
+                <td class="fixed-width-value">/ XXXXXXX XP</td>
+            </tr>
+            <tr>
+                <th>Richesse</th>
+                <td class="fixed-width-value">{{ "%7d"|format(character.gp) }} GP</td>
+                <td>{{ form_widget(form.gp_add) }} GP</td>
+                <td class="fixed-width-value">/ XXXXXXX GP</td>
+            </tr>
+            <tr>
+                <th>Reputation</th>
+                <td class="fixed-width-value">{{ "%7d"|format(character.pr) }} PR</td>
+                <td>{{ form_widget(form.pr_add) }} XP</td>
+            </tr>
+            <tr>
+                <th>Fin d'activité</th>
+                <td>Dans {{ character.endActivity }} jours</td>
+                <td>{{ form_widget(form.activity_add) }} jours</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td colspan="3">{{ form_widget(form.description) }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <div class="form-group">
+    </div>
+    
+    <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+    
+    {{ form_widget(form._token) }}
+    
+</form> 
