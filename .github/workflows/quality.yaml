@@ -1,5 +1,13 @@
 name: Quality Analysis
-on: [push, pull_request]
+on:
+  workflow_call:
+  push:
+    branches-ignore:
+      - master
+  pull_request:
+    branches-ignore:
+      - master
+      
 jobs:
   quality:
     name: Security Audit
@@ -33,4 +41,3 @@ jobs:
 
       - name: Quality Analysis
         run: composer app:code-quality
-          

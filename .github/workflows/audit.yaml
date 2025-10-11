@@ -1,5 +1,14 @@
 name: Security Audit
-on: [push, pull_request]
+on:
+  workflow_call:
+  push:
+    branches-ignore:
+      - master
+  pull_request:
+    branches-ignore:
+      - master
+
+
 jobs:
   audit:
     name: Security Audit
