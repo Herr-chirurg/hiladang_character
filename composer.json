@@ -94,6 +94,16 @@
             "bin/console lint:container",
             "./vendor/bin/phpstan analyse --memory-limit=-1",
             "./vendor/bin/rector --dry-run"
+        ],
+        "app:migration":[
+            "bin/console doctrine:migrations:migrate --no-interaction"
+        ],
+        "app:tests": [
+            "bin/console doctrine:database:drop --force --if-exists --env=test",
+            "bin/console doctrine:database:create --env=test",
+            "bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration --env=test",
+            "bin/console cache:clear --env=test",
+            "bin/phpunit"
         ]
     },
     "conflict": {
@@ -117,6 +127,7 @@
         "symfony/css-selector": "7.3.*",
         "symfony/debug-bundle": "7.3.*",
         "symfony/maker-bundle": "^1.64",
+        "symfony/phpunit-bridge": "^7.3",
         "symfony/stopwatch": "7.3.*",
         "symfony/web-profiler-bundle": "7.3.*",
         "symplify/easy-coding-standard": "^12.6"
