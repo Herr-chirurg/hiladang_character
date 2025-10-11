@@ -25,6 +25,6 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            cd ~/
+            cd /var/www/hiladang_character
             git pull origin master --rebase
             make deploy
