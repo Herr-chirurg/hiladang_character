@@ -43,10 +43,17 @@ class BuildingBase
     #[ORM\ManyToMany(targetEntity: self::class, mappedBy: 'upgrade_to')]
     private Collection $upgrade_from;
 
+    /**
+     * @var Collection<int, Building>
+     */
+    #[ORM\OneToMany(targetEntity: Building::class, mappedBy: 'base')]
+    private Collection $buildings;
+
     public function __construct()
     {
         $this->upgrade_to = new ArrayCollection();
         $this->upgrade_from = new ArrayCollection();
+        $this->buildings = new ArrayCollection();
     }
 
     static function CreateFromNameTypePriceProductionBonus(?string $name, ?string $type, ?string $price, ?string $production, ?string $bonus)
@@ -173,6 +180,36 @@ class BuildingBase
     {
         if ($this->upgrade_from->removeElement($upgradeFrom)) {
             $upgradeFrom->removeUpgradeTo($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Building>
+     */
+    public function getBuildings(): Collection
+    {
+        return $this->buildings;
+    }
+
+    public function addBuilding(Building $building): static
+    {
+        if (!$this->buildings->contains($building)) {
+            $this->buildings->add($building);
+            $building->setBase($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBuilding(Building $building): static
+    {
+        if ($this->buildings->removeElement($building)) {
+            // set the owning side to null (unless already changed)
+            if ($building->getBase() === $this) {
+                $building->setBase(null);
+            }
         }
 
         return $this;

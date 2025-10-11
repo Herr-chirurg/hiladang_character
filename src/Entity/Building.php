@@ -35,6 +35,9 @@ class Building
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $alias = null;
 
+    #[ORM\ManyToOne(inversedBy: 'buildings')]
+    private ?BuildingBase $base = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -120,6 +123,18 @@ class Building
     public function setAlias(?string $alias): static
     {
         $this->alias = $alias;
+
+        return $this;
+    }
+
+    public function getBase(): ?BuildingBase
+    {
+        return $this->base;
+    }
+
+    public function setBase(?BuildingBase $base): static
+    {
+        $this->base = $base;
 
         return $this;
     }
