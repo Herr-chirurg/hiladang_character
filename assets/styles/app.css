@@ -7,6 +7,10 @@ body {
     width: 100%; /* CLÉ : Prend 100% de la largeur disponible */
 }
 
+.gray {
+    color: gray;
+}
+
 input {
     width: 125px; /* Perfect for fields like quantity or ID */
 }

@@ -55,6 +55,7 @@ final class CharacterController extends AbstractController
 
         $logs = $logRepository->findLogsByItemIdAndType($character->getId(), Character::class); 
         return $this->render('character/show.html.twig', [
+            'user' => $this->getUser(),
             'logs' => $logs,
             'character' => $character,
         ]);
@@ -63,6 +64,9 @@ final class CharacterController extends AbstractController
     #[Route('/{id}/edit', name: 'app_character_edit', methods: ['GET', 'POST'])]
     public function edit(LogRepository $logRepository, Request $request, Character $character, EntityManagerInterface $entityManager): Response
     {
+
+        //TODO : createAccessDeniedException
+
         $form = $this->createForm(CharacterEditType::class, $character);
         $form->handleRequest($request);
 
