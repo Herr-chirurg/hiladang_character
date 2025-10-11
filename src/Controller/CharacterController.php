@@ -14,6 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 #[Route('/character')]
 final class CharacterController extends AbstractController
@@ -65,8 +66,10 @@ final class CharacterController extends AbstractController
     public function edit(LogRepository $logRepository, Request $request, Character $character, EntityManagerInterface $entityManager): Response
     {
 
-        //TODO : createAccessDeniedException
-
+        if ($this->getUser() == $character->getOwner()) {
+            throw new AccessDeniedException();
+        }
+        
         $form = $this->createForm(CharacterEditType::class, $character);
         $form->handleRequest($request);
 

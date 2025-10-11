@@ -6,10 +6,10 @@
     <div class="app-header">
         <h2 class="app-title-text">Character
             <a class="fa-solid fa-arrow-left" href="{{ path('app_character_index', {'id': character.id})}}"></a> 
-            {% if user.id = character.owner.id %}
+            {% if user == character.owner %}
                 <a class="fa-solid fa-lock" href="{{ path('app_character_edit', {'id': character.id}) }}"></a>
-            {% endif %}
-                <a class="fa-solid fa-lock gray" href=""></a>
+            {% else %}
+                <div class="fa-solid fa-lock gray" href=""></div>
             {% endif %}
                     </h2>
 
