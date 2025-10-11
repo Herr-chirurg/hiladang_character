@@ -391,6 +391,7 @@ class AppFixtures extends Fixture
 
         $characters = $this->manager->getRepository(Character::class)->findAll();
         $locations = $this->manager->getRepository(Location::class)->findAll();
+        $buildingbases = $this->manager->getRepository(BuildingBase::class)->findAll();
 
         for ($i = 0; $i < $nbBuilding; $i++) {
         
@@ -401,13 +402,9 @@ class AppFixtures extends Fixture
             $building->setOwner($i%2 ?$this->faker->randomElement($characters) : null);
             $building->setLocation($this->faker->randomElement($locations));
 
-            $building->setName($this->faker->unique()->word() . ' ' . $this->faker->lastName());
-            $building->setType($this->faker->randomElement(['Maison', 'Ferme', 'Caserne', 'Mine d\'Or', 'Bâtiment Administratif']));
+            $building->setBase($this->faker->randomElement($buildingbases));
 
-            $building->setProduction($this->faker->randomElement(['100', '500', '1000', '2500', '5000']));
-            $building->setBonus($this->faker->optional(0.7)->randomElement(['+1 Morale', '+2 Defense', 'Fast Travel', 'Resource Multiplier']));
-            
-            $building->setAlias($building->getName());
+            $building->setName($this->faker->unique()->word() . ' ' . $this->faker->lastName());
 
             $this->manager->persist($building);
 

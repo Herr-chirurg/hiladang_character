@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Building;
+use App\Entity\BuildingBase;
 use App\Entity\Character;
 use App\Entity\Location;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -16,10 +17,10 @@ class BuildingType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('type')
-            ->add('production')
-            ->add('bonus')
-            ->add('alias')
+            ->add('base', EntityType::class, [
+                'class' => BuildingBase::class,
+                'choice_label' => 'id',
+            ])
             ->add('owner', EntityType::class, [
                 'class' => Character::class,
                 'choice_label' => 'id',

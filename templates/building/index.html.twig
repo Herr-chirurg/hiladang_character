@@ -11,6 +11,7 @@
                 <th>Id</th>
                 <th>Name</th>
                 <th>Type</th>
+                <th>Subtype</th>
                 <th>Production</th>
                 <th>Bonus</th>
                 <th>Alias</th>
@@ -22,10 +23,11 @@
             <tr>
                 <td>{{ building.id }}</td>
                 <td>{{ building.name }}</td>
-                <td>{{ building.type }}</td>
-                <td>{{ building.production }}</td>
-                <td>{{ building.bonus }}</td>
-                <td>{{ building.alias }}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
                 <td>
                     <a href="{{ path('app_building_show', {'id': building.id}) }}">show</a>
                     <a href="{{ path('app_building_edit', {'id': building.id}) }}">edit</a>
