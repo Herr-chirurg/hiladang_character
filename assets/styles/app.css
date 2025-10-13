@@ -7,9 +7,9 @@ body {
   left: 0;
   bottom: 0;
   width: 100%;
-  background-color: red;
+  background-color: #343a40;
   color: white;
-  text-align: center;
+  text-align: left;
 }
 
 /* Ciblage d'un input spécifique par une classe */
