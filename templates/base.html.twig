@@ -21,16 +21,7 @@
         {% block stylesheets %}
         {% endblock %}
 
- 
-        {% set current_route = app.request.attributes.get('_route') %}
-
-        {% if current_route in ['app_login', 'app_register'] %}
-            {# j'étais fatigué #}
-        {% else %}
-            {% block header %}
-                {{ include('partials/_navbar.html.twig') }}
-            {% endblock %}
-        {% endif %}
+        {{ include('partials/_navbar.html.twig') }}
 
 
         {% block javascripts %}
@@ -39,5 +30,7 @@
     </head>
     <body>
         {% block body %}{% endblock %}
+
+        {{ include('partials/_footer.html.twig') }}
     </body>
 </html>
