@@ -2,6 +2,16 @@ body {
     background-color: skyblue;
 }
 
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: red;
+  color: white;
+  text-align: center;
+}
+
 /* Ciblage d'un input spécifique par une classe */
 .description-textarea {
     width: 100%; /* CLÉ : Prend 100% de la largeur disponible */
