@@ -31,6 +31,6 @@
     <body>
         {% block body %}{% endblock %}
 
-        {{ include('partials/_footer.html.twig') }}
+        {{ render(url('app_footer')) }}
     </body>
 </html>

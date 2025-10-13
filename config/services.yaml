@@ -19,8 +19,8 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
-# config/services.yaml
 parameters:
     # La valeur sera remplacée au moment du déploiement
     app.version_date: "DATE_PLACEHOLDER"
     app.version_commit: "COMMIT_PLACEHOLDER"
+    app.environment: '%env(APP_ENV)%'
