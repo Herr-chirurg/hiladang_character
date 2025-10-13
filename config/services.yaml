@@ -21,6 +21,6 @@ services:
 
 parameters:
     # La valeur sera remplacée au moment du déploiement
-    app.version_date: "DATE_PLACEHOLDER"
-    app.version_commit: "COMMIT_PLACEHOLDER"
+    app.version_date: '%env(APP_VERSION_DATE)%'
+    app.version_commit: '%env(APP_VERSION_COMMIT)%'
     app.environment: '%env(APP_ENV)%'
