@@ -1,5 +1,7 @@
 {# templates/partials/_navbar.html.twig #}
 
+{% set current_route = app.request.attributes.get('_route') %}
+
 <header class="app-header">
     
     {# 1. Titre (Gauche) #}
@@ -10,42 +12,60 @@
     {# 2. Zone Utilisateur (Droite) #}
     <div class="user-area-container">
 
-        <div class="username-display">{{ app.user.username ?? ""}}</div>
-        
-        {# 🎯 CLÉ : L'image de profil est le déclencheur. Elle est placée à l'intérieur du wrapper. #}
-        <div class="menu-dropdown-wrapper">
-            
-            {# Ajout de la classe 'dropdown-trigger' pour le JS #}
+        {% if current_route in ['app_login', 'app_register'] %}
+
             <img src="{{ asset('images/default_profile_image.webp') }}" 
                 alt="Photo de profil" 
-                class="profile-pic dropdown-trigger">
+                class="profile-pic">
+
+        {% else %}
+
+            <div class="menu-dropdown-wrapper">
             
-            {# Le menu déroulant de déconnexion #}
-            <div class="dropdown-menu" id="userMenuDropdown">
-                <a href="">Mon Profil</a> 
-                <a href="{{ path('app_logout') }}">Déconnexion</a>
+                {# Ajout de la classe 'dropdown-trigger' pour le JS #}
+                <img src="{{ asset('images/default_profile_image.webp') }}" 
+                    alt="Photo de profil" 
+                    class="profile-pic dropdown-trigger">
+                
+                {# Le menu déroulant de déconnexion #}
+                <div class="dropdown-menu" id="userMenuDropdown">
+                    <a href="">Mon Profil</a> 
+                    <a href="{{ path('app_logout') }}">Déconnexion</a>
+                </div>
+                
             </div>
-            
-        </div>
-        
+
+        {% endif %}
+  
     </div>
 </header>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    {# <a class="navbar-brand" >Mon App Symfony</a> #}
-        
-    <nav class="navbar">
-        <ul class="nav-list">
-            <li class="nav-item"><a href="{{ path('app_user_index') }}">Utilisateurs</a></li>
-            <li class="nav-item"><a href="{{ path('app_character_index') }}">Personnages</a></li>
-            <li class="nav-item"><a href="#{{ path('app_user_index') }}">Activités</a></li>
-            <li class="nav-item"><a href="{{ path('app_scenario_index') }}">Scenarios</a></li>
-            <li class="nav-item"><a href="{{ path('app_building_index') }}">Bâtiments</a></li>
-            <li class="nav-item"><a href="{{ path('app_building_base_index') }}">BâtimentsBase</a></li>
-        </ul>
-    </nav>
 
-</nav>
+
+{% if current_route in ['app_login', 'app_register'] %}
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav class="navbar">
+            <ul class="nav-list">
+                <li class="nav-item fixed-width-value"><a  href=""> </a></li>
+            </ul>
+        </nav>
+    </nav>
+{% else %}
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav class="navbar">
+            <ul class="nav-list">
+                <li class="nav-item"><a href="{{ path('app_user_index') }}">Utilisateurs</a></li>
+                <li class="nav-item"><a href="{{ path('app_character_index') }}">Personnages</a></li>
+                <li class="nav-item"><a href="#{{ path('app_user_index') }}">Activités</a></li>
+                <li class="nav-item"><a href="{{ path('app_scenario_index') }}">Scenarios</a></li>
+                <li class="nav-item"><a href="{{ path('app_building_index') }}">Bâtiments</a></li>
+                <li class="nav-item"><a href="{{ path('app_building_base_index') }}">BâtimentsBase</a></li>
+            </ul>
+        </nav>
+    </nav>
+{% endif %}
+
+
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
