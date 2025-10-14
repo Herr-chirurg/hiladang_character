@@ -33,6 +33,9 @@ final class CharacterController extends AbstractController
     {
         $character = new Character();
 
+        $character->setLevel(3);
+        $character->setGP(3000);
+
         $form = $this->createForm(CharacterType::class, $character);
         $form->handleRequest($request);
 
