@@ -16,17 +16,7 @@ class CharacterType extends AbstractType
         $builder
             ->add('name')
             ->add('title')
-            ->add('img')
-            ->add('level')
-            ->add('xp_current')
-            ->add('xp_current_mj')
-            ->add('gp')
             ->add('pr')
-            ->add('end_activity')
-            ->add('owner', EntityType::class, [
-                'class' => User::class,
-                'choice_label' => 'id',
-            ])
         ;
     }
 
