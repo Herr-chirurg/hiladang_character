@@ -7,7 +7,6 @@ use App\Entity\Building;
 use App\Entity\Location;
 use App\Entity\Scenario;
 use App\Entity\Token;
-use App\Entity\Transfer;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use APP\Entity\Character;
@@ -48,10 +47,6 @@ class AppFixtures extends Fixture
 
         //tokens MJ, les tokens non PJ sont générés dans les scénarios.
         $this->createTokens(10);
-        
-        //création de transfers
-        //association de destinataires à des characters
-        $this->createTransfers(10);
         
         //association d'activités à des characters
         $this->createActivities(10);
@@ -358,29 +353,6 @@ class AppFixtures extends Fixture
 
 
             $this->manager->persist($activity);
-
-        }
-
-        $this->manager->flush();
-    }
-
-    private function createTransfers(int $nbTransfer): void {
-
-        $characters = $this->manager->getRepository(Character::class)->findAll();
-
-        for ($i = 0; $i < $nbTransfer; $i++) {
-        
-            $transfer = new Transfer();
-
-            $transfer->setGp($this->faker->randomFloat(2, 0.01, 50000.99));
-            $transfer->setPr($this->faker->numberBetween(100, 9999999999)); 
-            $transfer->setExtraPr($this->faker->numberBetween(0, 100));
-            $transfer->setDescription(''. $this->faker->sentence(3) .'');
-            
-            $transfer->setInitiator($this->faker->randomElement($characters));
-            $transfer->setRecipient($i%2 ? $this->faker->randomElement($characters) : null);
-
-            $this->manager->persist($transfer);
 
         }
 
