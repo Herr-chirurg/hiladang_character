@@ -33,9 +33,6 @@ final class CharacterController extends AbstractController
     {
         $character = new Character();
 
-        $character->setLevel(3);
-        $character->setGP(3000);
-
         $form = $this->createForm(CharacterType::class, $character);
         $form->handleRequest($request);
 
@@ -67,6 +64,7 @@ final class CharacterController extends AbstractController
             'character' => $character,
             'totalXP' => $economyUtil->levelToMinXP($character->getLevel()),
             'XPNiveauSuivant' => $economyUtil->levelToMinXP($character->getLevel()+1),
+            'GV' => $economyUtil->levelAndXPToGV($character->getLevel(), $character->getXpCurrent())
         ]);
     }
 

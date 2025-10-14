@@ -5,6 +5,7 @@ namespace App\Service;
 class EconomyUtil {
 
 	private array $levelData;
+	private float $coeff_gv = 1.25;
 
 	public function __construct()
     { 
@@ -36,12 +37,10 @@ class EconomyUtil {
 	{
 		return $this->levelData[$level][0];
 	}
-	public function levelToMinGV(?int $level): int 
+
+	public function levelAndXPToGV(?int $level, string $xp): int 
 	{
-		return $this->levelData[$level][1];
+		return ($this->levelData[$level][1] + $this->levelData[$level][2] * $xp) * $this->coeff_gv;
 	}
-	public function levelToMinRatio(?int $level): int 
-	{
-		return $this->levelData[$level][2];
-	}
+
 }
