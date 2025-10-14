@@ -4,5 +4,16 @@ dh_auditor:
     enabled: true
     providers:
         doctrine:
-            table_prefix: null
-            table_suffix: '_audit'
+            viewer: true
+            entities:
+                    App\Entity\Character:
+                        enabled: true
+                    App\Entity\User:
+                        enabled: true
+                    App\Entity\Scenario:
+                        enabled: true
+                    App\Entity\Building:
+                        enabled: true
+                    App\Entity\Log:
+                        enabled: false          # auditing of this entity is disabled
+            

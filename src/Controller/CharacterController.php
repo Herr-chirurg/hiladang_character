@@ -66,7 +66,7 @@ final class CharacterController extends AbstractController
     public function edit(LogRepository $logRepository, Request $request, Character $character, EntityManagerInterface $entityManager): Response
     {
 
-        if ($this->getUser() == $character->getOwner()) {
+        if ($this->getUser() != $character->getOwner()) {
             throw new AccessDeniedException();
         }
         
