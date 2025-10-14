@@ -70,6 +70,9 @@ class Character
     #[ORM\ManyToMany(targetEntity: Scenario::class, mappedBy: 'characters')]
     private Collection $scenarios;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $last_action_description = null;
+
     public function __construct()
     {
         $this->buildings = new ArrayCollection();
@@ -316,6 +319,18 @@ class Character
         if ($this->scenarios->removeElement($scenario)) {
             $scenario->removeCharacter($this);
         }
+
+        return $this;
+    }
+
+    public function getLastActionDescription(): ?string
+    {
+        return $this->last_action_description;
+    }
+
+    public function setLastActionDescription(string $last_action_description): static
+    {
+        $this->last_action_description = $last_action_description;
 
         return $this;
     }
