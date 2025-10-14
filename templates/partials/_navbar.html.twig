@@ -31,7 +31,7 @@
 
                 {# Le menu déroulant de déconnexion #}
                 <div class="dropdown-menu" id="userMenuDropdown">
-                    <a href="">Mon Profil</a> 
+                    <a href="{{ path('app_user_show', {'id': app.user.id}) }}">Mon Profil</a> 
                     <a href="{{ path('app_logout') }}">Déconnexion</a>
                 </div>
                 
