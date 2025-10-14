@@ -1,7 +1,7 @@
 include .env
 include .env.local
 
-DEPLOY_DATE := $(shell date +'%Y-%m-%d %H:%M:%S')
+DEPLOY_DATE := $(shell TZ='Europe/Paris' date +'%Y-%m-%d %H:%M:%S')
 COMMIT_SHA := $(shell git rev-parse --short HEAD)
  
 deploy:
