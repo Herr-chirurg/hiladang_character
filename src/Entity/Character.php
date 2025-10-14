@@ -29,7 +29,7 @@ class Character
     private ?int $level = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 7, scale: 0, nullable: true)]
-    private ?string $xp = null;
+    private ?string $xp_current = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 7, scale: 0, nullable: true)]
     private ?string $xp_current_mj = null;
@@ -134,14 +134,14 @@ class Character
         return $this;
     }
 
-    public function getXp(): ?string
+    public function getXpCurrent(): ?string
     {
-        return $this->xp;
+        return $this->xp_current;
     }
 
-    public function setXp(string $xp): static
+    public function setXpCurrent(string $xp_current): static
     {
-        $this->xp = $xp;
+        $this->xp_current = $xp_current;
 
         return $this;
     }
