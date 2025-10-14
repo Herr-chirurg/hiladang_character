@@ -81,6 +81,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function setDiscordId(string $discord_id): static
     {
+        $this->username = $discord_id;
         $this->discord_id = $discord_id;
 
         return $this;

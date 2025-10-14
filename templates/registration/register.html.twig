@@ -11,12 +11,7 @@
 
         <tbody>
             <tr>
-                <td>{{ form_label(registrationForm.username, 'Nom d\'utilisateur') }}</td>
-                <td>{{ form_widget(registrationForm.username, {'attr': {'class': 'form-control custom-input'}}) }}</td>
-            </tr>
-            
-            <tr>
-                <td>{{ form_label(registrationForm.discord_id, 'Discord ID') }}</td>
+                <td>{{ form_label(registrationForm.discord_id, 'Nom d\'utilisateur') }}</td>
                 <td>{{ form_widget(registrationForm.discord_id, {'attr': {'class': 'form-control custom-input'}}) }}</td>
             </tr>
             <tr>
@@ -29,7 +24,6 @@
             </tr>
             <tr>
                 <td colspan="2">
-                    {{ form_errors(registrationForm.username) }}
                     {{ form_errors(registrationForm.discord_id) }}
                     {{ form_errors(registrationForm.plainPassword) }}
                     {{ form_errors(registrationForm.agreeTerms) }}
