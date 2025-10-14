@@ -8,6 +8,7 @@ use App\Form\CharacterEditType;
 use App\Form\CharacterType;
 use App\Repository\CharacterRepository;
 use App\Repository\LogRepository;
+use App\Service\EconomyUtil;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -31,6 +32,7 @@ final class CharacterController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $character = new Character();
+
         $form = $this->createForm(CharacterType::class, $character);
         $form->handleRequest($request);
 
@@ -51,14 +53,17 @@ final class CharacterController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_character_show', methods: ['GET'])]
-    public function show(LogRepository $logRepository, Character $character): Response
+    public function show(LogRepository $logRepository, Character $character, EconomyUtil $economyUtil): Response
     {
+
 
         $logs = $logRepository->findLogsByItemIdAndType($character->getId(), Character::class); 
         return $this->render('character/show.html.twig', [
             'user' => $this->getUser(),
             'logs' => $logs,
             'character' => $character,
+            'totalXP' => $economyUtil->levelToMinXP($character->getLevel()),
+            'XPNiveauSuivant' => $economyUtil->levelToMinXP($character->getLevel()+1),
         ]);
     }
 
