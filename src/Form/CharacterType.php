@@ -18,7 +18,7 @@ class CharacterType extends AbstractType
             ->add('title')
             ->add('img')
             ->add('level')
-            ->add('xp_current')
+            ->add('xp')
             ->add('xp_current_mj')
             ->add('gp')
             ->add('pr')

@@ -129,12 +129,12 @@ final class CharacterController extends AbstractController
 
             $added_value = $form->get('xp_add')->getData(); 
             if ($added_value) {
-                $old_value = $character->getXpCurrent();
+                $old_value = $character->getXp();
                 $log = new Log;
-                $log->setFieldName('xp_current');
+                $log->setFieldName('xp');
                 $log->setOldValue($old_value)->setNewValue($old_value + $added_value);
                 $logs->add($log);
-                $character->setXpCurrent($old_value + $added_value);
+                $character->setXp($old_value + $added_value);
             }
 
             $added_value = $form->get('xp_mj_add')->getData(); 

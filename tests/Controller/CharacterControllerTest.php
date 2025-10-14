@@ -52,7 +52,7 @@ final class CharacterControllerTest extends WebTestCase
             'character[title]' => 'Testing',
             'character[img]' => 'Testing',
             'character[level]' => 'Testing',
-            'character[xp_current]' => 'Testing',
+            'character[xp]' => 'Testing',
             'character[xp_current_mj]' => 'Testing',
             'character[gp]' => 'Testing',
             'character[pr]' => 'Testing',
@@ -73,7 +73,7 @@ final class CharacterControllerTest extends WebTestCase
         $fixture->setTitle('My Title');
         $fixture->setImg('My Title');
         $fixture->setLevel('My Title');
-        $fixture->setXp_current('My Title');
+        $fixture->setXp('My Title');
         $fixture->setXp_current_mj('My Title');
         $fixture->setGp('My Title');
         $fixture->setPr('My Title');
@@ -99,7 +99,7 @@ final class CharacterControllerTest extends WebTestCase
         $fixture->setTitle('Value');
         $fixture->setImg('Value');
         $fixture->setLevel('Value');
-        $fixture->setXp_current('Value');
+        $fixture->setXp('Value');
         $fixture->setXp_current_mj('Value');
         $fixture->setGp('Value');
         $fixture->setPr('Value');
@@ -116,7 +116,7 @@ final class CharacterControllerTest extends WebTestCase
             'character[title]' => 'Something New',
             'character[img]' => 'Something New',
             'character[level]' => 'Something New',
-            'character[xp_current]' => 'Something New',
+            'character[xp]' => 'Something New',
             'character[xp_current_mj]' => 'Something New',
             'character[gp]' => 'Something New',
             'character[pr]' => 'Something New',
@@ -132,7 +132,7 @@ final class CharacterControllerTest extends WebTestCase
         self::assertSame('Something New', $fixture[0]->getTitle());
         self::assertSame('Something New', $fixture[0]->getImg());
         self::assertSame('Something New', $fixture[0]->getLevel());
-        self::assertSame('Something New', $fixture[0]->getXp_current());
+        self::assertSame('Something New', $fixture[0]->getXp());
         self::assertSame('Something New', $fixture[0]->getXp_current_mj());
         self::assertSame('Something New', $fixture[0]->getGp());
         self::assertSame('Something New', $fixture[0]->getPr());
@@ -148,7 +148,7 @@ final class CharacterControllerTest extends WebTestCase
         $fixture->setTitle('Value');
         $fixture->setImg('Value');
         $fixture->setLevel('Value');
-        $fixture->setXp_current('Value');
+        $fixture->setXp('Value');
         $fixture->setXp_current_mj('Value');
         $fixture->setGp('Value');
         $fixture->setPr('Value');

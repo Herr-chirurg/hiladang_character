@@ -77,7 +77,7 @@ class AppFixtures extends Fixture
             $character->setLevel($level);
 
             // XP
-            $character->setXpCurrent($this->faker->numberBetween(0, $level * 100));
+            $character->setXp($this->faker->numberBetween(0, $level * 100));
 
             // XP MJ
             $character->setXpCurrentMj($this->faker->numberBetween(0, 500));
