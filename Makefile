@@ -17,3 +17,9 @@ deploy:
 	php bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
 	php bin/console asset-map:compil
 	php bin/console cache:clear --env=$(APP_ENV)
+
+permissionfix:
+	HTTPDUSER=$$(ps axo user,comm | grep -E '[a]pache|[h]ttpd|[_]www|[w]ww-data|[n]ginx' | grep -v root | head -1 | cut -d' ' -f1)
+	
+	sudo setfacl -dR -m u:"$$HTTPDUSER":rwX -m u:$$(whoami):rwX var
+	sudo setfacl -R -m u:"$$HTTPDUSER":rwX -m u:$$(whoami):rwX var
