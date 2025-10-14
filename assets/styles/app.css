@@ -17,6 +17,20 @@ body {
     width: 100%; /* CLÉ : Prend 100% de la largeur disponible */
 }
 
+.username {
+    padding: 0px 10px; 
+}
+
+.username-image-profile {
+    display: flex; 
+    align-items: center;
+    vertical-align: middle;
+    background-color: #343a40;
+    color:white;
+
+    padding: 10px 10px;
+}
+
 .gray {
     color: gray;
 }

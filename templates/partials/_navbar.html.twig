@@ -20,13 +20,15 @@
 
         {% else %}
 
-            <div class="menu-dropdown-wrapper">
+            <div class="menu-dropdown-wrapper dropdown-trigger username-image-profile">
             
+                <span class="username">{{ app.user.username }}</span>
+
                 {# Ajout de la classe 'dropdown-trigger' pour le JS #}
                 <img src="{{ asset('images/default_profile_image.webp') }}" 
                     alt="Photo de profil" 
                     class="profile-pic dropdown-trigger">
-                
+
                 {# Le menu déroulant de déconnexion #}
                 <div class="dropdown-menu" id="userMenuDropdown">
                     <a href="">Mon Profil</a> 
