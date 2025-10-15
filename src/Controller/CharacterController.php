@@ -9,6 +9,7 @@ use App\Form\CharacterType;
 use App\Repository\CharacterRepository;
 use App\Repository\LogRepository;
 use App\Service\EconomyUtil;
+use App\Service\WBLUtil;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -29,7 +30,7 @@ final class CharacterController extends AbstractController
     }
 
     #[Route('/new', name: 'app_character_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, WBLUtil $wBLUtil): Response
     {
         $character = new Character();
 
@@ -39,6 +40,12 @@ final class CharacterController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $character->setOwner($this->getUser());
+
+            $character->setLevel(3);
+            $character->setGP($wBLUtil->levelToMinGP($character->getLevel()));
+            $character->setXpCurrent(0);
+            $character->setXpCurrentMJ(0);
+            $character->setEndActivity(new \DateTime('yesterday'));
 
             $entityManager->persist($character);
             $entityManager->flush();
@@ -53,7 +60,7 @@ final class CharacterController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_character_show', methods: ['GET'])]
-    public function show(LogRepository $logRepository, Character $character, EconomyUtil $economyUtil): Response
+    public function show(LogRepository $logRepository, Character $character, WBLUtil $economyUtil): Response
     {
 
 

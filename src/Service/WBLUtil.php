@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-class EconomyUtil {
+class WBLUtil {
 
 	private array $levelData;
 	private float $coeff_gv = 1.25;
@@ -36,6 +36,11 @@ class EconomyUtil {
 	public function levelToMinXP(?int $level): int 
 	{
 		return $this->levelData[$level][0];
+	}
+
+	public function levelToMinGP(?int $level): int 
+	{
+		return $this->levelData[$level][1] * $this->coeff_gv;
 	}
 
 	public function levelAndXPToGV(?int $level, string $xp): int 
