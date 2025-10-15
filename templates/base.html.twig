@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+
+{% set current_route = app.request.attributes.get('_route') %}
+
 <html>
     <head>
         <meta charset="UTF-8">
@@ -16,19 +19,26 @@
 
         {# 2. Lien pour la police Roboto Mono (avec les styles standard 400 et 700) #}
         <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
-
-
+    
         {% block stylesheets %}
         {% endblock %}
-
+    </head>
+    <body>
         {{ include('partials/_navbar.html.twig') }}
 
+
+        {% if 'index' in current_route %}
+            
+        {% else %}
+            {{ render(path('app_action', {
+                'id': 123,
+            })) }}
+        {% endif %}
 
         {% block javascripts %}
             {% block importmap %}{{ importmap('app') }}{% endblock %}
         {% endblock %}
-    </head>
-    <body>
+
         {% block body %}{% endblock %}
 
         {{ render(url('app_footer')) }}
