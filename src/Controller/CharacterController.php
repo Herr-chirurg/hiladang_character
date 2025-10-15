@@ -8,7 +8,6 @@ use App\Form\CharacterEditType;
 use App\Form\CharacterType;
 use App\Repository\CharacterRepository;
 use App\Repository\LogRepository;
-use App\Service\EconomyUtil;
 use App\Service\WBLService;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
