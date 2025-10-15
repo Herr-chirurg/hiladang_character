@@ -97,7 +97,7 @@ final class CharacterController extends AbstractController
                 $log->setFieldName('name');
                 $log->setOldValue($old_value)->setNewValue($new_value);
                 $logs->add($log);
-                $character->setEndActivity($new_value);
+                $character->setName($new_value);
             }
 
             $new_value = $form->get('title')->getData(); 
@@ -107,7 +107,7 @@ final class CharacterController extends AbstractController
                 $log->setFieldName('title');
                 $log->setOldValue($old_value)->setNewValue($new_value);
                 $logs->add($log);
-                $character->setEndActivity($new_value);
+                $character->setTitle($new_value);
             }
 
             $added_value = $form->get('level_add')->getData(); 
@@ -160,15 +160,9 @@ final class CharacterController extends AbstractController
                 $character->setXpCurrentMj($old_value + $added_value);
             }
 
-            $added_value = $form->get('activity_add')->getData(); 
-            if ($added_value) {
-                $old_value = $character->getEndActivity();
-                $log = new Log;
-                $log->setFieldName('end_activity');
-                $log->setOldValue($old_value)->setNewValue($old_value + $added_value);
-                $logs->add($log);
-                $character->setEndActivity($old_value + $added_value);
-            }
+            $date = new \DateTime('now');
+            //$date = $character->getEndActivity()->modify('+1 days');
+            $character->setEndActivity($date->modify('+ ' . $form->get('activity_add')->getData() . ' days'));
 
             foreach ($logs as $log) {
                 $log

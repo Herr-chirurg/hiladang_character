@@ -47,7 +47,7 @@ class CharacterEditType extends AbstractType
             ->add('activity_add', IntegerType::class, [
                 'mapped' => false, 
                 'required' => false,
-                'attr' => ['placeholder' => '+1'],
+                'attr' => ['placeholder' => '+10'],
             ])
             ->add('description', TextType::class, [
                 'mapped' => false, 
