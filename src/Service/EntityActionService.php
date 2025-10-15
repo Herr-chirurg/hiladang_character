@@ -19,20 +19,20 @@ class EntityActionService
         $this->security = $security;
     }
 
-    public function getActions(Object $object): array
+    public function getActions(Object $object, String $mode): array
     {
         get_class($object);
 
         switch ($object::class) {
             case Character::class:
-                return $this->getCharacterActions($object);
+                return $this->getCharacterActions($object, $mode);
             case User::class:
-                return $this->getUserActions($object);
+                return $this->getUserActions($object, $mode);
         }
         return [];
     }
 
-    public function getUserActions(User $user): array {
+    public function getUserActions(User $user, String $mode): array {
 
         $securityUser = $this->security->getUser();
         if ($securityUser instanceof User) {
@@ -68,13 +68,15 @@ class EntityActionService
         return $array;
     }
 
-    public function getCharacterActions(Character $character): array {
+    public function getCharacterActions(Character $character, String $mode): array {
 
         $user = $this->security->getUser();
 
-        if ($user instanceof User) {
-            $owner = $user == $character->getOwner();
+        if ($user instanceof User && $mode == "") {
+            
         }
+
+        $enabled = $mode == "show" && $user instanceof User && $user = $character->getOwner();
 
         $array = [];
         
@@ -87,7 +89,7 @@ class EntityActionService
         array_push($array, [
             'label' => 'Editer',
             'icon' => 'fa-solid fa-lock',
-            'url' => $owner ? $this->router->generate('app_character_edit', ['id' => $character->getId()]) : ""
+            'url' => $enabled ? $this->router->generate('app_character_edit', ['id' => $character->getId()]) : ""
         ]);
         
         array_push($array, [
@@ -99,7 +101,7 @@ class EntityActionService
         array_push($array, [
             'label' => 'Supprimer',
             'icon' => 'fa-solid fa-skull',
-            'url' => $owner ? $this->router->generate('app_character_delete', ['id' => $character->getId()]) : ""
+            'url' => $enabled ? $this->router->generate('app_character_delete', ['id' => $character->getId()]) : ""
         ]);
 
         return $array;
