@@ -63,7 +63,7 @@
             <tr>
                 <th>Fin d'activité</th>
 
-                <td>Dans {{ character.endActivity }} jours</td>
+                <td>{{ character.endActivity | date('Y-m-d') }}</td>
             </tr>
         </tbody>
     </table>

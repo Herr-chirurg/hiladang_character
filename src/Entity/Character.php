@@ -40,8 +40,8 @@ class Character
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 0, nullable: true)]
     private ?string $pr = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $end_activity = null;
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTime $end_activity = null;
 
     /**
      * @var Collection<int, Building>
@@ -79,6 +79,7 @@ class Character
         $this->activities = new ArrayCollection();
         $this->tokens = new ArrayCollection();
         $this->scenarios = new ArrayCollection();
+        $this->end_activity = new \DateTime('@0');
     }
 
     public function getId(): ?int
@@ -182,12 +183,12 @@ class Character
         return $this;
     }
 
-    public function getEndActivity(): ?int
+    public function getEndActivity(): ?\DateTime
     {
         return $this->end_activity;
     }
 
-    public function setEndActivity(int $end_activity): static
+    public function setEndActivity(?\DateTime $end_activity): static
     {
         $this->end_activity = $end_activity;
 
