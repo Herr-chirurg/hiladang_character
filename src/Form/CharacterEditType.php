@@ -17,8 +17,16 @@ class CharacterEditType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name')
-            ->add('title')
+            ->add('name', TextType::class, [
+                'mapped' => false, 
+                'required' => false,
+                'attr' => ['placeholder' => 'Savernis Flamen'],
+            ])
+            ->add('title', TextType::class, [
+                'mapped' => false, 
+                'required' => false,
+                'attr' => ['placeholder' => 'Maitre Artisan'],
+            ])
             ->add('level_add', IntegerType::class, [
                 'mapped' => false, 
                 'required' => false,
@@ -52,7 +60,6 @@ class CharacterEditType extends AbstractType
             ->add('description', TextType::class, [
                 'mapped' => false, 
                 'required' => true,
-                
                 'attr' => ['class' => 'description-textarea', 'placeholder' => 'achat de 10 feu alchimistes'],
             ])
         ;
