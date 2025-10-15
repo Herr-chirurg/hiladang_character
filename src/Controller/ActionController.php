@@ -14,7 +14,7 @@ final class ActionController extends AbstractController
     {
         return $this->render('partials/_action.html.twig', [
             'object' => (new \ReflectionClass($object))->getShortName(),
-            'actions' => $actionService->getActions($object),
+            'actions' => $actionService->getActions(object: $object),
         ]);
     }
 }

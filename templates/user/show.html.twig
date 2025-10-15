@@ -3,10 +3,8 @@
 {% block title %}User{% endblock %}
 
 {% block body %}
-    <h2>User
-        <a class="fa-solid fa-arrow-left" href="{{ path('app_user_index')}}"></a>
-        {# <a class="fa-solid fa-unlock" href="{{ path('app_user_edit', {'id': user.id}) }}"></a> #}
-    </h2>
+
+    {{ render(controller('App\\Controller\\ActionController::index',{'object' : user} )) }}
 
     <table class="table">
         <tbody>

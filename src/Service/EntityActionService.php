@@ -26,8 +26,46 @@ class EntityActionService
         switch ($object::class) {
             case Character::class:
                 return $this->getCharacterActions($object);
+            case User::class:
+                return $this->getUserActions($object);
         }
         return [];
+    }
+
+    public function getUserActions(User $user): array {
+
+        $securityUser = $this->security->getUser();
+        if ($securityUser instanceof User) {
+            $owner = $user == $securityUser;
+        }
+
+        $array = [];
+        
+        array_push($array, [
+            'label' => 'Retour',
+            'icon' => 'fa-solid fa-arrow-left',
+            'url' => $this->router->generate('app_user_index')
+        ]);
+
+        array_push($array, [
+            'label' => 'Editer',
+            'icon' => 'fa-solid fa-lock',
+            'url' => $owner ? $this->router->generate('app_user_edit', ['id' => $user->getId()]) : ""
+        ]);
+        
+        array_push($array, [
+            'label' => 'Echanger',
+            'icon' => 'fa-solid fa-handshake-angle',
+            'url' => ""
+        ]);
+        
+        array_push($array, [
+            'label' => 'Supprimer',
+            'icon' => 'fa-solid fa-skull',
+            'url' => $owner ? $this->router->generate('app_user_delete', ['id' => $user->getId()]) : ""
+        ]);
+
+        return $array;
     }
 
     public function getCharacterActions(Character $character): array {
