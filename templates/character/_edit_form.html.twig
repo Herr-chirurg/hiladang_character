@@ -50,8 +50,8 @@
             </tr>
             <tr>
                 <th>Fin d'activité</th>
-                {% if character.endActivity|date('Y-m-d') > date('now')|date('Y-m-d') %}
-                        <td>{{ character.endActivity | date('Y-m-d') }}</td>
+                {% if character.endActivity|date('d/m/Y') > date('now')|date('d/m/Y') %}
+                        <td>{{ character.endActivity | date('d/m/Y') }}</td>
                 {% else  %}
                         <td>Disponible</td>
                 {% endif %}
