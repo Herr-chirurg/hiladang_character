@@ -36,7 +36,8 @@ class AppFixtures extends Fixture
         $this->createCharacters(50);
 
         //creation de buildings bases
-        $this->createBuildingBases();
+        //géré via une migration
+        //$this->createBuildingBases();
 
         //creations de buildings à partir de building bases
         //associations de la moitiés des bâtiments à des characters
@@ -73,7 +74,7 @@ class AppFixtures extends Fixture
             //$character->setImg($imageOptions[array_rand($imageOptions)]);
 
             // Niveaux aléatoires entre 1 et 20
-            $level = $this->faker->numberBetween(1, 50);
+            $level = $this->faker->numberBetween(1, 20);
             $character->setLevel($level);
 
             // XP
@@ -89,7 +90,7 @@ class AppFixtures extends Fixture
             $character->setPR($this->faker->numberBetween(0, 100) < 5 ? $this->faker->numberBetween(100, 500) : $this->faker->numberBetween(0, 99));
 
             // Fin d'activité, entre 0 et 30 jours.
-            $character->setEndActivity($this->faker->numberBetween(0, 30));
+            $character->setEndActivity($this->faker->dateTimeBetween('-6 months', '+6 months'));
 
             $this->manager->persist($character);
 
