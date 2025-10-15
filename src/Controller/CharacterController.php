@@ -60,7 +60,7 @@ final class CharacterController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_character_show', methods: ['GET'])]
-    public function show(LogRepository $logRepository, Character $character, WBLUtil $economyUtil): Response
+    public function show(LogRepository $logRepository, Character $character, WBLUtil $wBLUtil): Response
     {
 
 
@@ -69,14 +69,14 @@ final class CharacterController extends AbstractController
             'user' => $this->getUser(),
             'logs' => $logs,
             'character' => $character,
-            'totalXP' => $economyUtil->levelToMinXP($character->getLevel()),
-            'XPNiveauSuivant' => $economyUtil->levelToMinXP($character->getLevel()+1),
-            'GV' => $economyUtil->levelAndXPToGV($character->getLevel(), $character->getXpCurrent())
+            'totalXP' => $wBLUtil->levelToMinXP($character->getLevel()),
+            'XPNiveauSuivant' => $wBLUtil->levelToMinXP($character->getLevel()+1),
+            'GV' => $wBLUtil->levelAndXPToGV($character->getLevel(), $character->getXpCurrent())
         ]);
     }
 
     #[Route('/{id}/edit', name: 'app_character_edit', methods: ['GET', 'POST'])]
-    public function edit(LogRepository $logRepository, Request $request, Character $character, EntityManagerInterface $entityManager): Response
+    public function edit(LogRepository $logRepository, Request $request, Character $character, EntityManagerInterface $entityManager, WBLUtil $wBLUtil): Response
     {
 
         if ($this->getUser() != $character->getOwner()) {
@@ -90,90 +90,57 @@ final class CharacterController extends AbstractController
 
             $logs = new ArrayCollection();
 
-            $new_value = $form->get('name')->getData(); 
-            if ($new_value != $character->getName()) {
-                $old_value = $character->getName();
-                $log = new Log;
-                $log->setFieldName('name');
-                $log->setOldValue($old_value)->setNewValue($new_value);
-                $logs->add($log);
-                $character->setName($new_value);
+            $new_name = $form->get('name')->getData(); 
+            if ($new_name) {
+                $character->setName($new_name);
             }
 
-            $new_value = $form->get('title')->getData(); 
-            if ($new_value != $character->getTitle()) {
-                $old_value = $character->getTitle();
-                $log = new Log;
-                $log->setFieldName('title');
-                $log->setOldValue($old_value)->setNewValue($new_value);
-                $logs->add($log);
-                $character->setTitle($new_value);
+            $new_title = $form->get('title')->getData(); 
+            if ($new_title) {
+                $character->setTitle($new_title);
             }
 
-            $added_value = $form->get('level_add')->getData(); 
-            if ($added_value) {
+            $level_add = $form->get('level_add')->getData(); 
+            if ($level_add) {
                 $old_value = $character->getLevel();
-                $log = new Log;
-                $log->setFieldName('level');
-                $log->setOldValue($old_value)->setNewValue($old_value + $added_value);
-                $logs->add($log);
-                $character->setLevel($old_value + $added_value);
+                $character->setLevel($old_value + $level_add);
             }
 
-            $added_value = $form->get('gp_add')->getData(); 
-            if ($added_value) {
+            $gp_add = $form->get('gp_add')->getData(); 
+            if ($gp_add) {
                 $old_value = $character->getGp();
-                $log = new Log;
-                $log->setFieldName('gp');
-                $log->setOldValue($old_value)->setNewValue($old_value + $added_value);
-                $logs->add($log);
-                $character->setGp($old_value + $added_value);
+                $character->setGp($old_value + $gp_add);
             }
 
-            $added_value = $form->get('pr_add')->getData(); 
-            if ($added_value) {
+            $pr_add = $form->get('pr_add')->getData(); 
+            if ($pr_add) {
                 $old_value = $character->getPr();
-                $log = new Log;
-                $log->setFieldName('pr');
-                $log->setOldValue($old_value)->setNewValue($old_value + $added_value);
-                $logs->add($log);
-                $character->setPr($old_value + $added_value);
+                $character->setPr($old_value + $pr_add);
             }
 
-            $added_value = $form->get('xp_add')->getData(); 
-            if ($added_value) {
+            $xp_add = $form->get('xp_add')->getData(); 
+            if ($xp_add) {
                 $old_value = $character->getXpCurrent();
-                $log = new Log;
-                $log->setFieldName('xp_current');
-                $log->setOldValue($old_value)->setNewValue($old_value + $added_value);
-                $logs->add($log);
-                $character->setXpCurrent($old_value + $added_value);
+                $character->setXpCurrent($old_value + $xp_add);
             }
 
-            $added_value = $form->get('xp_mj_add')->getData(); 
-            if ($added_value) {
+            $xp_mj_add = $form->get('xp_mj_add')->getData(); 
+            if ($xp_mj_add) {
                 $old_value = $character->getXpCurrentMj();
-                $log = new Log;
-                $log->setFieldName('xp_current_mj');
-                $log->setOldValue($old_value)->setNewValue($old_value + $added_value);
-                $logs->add($log);
-                $character->setXpCurrentMj($old_value + $added_value);
+                $character->setXpCurrentMj($old_value + $xp_mj_add);
             }
 
-            $date = new \DateTime('now');
-            //$date = $character->getEndActivity()->modify('+1 days');
-            $character->setEndActivity($date->modify('+ ' . $form->get('activity_add')->getData() . ' days'));
-
-            foreach ($logs as $log) {
-                $log
-                ->setItemType(Character::class)
-                ->setItemId($character->getId())
-                ->setDescription($form->get('description')->getData())
-                ->setUserId($this->getUser() ? $this->getUser()->getUserIdentifier() : null);
-                
-                $entityManager->persist($log);
+            $activity_add = $form->get('activity_add')->getData();
+            if ($activity_add) {
+                $date = new \DateTime('now');
+                $symbol = $activity_add>0 ? "+ " : "- ";
+                $character->setEndActivity($date->modify($symbol . abs($activity_add) . ' days'));
             }
 
+            //Pas de conditions ici, ce cas est censé toujours arriver
+            $description = $form->get('description')->getData();
+            $character->setLastActionDescription($description);
+            
             $entityManager->flush();
 
             return $this->redirectToRoute('app_character_edit', ['id' => $character->getId()]);
@@ -184,6 +151,9 @@ final class CharacterController extends AbstractController
             'logs' => $logs,
             'character' => $character,
             'form' => $form,
+            'totalXP' => $wBLUtil->levelToMinXP($character->getLevel()),
+            'XPNiveauSuivant' => $wBLUtil->levelToMinXP($character->getLevel()+1),
+            'GV' => $wBLUtil->levelAndXPToGV($character->getLevel(), $character->getXpCurrent())
         ]);
     }
 
