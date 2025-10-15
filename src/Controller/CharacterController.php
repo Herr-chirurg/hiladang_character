@@ -9,7 +9,7 @@ use App\Form\CharacterType;
 use App\Repository\CharacterRepository;
 use App\Repository\LogRepository;
 use App\Service\EconomyUtil;
-use App\Service\WBLUtil;
+use App\Service\WBLService;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -30,7 +30,7 @@ final class CharacterController extends AbstractController
     }
 
     #[Route('/new', name: 'app_character_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, WBLUtil $wBLUtil): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, WBLService $wBLUtil): Response
     {
         $character = new Character();
 
@@ -60,7 +60,7 @@ final class CharacterController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_character_show', methods: ['GET'])]
-    public function show(LogRepository $logRepository, Character $character, WBLUtil $wBLUtil): Response
+    public function show(LogRepository $logRepository, Character $character, WBLService $wBLUtil): Response
     {
 
 
@@ -76,7 +76,7 @@ final class CharacterController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_character_edit', methods: ['GET', 'POST'])]
-    public function edit(LogRepository $logRepository, Request $request, Character $character, EntityManagerInterface $entityManager, WBLUtil $wBLUtil): Response
+    public function edit(LogRepository $logRepository, Request $request, Character $character, EntityManagerInterface $entityManager, WBLService $wBLUtil): Response
     {
 
         if ($this->getUser() != $character->getOwner()) {

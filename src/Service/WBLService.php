@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-class WBLUtil {
+class WBLService {
 
 	private array $levelData;
 	private float $coeff_gv = 1.25;
