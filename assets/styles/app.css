@@ -2,6 +2,21 @@ body {
     background-color: skyblue;
 }
 
+.action-conteneur {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.action {
+    font-size: 1.5em;
+    margin-top: 0.83em;
+    margin-bottom: 0.83em;
+    margin-left: 10px;
+    margin-right: 10px;
+    font-weight: bold;
+}
+
 .footer {
   position: fixed;
   left: 0;
