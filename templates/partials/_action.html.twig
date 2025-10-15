@@ -1,0 +1,9 @@
+<div class="action-conteneur">
+    {% for action in actions %}
+        <a href="{{ action.url }}" class="action {{ (action.url == "") ? 'gray' : '' }}">
+            {{ action.label }}
+
+            <i class="{{ action.icon }}"></i>
+        </a>
+    {% endfor %}
+</div>
