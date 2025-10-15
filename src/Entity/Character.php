@@ -16,31 +16,31 @@ class Character
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255, nullable: false)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255, nullable: false)]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::BLOB, nullable: true)]
     private $img;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $level = null;
+    #[ORM\Column(nullable: false)]
+    private ?int $level = 3;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 7, scale: 0, nullable: true)]
+    #[ORM\Column(type: Types::DECIMAL, precision: 7, scale: 0, nullable: false)]
     private ?string $xp_current = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 7, scale: 0, nullable: true)]
+    #[ORM\Column(type: Types::DECIMAL, precision: 7, scale: 0, nullable: false)]
     private ?string $xp_current_mj = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 8, scale: 2, nullable: true)]
+    #[ORM\Column(type: Types::DECIMAL, precision: 8, scale: 2, nullable: false)]
     private ?string $gp = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 0, nullable: true)]
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 0, nullable: false)]
     private ?string $pr = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: false)]
     private ?\DateTime $end_activity = null;
 
     /**
@@ -79,7 +79,6 @@ class Character
         $this->activities = new ArrayCollection();
         $this->tokens = new ArrayCollection();
         $this->scenarios = new ArrayCollection();
-        $this->end_activity = new \DateTime('@0');
     }
 
     public function getId(): ?int
