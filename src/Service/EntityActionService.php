@@ -34,10 +34,7 @@ class EntityActionService
 
     public function getUserActions(User $user, String $mode): array {
 
-        $securityUser = $this->security->getUser();
-        if ($securityUser instanceof User) {
-            $owner = $user == $securityUser;
-        }
+        $enabled = $mode == "show" && $user instanceof User && $this->security->getUser() == $user;
 
         $array = [];
         
@@ -50,7 +47,7 @@ class EntityActionService
         array_push($array, [
             'label' => 'Editer',
             'icon' => 'fa-solid fa-lock',
-            'url' => $owner ? $this->router->generate('app_user_edit', ['id' => $user->getId()]) : ""
+            'url' => $enabled ? $this->router->generate('app_user_edit', ['id' => $user->getId()]) : ""
         ]);
         
         array_push($array, [
@@ -62,7 +59,7 @@ class EntityActionService
         array_push($array, [
             'label' => 'Supprimer',
             'icon' => 'fa-solid fa-skull',
-            'url' => $owner ? $this->router->generate('app_user_delete', ['id' => $user->getId()]) : ""
+            'url' => $enabled ? $this->router->generate('app_user_delete', ['id' => $user->getId()]) : ""
         ]);
 
         return $array;
@@ -72,11 +69,7 @@ class EntityActionService
 
         $user = $this->security->getUser();
 
-        if ($user instanceof User && $mode == "") {
-            
-        }
-
-        $enabled = $mode == "show" && $user instanceof User && $user = $character->getOwner();
+        $enabled = $mode == "show" && $user instanceof User && $this->security->getUser() == $character->getOwner();
 
         $array = [];
         
