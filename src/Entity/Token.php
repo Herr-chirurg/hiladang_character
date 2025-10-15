@@ -13,19 +13,19 @@ class Token
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: false)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: false)]
     private ?string $type = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: false)]
     private ?int $usage_rate = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: false)]
     private ?int $value = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: false)]
     private ?int $value_pr = null;
 
     #[ORM\ManyToOne(inversedBy: 'tokens')]
