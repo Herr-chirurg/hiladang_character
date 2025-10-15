@@ -26,15 +26,6 @@
     <body>
         {{ include('partials/_navbar.html.twig') }}
 
-
-        {% if 'index' in current_route %}
-            
-        {% else %}
-            {{ render(path('app_action', {
-                'id': 123,
-            })) }}
-        {% endif %}
-
         {% block javascripts %}
             {% block importmap %}{{ importmap('app') }}{% endblock %}
         {% endblock %}
