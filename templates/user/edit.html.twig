@@ -3,10 +3,10 @@
 {% block title %}Edit User{% endblock %}
 
 {% block body %}
-    <h2>User
-        <a class="fa-solid fa-arrow-left" href="{{ path('app_user_index')}}"></a>
-        <a class="fa-solid fa-unlock" href="{{ path('app_user_show', {'id': user.id}) }}"></a>
-    </h2>
+
+    {{ render(controller('App\\Controller\\ActionController::index',{'object' : user, 'mode' : 'edition'} )) }}
+
+    //fa-solid fa-unlock
 
     {{ include('user/_form.html.twig', {'button_label': 'Update'}) }}
 

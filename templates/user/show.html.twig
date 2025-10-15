@@ -4,7 +4,7 @@
 
 {% block body %}
 
-    {{ render(controller('App\\Controller\\ActionController::index',{'object' : user} )) }}
+    {{ render(controller('App\\Controller\\ActionController::index',{'object' : user, 'mode' : 'show'} )) }}
 
     <table class="table">
         <tbody>
