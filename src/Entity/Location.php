@@ -22,7 +22,7 @@ class Location
     #[ORM\OneToMany(targetEntity: Building::class, mappedBy: 'location')]
     private Collection $buildings;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255, nullable: false)]
     private ?string $name = null;
 
     public function __construct()

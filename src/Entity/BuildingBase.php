@@ -16,19 +16,19 @@ class BuildingBase
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255, nullable: false)]
     private ?string $name = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 0, nullable: true)]
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 0, nullable: false)]
     private ?string $price = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255, nullable: false)]
     private ?string $type = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 0, nullable: true)]
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 0, nullable: false)]
     private ?string $production = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255, nullable: false)]
     private ?string $bonus = null;
 
     /**

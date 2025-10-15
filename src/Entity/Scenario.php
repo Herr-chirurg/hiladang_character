@@ -19,25 +19,25 @@ class Scenario
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 2, scale: 0)]
+    #[ORM\Column(type: Types::DECIMAL, precision: 2, scale: 0, nullable: false)]
     private ?string $level = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: false)]
     private ?\DateTime $date = null;
 
-    #[ORM\Column(length: 1000)]
+    #[ORM\Column(length: 1000, nullable: false)]
     private ?string $description = null;
 
     #[ORM\Column(type: Types::BLOB)]
     private $img;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: false)]
     private ?string $post_link = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: false)]
     private ?string $summary_link = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: false)]
     private ?string $status = null;
 
     #[ORM\ManyToOne(inversedBy: 'scenarios')]

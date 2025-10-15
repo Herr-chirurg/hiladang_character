@@ -14,7 +14,7 @@ class Building
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: false)]
     private ?string $name = null;
 
     #[ORM\ManyToOne(inversedBy: 'buildings')]
