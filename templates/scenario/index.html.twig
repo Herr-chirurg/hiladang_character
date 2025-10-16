@@ -8,34 +8,29 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Name</th>
                 <th>Level</th>
                 <th>Date</th>
-                <th>Description</th>
-                <th>Img</th>
-                <th>Post_link</th>
-                <th>Summary_link</th>
+                <th>Liens</th>
                 <th>Status</th>
-                <th>actions</th>
             </tr>
         </thead>
         <tbody>
         {% for scenario in scenarios %}
             <tr>
-                <td>{{ scenario.id }}</td>
                 <td>{{ scenario.name }}</td>
                 <td>{{ scenario.level }}</td>
-                <td>{{ scenario.date ? scenario.date|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ scenario.description }}</td>
-                <td>{{ scenario.img }}</td>
-                <td>{{ scenario.postLink }}</td>
-                <td>{{ scenario.summaryLink }}</td>
-                <td>{{ scenario.status }}</td>
+                <td>{{ scenario.date ? scenario.date|date('d/m/Y') : '' }}</td>
                 <td>
-                    <a href="{{ path('app_scenario_show', {'id': scenario.id}) }}">show</a>
-                    <a href="{{ path('app_scenario_edit', {'id': scenario.id}) }}">edit</a>
+                    <a href="{{ scenario.postLink }}">
+                        Annonce
+                        <i class="fa-solid fa-sign-hanging"></i>
+                    <a href="{{ scenario.summaryLink }}">
+                        Résumé
+                        <i class="fa-solid fa-book"></i>
+                    </a>
                 </td>
+                <td>{{ scenario.status }}</td>
             </tr>
         {% else %}
             <tr>
