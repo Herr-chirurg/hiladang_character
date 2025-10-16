@@ -66,7 +66,7 @@ class EntityActionService
         array_push($array, [
             'label' => 'Supprimer',
             'icon' => 'fa-solid fa-skull',
-            'url' => $enabled ? $this->router->generate('app_user_delete', ['id' => $user->getId()]) : ""
+            'url' => ""
         ]);
 
         return $array;
@@ -108,7 +108,7 @@ class EntityActionService
         array_push($array, [
             'label' => 'Supprimer',
             'icon' => 'fa-solid fa-skull',
-            'url' => $enabled ? $this->router->generate('app_character_delete', ['id' => $character->getId()]) : ""
+            'url' => ""
         ]);
 
         return $array;
