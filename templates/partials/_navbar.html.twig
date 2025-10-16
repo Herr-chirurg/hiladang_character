@@ -70,28 +70,18 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // 🎯 CIBLEZ L'IMAGE DE PROFIL (le déclencheur)
         const profileImage = document.querySelector('.dropdown-trigger');
-        
-        // Sélectionne le menu déroulant
         const dropdownMenu = document.querySelector('.dropdown-menu');
 
-        // Vérifie si les deux éléments nécessaires existent
         if (profileImage && dropdownMenu) {
             
-            // 1. GESTION DE L'OUVERTURE/FERMETURE AU CLIC SUR L'IMAGE
             profileImage.addEventListener('click', function(event) {
-                // Empêche le clic de se propager immédiatement à la fenêtre/document, 
-                // ce qui empêcherait la ligne de fermeture (point 2) d'ouvrir le menu.
                 event.stopPropagation(); 
                 
-                // Bascule la classe 'show' sur le menu déroulant (pour l'afficher ou le masquer)
                 dropdownMenu.classList.toggle('show');
             });
 
-            // 2. FERMER LE MENU AU CLIC À L'EXTÉRIEUR
             document.addEventListener('click', function(event) {
-                // Si le clic n'est pas sur le menu déroulant ET n'est pas sur l'image elle-même, on ferme le menu.
                 if (!dropdownMenu.contains(event.target) && !profileImage.contains(event.target)) {
                     dropdownMenu.classList.remove('show');
                 }
