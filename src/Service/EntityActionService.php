@@ -41,7 +41,7 @@ class EntityActionService
         array_push($array, [
             'label' => 'Retour',
             'icon' => 'fa-solid fa-arrow-left',
-            'url' => $this->router->generate('app_user_index')
+            'url' => $this->router->generate($mode == "show" ? 'app_user_index' : 'app_user_show')
         ]);
 
         array_push($array, [
@@ -76,7 +76,7 @@ class EntityActionService
         array_push($array, [
             'label' => 'Retour',
             'icon' => 'fa-solid fa-arrow-left',
-            'url' => $this->router->generate('app_character_index')
+            'url' => $this->router->generate($mode == "show" ? 'app_character_index' : 'app_character_show')
         ]);
 
         array_push($array, [
