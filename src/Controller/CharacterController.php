@@ -12,7 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/character')]
 final class CharacterController extends AbstractController
@@ -68,13 +68,9 @@ final class CharacterController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_character_edit', methods: ['GET', 'POST'])]
+    #[IsGranted('EDIT', subject: 'character'), Route('/{id}/edit', name: 'app_character_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Character $character, EntityManagerInterface $entityManager, WBLService $wBLUtil): Response
     {
-
-        if ($this->getUser() != $character->getOwner()) {
-            throw new AccessDeniedException();
-        }
         
         $form = $this->createForm(CharacterEditType::class, $character);
         $form->handleRequest($request);
@@ -146,7 +142,7 @@ final class CharacterController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_character_delete', methods: ['POST'])]
+    #[IsGranted('DELETE', subject: 'character'), Route('/{id}', name: 'app_character_delete', methods: ['POST'])]
     public function delete(Request $request, Character $character, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$character->getId(), $request->getPayload()->getString('_token'))) {
