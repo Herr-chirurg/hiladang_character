@@ -46,7 +46,7 @@ class EntityActionService
 
         array_push($array, [
             'label' => 'Editer',
-            'icon' => 'fa-solid fa-lock',
+            'icon' => 'fa-solid fa-pen-to-square',
             'url' => $enabled ? $this->router->generate('app_user_edit', ['id' => $user->getId()]) : ""
         ]);
         
@@ -81,7 +81,7 @@ class EntityActionService
 
         array_push($array, [
             'label' => 'Editer',
-            'icon' => 'fa-solid fa-lock',
+            'icon' => 'fa-solid fa-pen-to-square',
             'url' => $enabled ? $this->router->generate('app_character_edit', ['id' => $character->getId()]) : ""
         ]);
         
@@ -90,7 +90,7 @@ class EntityActionService
             'icon' => 'fa-solid fa-handshake-angle',
             'url' => ""
         ]);
-        
+
         array_push($array, [
             'label' => 'Supprimer',
             'icon' => 'fa-solid fa-skull',
