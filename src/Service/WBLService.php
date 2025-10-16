@@ -45,7 +45,7 @@ class WBLService {
 
 	public function levelAndXPToGV(?int $level, string $xp): int 
 	{
-		return ($this->levelData[$level][1] + $this->levelData[$level][2] * $xp) * $this->coeff_gv;
+		return ($this->levelData[$level][1] + $xp/$this->levelData[$level+1][2]) * $this->coeff_gv;
 	}
 
 }
