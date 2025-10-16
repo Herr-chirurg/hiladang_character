@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class EntityActionService
 {
-    // Injectez ici le Router (pour générer les liens) et le Security (pour les droits)
+
     private $router;
     private $security;
 
@@ -37,11 +37,18 @@ class EntityActionService
         $enabled = $mode == "show" && $user instanceof User && $this->security->getUser() == $user;
 
         $array = [];
+
+        $url_back = "";
+        if ($mode == "edition") {
+            $url_back = $this->router->generate('app_user_show', ['id' => $user->getId()]);
+        } else {
+            $url_back = $this->router->generate('app_user_index');
+        }
         
         array_push($array, [
             'label' => 'Retour',
             'icon' => 'fa-solid fa-arrow-left',
-            'url' => $this->router->generate($mode == "show" ? 'app_user_index' : 'app_user_show')
+            'url' => $url_back
         ]);
 
         array_push($array, [
@@ -72,11 +79,18 @@ class EntityActionService
         $enabled = $mode == "show" && $user instanceof User && $this->security->getUser() == $character->getOwner();
 
         $array = [];
+
+        $url_back = "";
+        if ($mode == "edition") {
+            $url_back = $this->router->generate('app_character_show', ['id' => $character->getId()]);
+        } else {
+            $url_back = $this->router->generate('app_character_index');
+        }
         
         array_push($array, [
             'label' => 'Retour',
             'icon' => 'fa-solid fa-arrow-left',
-            'url' => $this->router->generate($mode == "show" ? 'app_character_index' : 'app_character_show')
+            'url' => $url_back
         ]);
 
         array_push($array, [
