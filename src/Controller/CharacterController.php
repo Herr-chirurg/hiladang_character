@@ -3,13 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Character;
-use App\Entity\Log;
 use App\Form\CharacterEditType;
 use App\Form\CharacterType;
 use App\Repository\CharacterRepository;
-use App\Repository\LogRepository;
 use App\Service\WBLService;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -83,8 +80,6 @@ final class CharacterController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-            $logs = new ArrayCollection();
 
             $new_name = $form->get('name')->getData(); 
             if ($new_name) {
