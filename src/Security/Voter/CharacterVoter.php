@@ -19,20 +19,20 @@ final class CharacterVoter extends Voter
             && $subject instanceof \App\Entity\Character;
     }
 
-    protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
+    protected function voteOnAttribute(string $attribute, mixed $character, TokenInterface $token): bool
     {
-        $user = $token->getUser();
+        $securityUser = $token->getUser();
 
-        if (!$user instanceof UserInterface) {
+        if (!$securityUser instanceof UserInterface) {
             return false;
         }
 
         switch ($attribute) {
             case self::EDIT:
-                return $subject->getOwner() === $user;
+                return $character->getOwner() === $securityUser;
 
             case self::DELETE:
-                return $subject->getOwner() === $user;
+                return $character->getOwner() === $securityUser;
         }
 
         return false;
