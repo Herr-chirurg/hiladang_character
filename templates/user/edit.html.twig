@@ -6,8 +6,6 @@
 
     {{ render(controller('App\\Controller\\ActionController::index',{'object' : user, 'mode' : 'edition'} )) }}
 
-    //fa-solid fa-unlock
-
     {{ include('user/_form.html.twig', {'button_label': 'Update'}) }}
 
 {% endblock %}
