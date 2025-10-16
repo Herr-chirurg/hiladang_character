@@ -239,7 +239,7 @@ class AppFixtures extends Fixture
 
         $users = $this->manager->getRepository(User::class)->findAll();
 
-        $statuses = ['Draft', 'Published', 'Archived', 'Pending Review'];
+        $statuses = ['created', 'attended', 'awarded', 'cancelled'];
 
         $concepts = [
                 'Le Mystère', 'L\'Ombre', 'Le Secret', 'La Malédiction', 'L\'Héritage', 
@@ -280,7 +280,7 @@ class AppFixtures extends Fixture
             
             $scenario->setDate($this->faker->dateTimeBetween('-6 months', 'now'));
 
-            $scenario->setDescription($this->faker->paragraphs(3, true)); // 3 paragraphes joints en une seule chaîne
+            $scenario->setDescription($this->faker->sentence(1, true)); // 3 paragraphes joints en une seule chaîne
 
             $binaryData = random_bytes(256);
             $scenario->setImg($binaryData); 
