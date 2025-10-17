@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Character;
+use App\Entity\Scenario;
 use App\Entity\User;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -28,6 +29,8 @@ class EntityActionService
                 return $this->getCharacterActions($object, $mode);
             case User::class:
                 return $this->getUserActions($object, $mode);
+            case Scenario::class:
+                return $this->getScenarioActions($object, $mode);
         }
         return [];
     }
@@ -97,6 +100,48 @@ class EntityActionService
             'label' => 'Editer',
             'icon' => 'fa-solid fa-pen-to-square',
             'url' => $enabled ? $this->router->generate('app_character_edit', ['id' => $character->getId()]) : ""
+        ]);
+        
+        array_push($array, [
+            'label' => 'Echanger',
+            'icon' => 'fa-solid fa-handshake-angle',
+            'url' => ""
+        ]);
+
+        array_push($array, [
+            'label' => 'Supprimer',
+            'icon' => 'fa-solid fa-skull',
+            'url' => ""
+        ]);
+
+        return $array;
+    }
+
+    public function getScenarioActions(Scenario $scenario, String $mode): array {
+
+        $user = $this->security->getUser();
+
+        $enabled = $mode == "show" && $user instanceof User && $this->security->getUser() == $scenario->getGameMaster();
+
+        $array = [];
+
+        $url_back = "";
+        if ($mode == "edition") {
+            $url_back = $this->router->generate('app_scenario_show', ['id' => $scenario->getId()]);
+        } else {
+            $url_back = $this->router->generate('app_scenario_index');
+        }
+        
+        array_push($array, [
+            'label' => 'Retour',
+            'icon' => 'fa-solid fa-arrow-left',
+            'url' => $url_back
+        ]);
+
+        array_push($array, [
+            'label' => 'Editer',
+            'icon' => 'fa-solid fa-pen-to-square',
+            'url' => $enabled ? $this->router->generate('app_character_edit', ['id' => $scenario->getId()]) : ""
         ]);
         
         array_push($array, [
