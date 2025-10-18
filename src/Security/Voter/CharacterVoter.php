@@ -8,14 +8,15 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 final class CharacterVoter extends Voter
 {
-    public const EDIT = 'EDIT';
-    public const DELETE = 'DELETE';
+    public const EDIT = 'edit';
+    public const DELETE = 'delete';
+    public const NEW = 'new';
 
     protected function supports(string $attribute, mixed $subject): bool
     {
         // replace with your own logic
         // https://symfony.com/doc/current/security/voters.html
-        return in_array($attribute, [self::EDIT, self::DELETE])
+        return in_array($attribute, [self::EDIT, self::DELETE, self::NEW])
             && $subject instanceof \App\Entity\Character;
     }
 
