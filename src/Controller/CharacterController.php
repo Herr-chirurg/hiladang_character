@@ -68,7 +68,7 @@ final class CharacterController extends AbstractController
         ]);
     }
 
-    #[IsGranted('EDIT', subject: 'character'), Route('/{id}/edit', name: 'app_character_edit', methods: ['GET', 'POST'])]
+    #[IsGranted('edit', subject: 'character'), Route('/{id}/edit', name: 'app_character_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Character $character, EntityManagerInterface $entityManager, WBLService $wBLUtil): Response
     {
         
@@ -142,7 +142,7 @@ final class CharacterController extends AbstractController
         ]);
     }
 
-    #[IsGranted('DELETE', subject: 'character'), Route('/{id}', name: 'app_character_delete', methods: ['POST'])]
+    #[IsGranted('delete', subject: 'character'), Route('/{id}', name: 'app_character_delete', methods: ['POST'])]
     public function delete(Request $request, Character $character, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$character->getId(), $request->getPayload()->getString('_token'))) {

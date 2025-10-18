@@ -8,8 +8,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 final class UserVoter extends Voter
 {
-    public const EDIT = 'EDIT';
-    public const DELETE = 'DELETE';
+    public const EDIT = 'edit';
+    public const DELETE = 'delete';
 
     protected function supports(string $attribute, mixed $subject): bool
     {
