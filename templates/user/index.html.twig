@@ -3,7 +3,9 @@
 {% block title %}User index{% endblock %}
 
 {% block body %}
-    <h2>User</h2>
+
+    {% set current_route = app.request.attributes.get('_route') %}
+    {{ render(controller('App\\Controller\\ActionController::index',{'route' : current_route} )) }}
 
     <table class="table index">
         <thead>
