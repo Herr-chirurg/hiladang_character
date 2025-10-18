@@ -2,8 +2,6 @@
 
 namespace App\Service;
 
-use App\Entity\Character;
-use App\Entity\Scenario;
 use App\Entity\User;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -20,44 +18,93 @@ class EntityActionService
         $this->security = $security;
     }
 
-    public function getActions(Object $object, String $mode): array
+    public function getActions(string $route, ?Object $object = null): array
     {
-        get_class($object);
+        
+        $array = explode( "_", $route);
 
-        switch ($object::class) {
-            case Character::class:
-                return $this->getCharacterActions($object, $mode);
-            case User::class:
-                return $this->getUserActions($object, $mode);
-            case Scenario::class:
-                return $this->getScenarioActions($object, $mode);
+        $mode = $array[2];
+
+        switch ($mode) {
+            case "index":
+                return $this->getIndexActions($array[1]);
+            case "show":
+                return $this->getShowActions($array[1], $object);
+            case "edit":
+                return $this->getEditActions($array[1], $object);
+
         }
+
         return [];
     }
 
-    public function getUserActions(User $user, String $mode): array {
+    public function getIndexActions(String $class): array {
 
-        $enabled = $mode == "show" && $user instanceof User && $this->security->getUser() == $user;
+        //$enabled = $mode == "show" && $user instanceof User && $this->security->getUser() == $user;
+        //$this->router->generate('app_user_edit', ['id' => $user->getId()])
 
         $array = [];
+        
+        array_push($array, [
+            'label' => 'Nouveau',
+            'icon' => 'fa-solid fa-plus',
+            'url' => $this->router->generate('app_' . $class . '_new')
+        ]);
 
-        $url_back = "";
-        if ($mode == "edition") {
-            $url_back = $this->router->generate('app_user_show', ['id' => $user->getId()]);
-        } else {
-            $url_back = $this->router->generate('app_user_index');
-        }
+        array_push($array, [
+            'label' => 'Filtrer',
+            'icon' => 'fa-solid fa-filter',
+            'url' => ""
+        ]);
+
+        return $array;
+    }
+
+    public function getShowActions(String $class, Object $object): array {
+
+        $array = [];
         
         array_push($array, [
             'label' => 'Retour',
             'icon' => 'fa-solid fa-arrow-left',
-            'url' => $url_back
+            'url' => $this->router->generate('app_' . $class . '_index')
         ]);
 
         array_push($array, [
             'label' => 'Editer',
             'icon' => 'fa-solid fa-pen-to-square',
-            'url' => $enabled ? $this->router->generate('app_user_edit', ['id' => $user->getId()]) : ""
+            'url' => $this->router->generate('app_' . $class . '_edit', ['id' => $object->getId()])
+        ]);
+        
+        array_push($array, [
+            'label' => 'Echanger',
+            'icon' => 'fa-solid fa-handshake-angle',
+            'url' => ""
+        ]);
+        
+        array_push($array, [
+            'label' => 'Supprimer',
+            'icon' => 'fa-solid fa-skull',
+            'url' => $this->router->generate('app_' . $class . '_delete', ['id' => $object->getId()])
+        ]);
+
+        return $array;
+    }
+
+    public function getEditActions(String $class, Object $object): array {
+
+        $array = [];
+        
+        array_push($array, [
+            'label' => 'Retour',
+            'icon' => 'fa-solid fa-arrow-left',
+            'url' => $this->router->generate('app_' . $class . '_show', ['id' => $object->getId()])
+        ]);
+
+        array_push($array, [
+            'label' => 'Editer',
+            'icon' => 'fa-solid fa-pen-to-square',
+            'url' => ""
         ]);
         
         array_push($array, [
@@ -75,87 +122,4 @@ class EntityActionService
         return $array;
     }
 
-    public function getCharacterActions(Character $character, String $mode): array {
-
-        $user = $this->security->getUser();
-
-        $enabled = $mode == "show" && $user instanceof User && $this->security->getUser() == $character->getOwner();
-
-        $array = [];
-
-        $url_back = "";
-        if ($mode == "edition") {
-            $url_back = $this->router->generate('app_character_show', ['id' => $character->getId()]);
-        } else {
-            $url_back = $this->router->generate('app_character_index');
-        }
-        
-        array_push($array, [
-            'label' => 'Retour',
-            'icon' => 'fa-solid fa-arrow-left',
-            'url' => $url_back
-        ]);
-
-        array_push($array, [
-            'label' => 'Editer',
-            'icon' => 'fa-solid fa-pen-to-square',
-            'url' => $enabled ? $this->router->generate('app_character_edit', ['id' => $character->getId()]) : ""
-        ]);
-        
-        array_push($array, [
-            'label' => 'Echanger',
-            'icon' => 'fa-solid fa-handshake-angle',
-            'url' => ""
-        ]);
-
-        array_push($array, [
-            'label' => 'Supprimer',
-            'icon' => 'fa-solid fa-skull',
-            'url' => ""
-        ]);
-
-        return $array;
-    }
-
-    public function getScenarioActions(Scenario $scenario, String $mode): array {
-
-        $user = $this->security->getUser();
-
-        $enabled = $mode == "show" && $user instanceof User && $this->security->getUser() == $scenario->getGameMaster();
-
-        $array = [];
-
-        $url_back = "";
-        if ($mode == "edition") {
-            $url_back = $this->router->generate('app_scenario_show', ['id' => $scenario->getId()]);
-        } else {
-            $url_back = $this->router->generate('app_scenario_index');
-        }
-        
-        array_push($array, [
-            'label' => 'Retour',
-            'icon' => 'fa-solid fa-arrow-left',
-            'url' => $url_back
-        ]);
-
-        array_push($array, [
-            'label' => 'Editer',
-            'icon' => 'fa-solid fa-pen-to-square',
-            'url' => $enabled ? $this->router->generate('app_character_edit', ['id' => $scenario->getId()]) : ""
-        ]);
-        
-        array_push($array, [
-            'label' => 'Echanger',
-            'icon' => 'fa-solid fa-handshake-angle',
-            'url' => ""
-        ]);
-
-        array_push($array, [
-            'label' => 'Supprimer',
-            'icon' => 'fa-solid fa-skull',
-            'url' => ""
-        ]);
-
-        return $array;
-    }
 }

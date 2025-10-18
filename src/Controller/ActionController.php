@@ -10,11 +10,10 @@ use Symfony\Component\Routing\Attribute\Route;
 final class ActionController extends AbstractController
 {
     #[Route('/action', name: 'app_action')]
-    public function index(EntityActionService $actionService, Object $object, string $mode): Response
+    public function index(EntityActionService $actionService, String $route, ?Object $object = null): Response
     {
         return $this->render('partials/_action.html.twig', [
-            'object' => (new \ReflectionClass($object))->getShortName(),
-            'actions' => $actionService->getActions($object, $mode),
+            'actions' => $actionService->getActions($route, $object),
         ]);
     }
 }

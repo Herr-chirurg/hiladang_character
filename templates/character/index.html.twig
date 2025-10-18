@@ -3,9 +3,9 @@
 {% block title %}Character index{% endblock %}
 
 {% block body %}
-    <h2>Character
-        <a class="fa-solid fa-plus" href="{{ path('app_character_new') }}"></a>
-    </h1>
+
+    {% set current_route = app.request.attributes.get('_route') %}
+    {{ render(controller('App\\Controller\\ActionController::index',{'route' : current_route} )) }}
 
     <table class="table index">
         <thead>

@@ -3,7 +3,9 @@
 {% block title %}Building{% endblock %}
 
 {% block body %}
-    <h1>Building</h1>
+    
+    {% set current_route = app.request.attributes.get('_route') %}
+    {{ render(controller('App\\Controller\\ActionController::index',{'route' : current_route, 'object' : building} )) }}
 
     <table class="table">
         <tbody>

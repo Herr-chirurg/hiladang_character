@@ -3,7 +3,9 @@
 {% block title %}Edit Scenario{% endblock %}
 
 {% block body %}
-    <h1>Edit Scenario</h1>
+    
+    {% set current_route = app.request.attributes.get('_route') %}
+    {{ render(controller('App\\Controller\\ActionController::index',{'route' : current_route, 'object' : scenario} )) }}
 
     {{ include('scenario/_form.html.twig', {'button_label': 'Update'}) }}
 

@@ -3,7 +3,9 @@
 {% block title %}Edit Building{% endblock %}
 
 {% block body %}
-    <h1>Edit Building</h1>
+    
+    {% set current_route = app.request.attributes.get('_route') %}
+    {{ render(controller('App\\Controller\\ActionController::index',{'route' : current_route, 'object' : building} )) }}
 
     {{ include('building/_form.html.twig', {'button_label': 'Update'}) }}
 

@@ -4,7 +4,8 @@
 
 {% block body %}
 
-    {{ render(controller('App\\Controller\\ActionController::index',{'object' : user, 'mode' : 'show'} )) }}
+    {% set current_route = app.request.attributes.get('_route') %}
+    {{ render(controller('App\\Controller\\ActionController::index',{'route' : current_route, 'object' : user} )) }}
 
     <table class="table">
         <tbody>

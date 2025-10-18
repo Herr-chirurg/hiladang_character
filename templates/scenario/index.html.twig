@@ -4,6 +4,9 @@
 
 {% block body %}
 
+    {% set current_route = app.request.attributes.get('_route') %}
+    {{ render(controller('App\\Controller\\ActionController::index',{'route' : current_route} )) }}
+
     <table class="table">
         <thead>
             <tr>

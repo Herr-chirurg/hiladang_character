@@ -4,7 +4,8 @@
 
 {% block body %}
 
-    {{ render(controller('App\\Controller\\ActionController::index',{'object' : user, 'mode' : 'edition'} )) }}
+    {% set current_route = app.request.attributes.get('_route') %}
+    {{ render(controller('App\\Controller\\ActionController::index',{'route' : current_route, 'object' : user} )) }}
 
     {{ include('user/_form.html.twig', {'button_label': 'Update'}) }}
 
