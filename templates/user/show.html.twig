@@ -14,8 +14,12 @@
                 <td>{{ user.id }}</td>
             </tr>
             <tr>
-                <th>Username</th>
+                <th>Pseudo</th>
                 <td>{{ user.username }}</td>
+            </tr>
+            <tr>
+                <th>Roles</th>
+                <td>{{ user.roles|join|replace({'ROLE_': ''}) }}</td>
             </tr>
             <tr>
                 <th>Nombre de personnages</th>
