@@ -2,6 +2,7 @@
 
 namespace App\Security\Voter;
 
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -12,6 +13,10 @@ final class CharacterVoter extends Voter
     public const DELETE = 'delete';
     public const NEW = 'new';
 
+    public function __construct() {
+ 
+    }
+    
     protected function supports(string $attribute, mixed $subject): bool
     {
         // replace with your own logic
@@ -29,6 +34,8 @@ final class CharacterVoter extends Voter
         }
 
         switch ($attribute) {
+            case self::NEW:
+                return true;
             case self::EDIT:
                 return $character->getOwner() === $securityUser;
 
@@ -38,4 +45,5 @@ final class CharacterVoter extends Voter
 
         return false;
     }
+
 }

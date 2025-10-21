@@ -2,20 +2,25 @@
 
 namespace App\Service;
 
+use App\Entity\Character;
 use App\Entity\User;
+use App\Security\Voter\CharacterVoter;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class EntityActionService
 {
 
     private $router;
     private $security;
+    private $voter;
 
-    public function __construct(UrlGeneratorInterface $router, Security $security)
+    public function __construct(UrlGeneratorInterface $router, Security $security, AuthorizationCheckerInterface $voter)
     {
         $this->router = $router;
         $this->security = $security;
+        $this->voter = $voter;
     }
 
     public function getActions(string $route, ?Object $object = null): array
@@ -45,16 +50,20 @@ class EntityActionService
 
         $array = [];
         
+        //TODO : affreux bidouillage à corriger plus tard
+        $newObject = 'App\\Entity\\'.ucfirst($class);
+        $urlNew = $this->voter->isGranted('new', new $newObject) ? $this->router->generate('app_' . $class . '_new') : "";
+
         array_push($array, [
             'label' => 'Nouveau',
             'icon' => 'fa-solid fa-plus',
-            'url' => $this->router->generate('app_' . $class . '_new')
+            'url' => $urlNew
         ]);
 
         array_push($array, [
             'label' => 'Filtrer',
             'icon' => 'fa-solid fa-filter',
-            'url' => ""
+            'url' => "",
         ]);
 
         return $array;
