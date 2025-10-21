@@ -73,6 +73,12 @@ class EntityActionService
 
         $array = [];
         
+        $urlEdit = $this->voter->isGranted('edit', $object) ? 
+            $this->router->generate('app_' . $class . '_edit', ['id' => $object->getId()]) : "";
+        $urlExchange = "";
+        $urlDelete = $this->voter->isGranted('edit', new $object) ? 
+            $this->router->generate('app_' . $class . '_delete', ['id' => $object->getId()]) : "";
+
         array_push($array, [
             'label' => 'Retour',
             'icon' => 'fa-solid fa-arrow-left',
@@ -82,19 +88,19 @@ class EntityActionService
         array_push($array, [
             'label' => 'Editer',
             'icon' => 'fa-solid fa-pen-to-square',
-            'url' => $this->router->generate('app_' . $class . '_edit', ['id' => $object->getId()])
+            'url' => $urlEdit
         ]);
         
         array_push($array, [
             'label' => 'Echanger',
             'icon' => 'fa-solid fa-handshake-angle',
-            'url' => ""
+            'url' => $urlExchange
         ]);
         
         array_push($array, [
             'label' => 'Supprimer',
             'icon' => 'fa-solid fa-skull',
-            'url' => $this->router->generate('app_' . $class . '_delete', ['id' => $object->getId()])
+            'url' => $urlDelete
         ]);
 
         return $array;
