@@ -31,6 +31,8 @@ class EntityActionService
         $mode = $array[2];
 
         switch ($mode) {
+            case "new":
+                return $this->getNewActions($array[1]);
             case "index":
                 return $this->getIndexActions($array[1]);
             case "show":
@@ -41,6 +43,38 @@ class EntityActionService
         }
 
         return [];
+    }
+
+    public function getNewActions(String $class): array {
+
+        $array = [];
+
+        array_push($array, [
+            'label' => 'Retour',
+            'icon' => 'fa-solid fa-arrow-left',
+            'url' => $this->router->generate('app_' . $class . '_index')
+        ]);
+
+        array_push($array, [
+            'label' => 'Editer',
+            'icon' => 'fa-solid fa-pen-to-square',
+            'url' => ""
+        ]);
+        
+        array_push($array, [
+            'label' => 'Echanger',
+            'icon' => 'fa-solid fa-handshake-angle',
+            'url' => ""
+        ]);
+        
+        array_push($array, [
+            'label' => 'Supprimer',
+            'icon' => 'fa-solid fa-skull',
+            'url' => ""
+        ]);
+
+        return $array;
+
     }
 
     public function getIndexActions(String $class): array {
