@@ -28,7 +28,7 @@ class Scenario
     #[ORM\Column(length: 1000, nullable: false)]
     private ?string $description = null;
 
-    #[ORM\Column(type: Types::BLOB)]
+    #[ORM\Column(type: Types::BLOB, nullable: true)]
     private $img;
 
     #[ORM\Column(length: 255, nullable: false)]
