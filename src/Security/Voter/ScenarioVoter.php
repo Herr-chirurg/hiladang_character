@@ -22,7 +22,7 @@ final class ScenarioVoter extends Voter
     {
         // replace with your own logic
         // https://symfony.com/doc/current/security/voters.html
-        return in_array($attribute, [self::EDIT, self::DELETE])
+        return in_array($attribute, [self::EDIT, self::DELETE, self::NEW])
             && $subject instanceof \App\Entity\Scenario;
     }
 
