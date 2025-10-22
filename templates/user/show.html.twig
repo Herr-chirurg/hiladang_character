@@ -19,7 +19,7 @@
             </tr>
             <tr>
                 <th>Roles</th>
-                <td>{{ user.roles|join|replace({'ROLE_': ''}) }}</td>
+                <td>{{ user.roles|join('/')|replace({'ROLE_': ''}) }}</td>
             </tr>
             <tr>
                 <th>Nombre de personnages</th>
