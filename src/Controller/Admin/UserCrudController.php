@@ -29,7 +29,6 @@ class UserCrudController extends AbstractCrudController
 
         $rolesFiled = ChoiceField::new('roles');
 
-        yield IdField::new('id');
         yield TextField::new('username');
         yield NumberField::new('nb_character_max');
 
