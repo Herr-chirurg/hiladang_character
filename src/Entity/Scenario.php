@@ -11,6 +11,11 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: ScenarioRepository::class)]
 class Scenario
 {
+
+    public const STATUS_PUBLISHED = 'published';
+    public const STATUS_PLAYED = 'played';
+    public const STATUS_AWARDED = 'awarded';
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
