@@ -33,6 +33,8 @@ final class ScenarioController extends AbstractController
 
             $scenario->setStatus(Scenario::STATUS_PUBLISHED);
 
+            $scenario->setGameMaster($this->getUser());
+
             $entityManager->persist($scenario);
             $entityManager->flush();
 
