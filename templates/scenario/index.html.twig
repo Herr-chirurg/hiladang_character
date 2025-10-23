@@ -7,32 +7,22 @@
     {% set current_route = app.request.attributes.get('_route') %}
     {{ render(controller('App\\Controller\\ActionController::index',{'route' : current_route} )) }}
 
-    <table class="table">
+    <table class="table index">
         <thead>
             <tr>
                 <th>Name</th>
+                <th>Maitre de jeu</th>
                 <th>Level</th>
                 <th>Date</th>
-                <th>Liens</th>
-                <th>Status</th>
             </tr>
         </thead>
         <tbody>
         {% for scenario in scenarios %}
             <tr onclick="document.location = '{{ path('app_scenario_show', {'id': scenario.id}) }}';">
                 <td>{{ scenario.name }}</td>
+                <td>{{ scenario.gameMaster ? scenario.gameMaster.username  }}</td>
                 <td>{{ scenario.level }}</td>
                 <td>{{ scenario.date ? scenario.date|date('d/m/Y') : '' }}</td>
-                <td>
-                    <a href="{{ scenario.postLink }}">
-                        Annonce
-                        <i class="fa-solid fa-sign-hanging"></i>
-                    <a href="{{ scenario.summaryLink }}">
-                        Résumé
-                        <i class="fa-solid fa-book"></i>
-                    </a>
-                </td>
-                <td>{{ scenario.status }}</td>
             </tr>
         {% else %}
             <tr>
