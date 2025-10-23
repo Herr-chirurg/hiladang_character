@@ -1,0 +1,90 @@
+{% block body %}
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Name</th>
+                <td>{{ scenario.name }}</td>
+            </tr>
+            <tr>
+                <th>Level</th>
+                <td>{{ scenario.level }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ scenario.date ? scenario.date|date('d/m/Y') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Niveau</th>
+                <th>Réussite</th>
+                <th>Bonus Reputation</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for character in scenario.characters %}
+            <tr>
+                <td>{{ character.name }}</td>
+                <td>{{ character.level }}</td>
+                <td>100%</td>
+                <td>+10 PR</td>
+                <td>
+                    <form method="POST" 
+                        action="{{ path('app_scenario_character_remove', {'scenarioId': scenario.id, 'characterId': character.id}) }}" 
+                        style="display:inline;">
+                        
+                        <button type="submit" class="btn btn-primary btn-sm">Retirer</button>
+                    </form>
+                </td>
+            </tr>
+                
+        {% else %}
+            <tr>
+                <td colspan="11">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Niveau</th>
+                <th>Réussite</th>
+                <th>Bonus Reputation</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for character in characters %}
+            <tr>
+                <td>{{ character.name }}</td>
+                <td>{{ character.level }}</td>
+                <td>100%</td>
+                <td>+10 PR</td>
+                <td>
+                    <form method="POST" 
+                        action="{{ path('app_scenario_character_add', {'scenarioId': scenario.id, 'characterId': character.id}) }}" 
+                        style="display:inline;">
+                        
+                        <button type="submit" class="btn btn-primary btn-sm">Ajouter</button>
+                    </form>
+                </td>
+            </tr>
+                
+        {% else %}
+            <tr>
+                <td colspan="11">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

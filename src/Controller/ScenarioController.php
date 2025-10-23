@@ -2,10 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Character;
 use App\Entity\Scenario;
 use App\Form\ScenarioType;
+use App\Repository\CharacterRepository;
 use App\Repository\ScenarioRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -56,7 +59,7 @@ final class ScenarioController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_scenario_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Scenario $scenario, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Scenario $scenario, EntityManagerInterface $entityManager, CharacterRepository $characterRepository): Response
     {
         $form = $this->createForm(ScenarioType::class, $scenario);
         $form->handleRequest($request);
@@ -67,8 +70,11 @@ final class ScenarioController extends AbstractController
             return $this->redirectToRoute('app_scenario_index', [], Response::HTTP_SEE_OTHER);
         }
 
+        $characters = $characterRepository->findCharactersNotInScenario($scenario);
+
         return $this->render('scenario/edit.html.twig', [
             'scenario' => $scenario,
+            'characters' => $characters,
             'form' => $form,
         ]);
     }
@@ -83,4 +89,47 @@ final class ScenarioController extends AbstractController
 
         return $this->redirectToRoute('app_scenario_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    #[Route('/{scenarioId}/add/{characterId}', name: 'app_scenario_character_add', methods: ['POST'])]
+    public function addCharacter(Request $request, 
+        #[MapEntity(id: 'scenarioId')] Scenario $scenario, 
+        #[MapEntity(id: 'characterId')] Character $character, 
+        EntityManagerInterface $entityManager): Response
+    {
+
+        if (!$scenario->getCharacters()->contains($character)) {
+            $scenario->addCharacter($character);
+
+            //$this->addFlash('success', 'Le personnage "' . $character->getName() . '" a été ajouté au scénario.');
+        } else {
+            //$this->addFlash('warning', 'Le personnage "' . $character->getName() . '" est déjà dans le scénario.');
+        }
+        
+        $entityManager->persist($scenario);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_scenario_edit', ['id' => $scenario->getId()], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/{scenarioId}/remove/{characterId}', name: 'app_scenario_character_remove', methods: ['POST'])]
+    public function removeCharacter(Request $request, 
+        #[MapEntity(id: 'scenarioId')] Scenario $scenario, 
+        #[MapEntity(id: 'characterId')] Character $character, 
+        EntityManagerInterface $entityManager): Response
+    {
+
+        if ($scenario->getCharacters()->contains($character)) {
+            $scenario->removeCharacter($character);
+
+            //$this->addFlash('success', 'Le personnage "' . $character->getName() . '" a été retiré au scénario.');
+        } else {
+            //$this->addFlash('warning', 'Le personnage "' . $character->getName() . '" n\'est pas dans le scénario.');
+        }
+        
+        $entityManager->persist($scenario);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_scenario_edit', ['id' => $scenario->getId()], Response::HTTP_SEE_OTHER);
+    }
+    
 }
