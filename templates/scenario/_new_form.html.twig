@@ -1,0 +1,42 @@
+    
+{{ form_start(form) }}
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Name</th>
+                <td>{{ form_widget(form.name) }}</td>
+            </tr>
+            <tr>
+                <th>Level</th>
+                <td>{{ form_widget(form.level) }}</td>
+                <td>{{ form_errors(form.level) }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ form_widget(form.date) }}</td>
+                <td>{{ form_errors(form.date) }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ form_widget(form.description) }}</td>
+                <td>{{ form_errors(form.description) }}</td>
+            </tr>
+            <tr>
+                <th>Post_link</th>
+                <td>{{ form_widget(form.post_link) }}</td>
+                <td>{{ form_errors(form.post_link) }}</td>
+            </tr>
+            <tr>
+                <th>Summary_link</th>
+                <td>{{ form_widget(form.summary_link) }}</td>
+                <td>{{ form_errors(form.summary_link) }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+
+    {{ form_widget(form._token) }}
+
+</form> 

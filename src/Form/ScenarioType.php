@@ -13,19 +13,14 @@ class ScenarioType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+
         $builder
             ->add('name')
             ->add('level')
             ->add('date')
             ->add('description')
-            ->add('img')
             ->add('post_link')
             ->add('summary_link')
-            ->add('status')
-            ->add('game_master', EntityType::class, [
-                'class' => User::class,
-                'choice_label' => 'id',
-            ])
         ;
     }
 

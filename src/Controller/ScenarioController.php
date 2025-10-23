@@ -30,6 +30,9 @@ final class ScenarioController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $scenario->setStatus(Scenario::STATUS_PUBLISHED);
+
             $entityManager->persist($scenario);
             $entityManager->flush();
 
