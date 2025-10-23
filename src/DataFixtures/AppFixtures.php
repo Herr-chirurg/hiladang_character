@@ -268,9 +268,7 @@ class AppFixtures extends Fixture
 
             $scenario->setGameMaster($gameMaster);
 
-            $scenario->setNbCharacter($this->faker->numberBetween(1, 10));
-
-            for ($i = 0; $i < $scenario->getNbCharacter(); $i++) {
+            for ($i = 0; $i < $this->faker->numberBetween(1, 10); $i++) {
                 $scenario->addCharacter($this->faker->randomElement($characters));
             }
             
