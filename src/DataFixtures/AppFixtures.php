@@ -7,6 +7,7 @@ use App\Entity\Building;
 use App\Entity\Location;
 use App\Entity\Scenario;
 use App\Entity\Token;
+use App\Service\WBLService;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use APP\Entity\Character;
@@ -19,10 +20,15 @@ class AppFixtures extends Fixture
 
     private Generator $faker;
     private ObjectManager $manager;
+    private WBLService $wBLService;
 
-    public function load(ObjectManager $manager): void
+    public function __construct(WBLService $wBLService) {
+        $this->faker = \Faker\Factory::create('fr_FR');
+        $this->wBLService = $wBLService;        
+    }
+
+    public function load(ObjectManager $manager ): void
     {       
-        $this->faker = \Faker\Factory::create('fr_FR'); 
         $this->manager = $manager;
 
         //creation location
@@ -46,8 +52,8 @@ class AppFixtures extends Fixture
         //creation de scénarios
         $this->createScenarios(10);
 
-        //tokens MJ, les tokens non PJ sont générés dans les scénarios.
-        $this->createTokens(10);
+        //tokens MJ, les tokens PJ sont générés dans les scénarios.
+        $this->createMJTokens(10);
         
         //association d'activités à des characters
         $this->createActivities(10);
@@ -289,16 +295,20 @@ class AppFixtures extends Fixture
 
             $scenario->setStatus($this->faker->randomElement($statuses));
 
+            $this->wBLService->generateTokens($scenario);
+
+            foreach ($scenario->getTokens() as $token) {
+                $this->manager->persist($token);
+            }
+
             $this->manager->persist($scenario);
 
         }
         
         $this->manager->flush();
     }
+    private function createMJTokens(int $nbToken): void {
 
-    private function createTokens(int $nbToken): void {
-
-        $characters = $this->manager->getRepository(Character::class)->findAll();
         $users = $this->manager->getRepository(User::class)->findAll();
 
         for ($i = 0; $i < floor($nbToken/2); $i++) {
@@ -308,19 +318,14 @@ class AppFixtures extends Fixture
             $token->setName("placeholder");
 
             $token->setType("MJ");
-            if ($i%2) {
-                $token->setType("MJ");
-                $token->setCharacter($this->faker->randomElement($characters));
-            } else {
-                $token->setOwnerUser($this->faker->randomElement($users));
-            }
+            $token->setOwnerUser($this->faker->randomElement($users));
             
             $token->setDateOfReception($this->faker->dateTimeBetween('-2 months', 'now'));
-            $token->setUsageRate($this->faker->numberBetween(0,200));
-            $token->setTotalRate($this->faker->numberBetween(0,200));
             
-            $token->setValue($this->faker->numberBetween(1,));
-            $token->setValuePr($i%2 ? 0 : $this->faker->numberBetween(1,5));
+            $token->setTotalRate($this->faker->numberBetween(0,200));
+            $token->setUsageRate($this->faker->numberBetween(0,$token->getTotalRate()));
+
+            $token->setDeltaPr($i%2 ? 0 : $this->faker->numberBetween(1,5));
 
             $this->manager->persist($token);
         }

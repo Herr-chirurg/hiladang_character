@@ -20,7 +20,7 @@ class Token
     #[ORM\Column(length: 255, nullable: false)]
     private ?string $type = null;
 
-    #[ORM\Column(nullable: false)]
+    #[ORM\Column(nullable: true)]
     private ?int $usage_rate = null;
 
     #[ORM\Column(nullable: true)]
@@ -32,7 +32,7 @@ class Token
     #[ORM\ManyToOne(inversedBy: 'tokens')]
     private ?Character $character = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?\DateTime $date_of_reception = null;
 
     #[ORM\ManyToOne(inversedBy: 'tokens')]

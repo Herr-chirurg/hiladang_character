@@ -2,6 +2,9 @@
 
 namespace App\Service;
 
+use App\Entity\Scenario;
+use App\Entity\Token;
+
 class WBLService {
 
 	private array $levelData;
@@ -46,6 +49,20 @@ class WBLService {
 	public function levelAndXPToGV(?int $level, string $xp): int 
 	{
 		return ($this->levelData[$level][1] + $xp/$this->levelData[$level+1][2]) * $this->coeff_gv;
+	}
+
+	public function generateTokens(Scenario $scenario) {
+		foreach ($scenario->getCharacters() as $character) {
+			$token = new Token;
+			$token->setCharacter($character);
+			$token->setScenario($scenario);
+
+			$token->setName($scenario->getName());
+			$token->setType("PJ");
+
+			$scenario->addToken($token);
+
+		}
 	}
 
 }
