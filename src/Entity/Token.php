@@ -23,11 +23,8 @@ class Token
     #[ORM\Column(nullable: false)]
     private ?int $usage_rate = null;
 
-    #[ORM\Column(nullable: false)]
-    private ?int $value = null;
-
-    #[ORM\Column(nullable: false)]
-    private ?int $value_pr = null;
+    #[ORM\Column(nullable: true)]
+    private ?int $delta_pr = null;
 
     #[ORM\ManyToOne(inversedBy: 'tokens')]
     private ?Scenario $scenario = null;
@@ -85,26 +82,14 @@ class Token
         return $this;
     }
 
-    public function getValue(): ?int
+    public function getDeltaPr(): ?int
     {
-        return $this->value;
+        return $this->delta_pr;
     }
 
-    public function setValue(int $value): static
+    public function setDeltaPr(int $delta_pr): static
     {
-        $this->value = $value;
-
-        return $this;
-    }
-
-    public function getValuePr(): ?int
-    {
-        return $this->value_pr;
-    }
-
-    public function setValuePr(int $value_pr): static
-    {
-        $this->value_pr = $value_pr;
+        $this->delta_pr = $delta_pr;
 
         return $this;
     }

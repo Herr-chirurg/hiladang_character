@@ -18,8 +18,7 @@ class TokenType extends AbstractType
             ->add('name')
             ->add('type')
             ->add('usage_rate')
-            ->add('value')
-            ->add('value_pr')
+            ->add('delta_pr')
             ->add('date_of_reception')
             ->add('scenario', EntityType::class, [
                 'class' => Scenario::class,
