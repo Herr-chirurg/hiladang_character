@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\TokenRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TokenRepository::class)]
@@ -39,6 +40,9 @@ class Token
 
     #[ORM\ManyToOne(inversedBy: 'tokens')]
     private ?User $owner_user = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 0, nullable: true)]
+    private ?string $totalRate = null;
 
     public function getId(): ?int
     {
@@ -149,6 +153,18 @@ class Token
     public function setOwnerUser(?User $owner_user): static
     {
         $this->owner_user = $owner_user;
+
+        return $this;
+    }
+
+    public function getTotalRate(): ?string
+    {
+        return $this->totalRate;
+    }
+
+    public function setTotalRate(string $totalRate): static
+    {
+        $this->totalRate = $totalRate;
 
         return $this;
     }

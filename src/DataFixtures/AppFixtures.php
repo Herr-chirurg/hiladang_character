@@ -317,6 +317,8 @@ class AppFixtures extends Fixture
             
             $token->setDateOfReception($this->faker->dateTimeBetween('-2 months', 'now'));
             $token->setUsageRate($this->faker->numberBetween(0,200));
+            $token->setTotalRate($this->faker->numberBetween(0,200));
+            
             $token->setValue($this->faker->numberBetween(1,));
             $token->setValuePr($i%2 ? 0 : $this->faker->numberBetween(1,5));
 
