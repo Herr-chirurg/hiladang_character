@@ -28,15 +28,15 @@
             </tr>
         </thead>
         <tbody>
-        {% for character in scenario.characters %}
+        {% for token in scenario.tokens %}
             <tr>
-                <td>{{ character.name }}</td>
-                <td>{{ character.level }}</td>
-                <td>100%</td>
-                <td>+10 PR</td>
+                <td>{{ token.character.name }}</td>
+                <td>{{ token.character.level }}</td>
+                <td></td>
+                <td></td>
                 <td>
                     <form method="POST" 
-                        action="{{ path('app_scenario_character_remove', {'scenarioId': scenario.id, 'characterId': character.id}) }}" 
+                        action="{{ path('app_scenario_character_remove', {'scenarioId': scenario.id, 'characterId': token.character.id}) }}" 
                         style="display:inline;">
                         
                         <button type="submit" class="btn btn-primary btn-sm">Retirer</button>
