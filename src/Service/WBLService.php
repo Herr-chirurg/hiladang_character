@@ -52,12 +52,13 @@ class WBLService {
 	}
 
 	public function generateTokens(Scenario $scenario) {
+
 		foreach ($scenario->getCharacters() as $character) {
+
 			$token = new Token;
 			$token->setCharacter($character);
 			$token->setScenario($scenario);
 
-			$token->setName($scenario->getName());
 			$token->setType("PJ");
 
 			$scenario->addToken($token);
