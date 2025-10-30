@@ -14,4 +14,6 @@ dh_auditor:
                         enabled: true
                     App\Entity\Building:
                         enabled: true
+                    App\Entity\Token:
+                        enabled: true
             
