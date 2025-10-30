@@ -4,8 +4,10 @@ namespace App\Form;
 
 use App\Entity\Scenario;
 use App\Entity\User;
+use Doctrine\DBAL\Types\DateType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateType as TypeDateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -17,10 +19,8 @@ class ScenarioType extends AbstractType
         $builder
             ->add('name')
             ->add('level')
-            ->add('date')
-            ->add('description')
+            ->add('date', TypeDateType::class)
             ->add('post_link')
-            ->add('summary_link')
         ;
     }
 
