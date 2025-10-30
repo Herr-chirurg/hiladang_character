@@ -35,10 +35,10 @@
             </tr>
         </thead>
         <tbody>
-        {% for character in scenario.characters %}
+        {% for token in scenario.tokens %}
             <tr>
-                <td>{{ character.name }}</td>
-                <td>{{ character.level }}</td>
+                <td>{{ token.character.name }}</td>
+                <td>{{ token.character.level }}</td>
                 <td>100%</td>
                 <td>+10 PR</td>
                 <td>454</td>
