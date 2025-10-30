@@ -48,6 +48,8 @@ class Scenario
     #[ORM\ManyToOne(inversedBy: 'scenarios')]
     private ?User $game_master = null;
 
+    private array $associationTokens = [];
+
     /**
      * @var Collection<int, Token>
      */
@@ -64,6 +66,7 @@ class Scenario
     {
         $this->tokens = new ArrayCollection();
         $this->characters = new ArrayCollection();
+        $this->associationTokens = [];
     }
 
     public function getId(): ?int
@@ -192,6 +195,8 @@ class Scenario
         if (!$this->tokens->contains($token)) {
             $this->tokens->add($token);
             $token->setScenario($this);
+
+            $this->addAssociationToken($token->getCharacter(), $token);
         }
 
         return $this;
@@ -204,7 +209,46 @@ class Scenario
             if ($token->getScenario() === $this) {
                 $token->setScenario(null);
             }
+
+            $this->removeAssociationToken( $token);
         }
+
+        return $this;
+    }
+
+    /**
+     * @return array<Character, Token>
+     */
+   public function getAssociationTokens(): array
+    {
+        return $this->associationTokens;
+    }
+
+    public function addAssociationToken(Character $character, Token $token): static
+    {
+        $characterId = $character->getId();
+        
+        if (!isset($this->associationTokens[$characterId])) {
+            $this->associationTokens[$characterId] = $token;
+        }
+
+        return $this;
+    }
+
+    public function removeAssociationCharacter(Character $character): static
+    {
+        $characterId = $character->getId();
+        
+        if (isset($this->associationTokens[$characterId])) {
+            unset($this->associationTokens[$characterId]);
+        }
+
+        return $this;
+    }
+
+    public function removeAssociationToken(Token $token): static
+    {
+        $this->removeAssociationCharacter($token->getCharacter());
 
         return $this;
     }
