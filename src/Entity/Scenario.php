@@ -37,9 +37,6 @@ class Scenario
     private ?string $post_link = null;
 
     #[ORM\Column(length: 255, nullable: false)]
-    private ?string $summary_link = null;
-
-    #[ORM\Column(length: 255, nullable: false)]
     private ?string $status = null;
 
     #[ORM\ManyToOne(inversedBy: 'scenarios')]
@@ -124,18 +121,6 @@ class Scenario
     public function setPostLink(string $post_link): static
     {
         $this->post_link = $post_link;
-
-        return $this;
-    }
-
-    public function getSummaryLink(): ?string
-    {
-        return $this->summary_link;
-    }
-
-    public function setSummaryLink(string $summary_link): static
-    {
-        $this->summary_link = $summary_link;
 
         return $this;
     }
