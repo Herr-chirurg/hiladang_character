@@ -30,9 +30,6 @@ class Scenario
     #[ORM\Column(nullable: false)]
     private ?\DateTime $date = null;
 
-    #[ORM\Column(length: 1000, nullable: false)]
-    private ?string $description = null;
-
     #[ORM\Column(type: Types::BLOB, nullable: true)]
     private $img;
 
@@ -103,18 +100,6 @@ class Scenario
     public function setDate(\DateTime $date): static
     {
         $this->date = $date;
-
-        return $this;
-    }
-
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(string $description): static
-    {
-        $this->description = $description;
 
         return $this;
     }
