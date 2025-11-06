@@ -7,6 +7,7 @@ use App\Entity\User;
 use Doctrine\DBAL\Types\DateType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateType as TypeDateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -21,7 +22,10 @@ class ScenarioType extends AbstractType
             ->add('level')
             ->add('date', TypeDateType::class)
             ->add('post_link')
-        ;
+           ->add('tokens', CollectionType::class, [
+            'entry_type' => ListedTokenType::class,
+            'entry_options' => ['label' => false],
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -28,15 +28,17 @@
             </tr>
         </thead>
         <tbody>
-        {% for token in scenario.tokens %}
+        {% for tokenForm in form.tokens %}
+            {% set tokenData = tokenForm.vars.value %}
             <tr>
-                <td>{{ token.character.name }}</td>
-                <td>{{ token.character.level }}</td>
-                <td></td>
-                <td></td>
+                <td>{{ tokenData.character.name }}</td>
+                <td>{{ tokenData.character.level }}</td>
+                
+                <td>{{ form_widget(tokenForm.totalRate) }}</td>
+                <td>{{ form_widget(tokenForm.delta_pr) }}</td>
                 <td>
                     <form method="POST" 
-                        action="{{ path('app_scenario_character_remove', {'scenarioId': scenario.id, 'tokenId': token.id}) }}" 
+                        action="{{ path('app_scenario_character_remove', {'scenarioId': scenario.id, 'tokenId': tokenData.id}) }}" 
                         style="display:inline;">
                         
                         <button type="submit" class="btn btn-primary btn-sm">Retirer</button>
