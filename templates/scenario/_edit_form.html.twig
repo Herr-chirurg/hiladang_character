@@ -1,18 +1,30 @@
-{% block body %}
+{{ form_start(form) }}
 
     <table class="table">
         <tbody>
             <tr>
                 <th>Name</th>
                 <td>{{ scenario.name }}</td>
+                <td>{{ form_widget(form.name) }}</td>
+                <td>{{ form_errors(form.name) }}</td>
             </tr>
             <tr>
                 <th>Level</th>
                 <td>{{ scenario.level }}</td>
+                <td>{{ form_widget(form.level) }}</td>
+                <td>{{ form_errors(form.level) }}</td>
             </tr>
             <tr>
                 <th>Date</th>
                 <td>{{ scenario.date ? scenario.date|date('d/m/Y') : '' }}</td>
+                <td>{{ form_widget(form.date) }}</td>
+                <td>{{ form_errors(form.date) }}</td>
+            </tr>
+            <tr>
+                <th>Lien du post</th>
+                <td>{{ scenario.postLink }}</td>
+                <td>{{ form_widget(form.post_link) }}</td>
+                <td>{{ form_errors(form.post_link) }}</td>
             </tr>
         </tbody>
     </table>
@@ -44,6 +56,7 @@
                         <button type="submit" class="btn btn-primary btn-sm">Retirer</button>
                     </form>
                 </td>
+                
             </tr>
                 
         {% else %}
@@ -53,6 +66,10 @@
         {% endfor %}
         </tbody>
     </table>
+
+    <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+
+{{ form_end(form) }}
 
     <table class="table">
         <thead>
@@ -89,4 +106,3 @@
         </tbody>
     </table>
 
-{% endblock %}
