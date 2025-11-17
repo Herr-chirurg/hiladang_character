@@ -22,9 +22,9 @@ class ScenarioType extends AbstractType
             ->add('level')
             ->add('date', TypeDateType::class)
             ->add('post_link')
-           ->add('tokens', CollectionType::class, [
-            'entry_type' => ListedTokenType::class,
-            'entry_options' => ['label' => false],
+            ->add('tokens', CollectionType::class, [
+                'entry_type' => ListedTokenType::class,
+                'entry_options' => ['label' => false],
             ]);
     }
 
