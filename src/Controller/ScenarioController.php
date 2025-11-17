@@ -104,6 +104,7 @@ final class ScenarioController extends AbstractController
             $token = new Token();
             $token->setScenario($scenario);
             $token->setCharacter($character);
+            $token->setTotalRate(100);
 
             $token->setType("PJ");
 
