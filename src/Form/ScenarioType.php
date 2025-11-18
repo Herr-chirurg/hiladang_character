@@ -9,6 +9,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateType as TypeDateType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -25,6 +26,14 @@ class ScenarioType extends AbstractType
             ->add('tokens', CollectionType::class, [
                 'entry_type' => ListedTokenType::class,
                 'entry_options' => ['label' => false],
+            ])
+            ->add('addToken', HiddenType::class, [ 
+                'mapped' => false,
+                'required' => false,
+            ])
+            ->add('removeToken', HiddenType::class, [ 
+                'mapped' => false,
+                'required' => false,
             ]);
     }
 

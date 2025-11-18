@@ -48,13 +48,9 @@
                 
                 <td>{{ form_widget(tokenForm.totalRate) }}</td>
                 <td>{{ form_widget(tokenForm.delta_pr) }}</td>
-                <td>
-                    <form method="POST" 
-                        action="{{ path('app_scenario_character_remove', {'scenarioId': scenario.id, 'tokenId': tokenData.id}) }}" 
-                        style="display:inline;">
-                        
-                        <button type="submit" class="btn btn-primary btn-sm">Retirer</button>
-                    </form>
+                <td>        
+                    <button type="submit" class="btn btn-primary btn-sm" 
+                        name="removeToken" value="{{tokenData.id}}">Retirer</button>
                 </td>
                 
             </tr>
@@ -68,8 +64,6 @@
     </table>
 
     <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
-
-{{ form_end(form) }}
 
     <table class="table">
         <thead>
@@ -89,12 +83,8 @@
                 <td>100%</td>
                 <td>+10 PR</td>
                 <td>
-                    <form method="POST" 
-                        action="{{ path('app_scenario_character_add', {'scenarioId': scenario.id, 'characterId': character.id}) }}" 
-                        style="display:inline;">
-                        
-                        <button type="submit" class="btn btn-primary btn-sm">Ajouter</button>
-                    </form>
+                    <button type="submit" class="btn btn-primary btn-sm" 
+                        name="addToken" value="{{character.id}}">Ajouter</button>
                 </td>
             </tr>
                 
@@ -106,3 +96,4 @@
         </tbody>
     </table>
 
+{{ form_end(form) }}

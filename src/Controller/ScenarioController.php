@@ -8,6 +8,7 @@ use App\Entity\Token;
 use App\Form\ScenarioType;
 use App\Repository\CharacterRepository;
 use App\Repository\ScenarioRepository;
+use App\Repository\TokenRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -60,15 +61,48 @@ final class ScenarioController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_scenario_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Scenario $scenario, EntityManagerInterface $entityManager, CharacterRepository $characterRepository): Response
+    public function edit(Request $request, Scenario $scenario, EntityManagerInterface $entityManager, TokenRepository $tokenRepository, CharacterRepository $characterRepository): Response
     {
         $form = $this->createForm(ScenarioType::class, $scenario);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $characters = $characterRepository->findCharactersNotInScenario($scenario);
+
+            if ($request->request->has('addToken')) {
+
+                $character = $characterRepository->find($request->request->get('addToken'));
+
+                $token = new Token();
+                $token->setScenario($scenario);
+                $token->setCharacter($character);
+                $token->setTotalRate(100);
+
+                $token->setType("PJ");
+
+                $scenario->addToken($token);
+
+                $entityManager->persist($token);
+            } 
+
+            if ($request->request->has('removeToken')) {
+
+                $token = $tokenRepository->find( $request->request->get('removeToken'));
+                
+                if ($scenario->getTokens()->contains($token)) {
+
+                    $scenario->removeToken($token);
+
+                    $entityManager->remove($token);
+                }
+                        
+            }
+            
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_scenario_index', [], Response::HTTP_SEE_OTHER);
+            
+            return $this->redirectToRoute('app_scenario_edit', ['id' => $scenario->getId()]);
         }
 
         $characters = $characterRepository->findCharactersNotInScenario($scenario);
@@ -91,58 +125,4 @@ final class ScenarioController extends AbstractController
         return $this->redirectToRoute('app_scenario_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/{scenarioId}/add/{characterId}', name: 'app_scenario_character_add', methods: ['POST'])]
-    public function addCharacter(Request $request, 
-        #[MapEntity(id: 'scenarioId')] Scenario $scenario, 
-        #[MapEntity(id: 'characterId')] Character $character, 
-        EntityManagerInterface $entityManager): Response
-    {
-
-        if (!$scenario->getCharacters()->contains($character)) {
-            $scenario->addCharacter($character);
-
-            $token = new Token();
-            $token->setScenario($scenario);
-            $token->setCharacter($character);
-            $token->setTotalRate(100);
-
-            $token->setType("PJ");
-
-            $scenario->addToken($token);
-
-            $entityManager->persist($token);
-
-        } else {
-
-        }
-
-        $entityManager->persist($scenario);
-        $entityManager->flush();
-        
-        return $this->redirectToRoute('app_scenario_edit', ['id' => $scenario->getId()], Response::HTTP_SEE_OTHER);
-    }
-
-    #[Route('/{scenarioId}/remove/{tokenId}', name: 'app_scenario_character_remove', methods: ['POST'])]
-    public function removeCharacter(Request $request, 
-        #[MapEntity(id: 'scenarioId')] Scenario $scenario, 
-        #[MapEntity(id: 'tokenId')] Token $token, 
-        EntityManagerInterface $entityManager): Response
-    {
-
-        if ($scenario->getTokens()->contains($token)) {
-            $scenario->removeToken($token);
-
-            $scenario->removeCharacter($token->getCharacter());
-
-            $entityManager->remove($token);            
-            //$this->addFlash('success', 'Le personnage "' . $character->getName() . '" a été retiré au scénario.');
-        } else {
-            //$this->addFlash('warning', 'Le personnage "' . $character->getName() . '" n\'est pas dans le scénario.');
-        }
-
-        $entityManager->flush();
-
-        return $this->redirectToRoute('app_scenario_edit', ['id' => $scenario->getId()], Response::HTTP_SEE_OTHER);
-    }
-    
 }
