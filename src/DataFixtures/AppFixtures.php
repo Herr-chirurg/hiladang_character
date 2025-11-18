@@ -284,18 +284,14 @@ class AppFixtures extends Fixture
             
             $scenario->setDate($this->faker->dateTimeBetween('-6 months', 'now'));
 
-            $scenario->setDescription($this->faker->sentence(1, true)); // 3 paragraphes joints en une seule chaîne
-
             $binaryData = random_bytes(256);
             $scenario->setImg($binaryData); 
 
             $scenario->setPostLink('https://perdu.com/');
 
-            $scenario->setSummaryLink('https://perdu.com/');
-
             $scenario->setStatus($this->faker->randomElement($statuses));
 
-            $this->wBLService->generateTokens($scenario);
+            //$this->wBLService->generateTokens($scenario);
 
             foreach ($scenario->getTokens() as $token) {
                 $this->manager->persist($token);
