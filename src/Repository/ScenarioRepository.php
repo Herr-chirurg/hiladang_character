@@ -11,33 +11,31 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class ScenarioRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private $characterRepository;
+
+    public function __construct(ManagerRegistry $registry, CharacterRepository $characterRepository)
     {
+        $this->characterRepository = $characterRepository; 
         parent::__construct($registry, Scenario::class);
     }
 
-    //    /**
-    //     * @return Scenario[] Returns an array of Scenario objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('s')
-    //            ->andWhere('s.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('s.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    public function findCharactersNotInScenario(Scenario $scenario) {
 
-    //    public function findOneBySomeField($value): ?Scenario
-    //    {
-    //        return $this->createQueryBuilder('s')
-    //            ->andWhere('s.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+        $subQuery = $this->createQueryBuilder('scenario');
+
+        $subQuery
+            ->innerJoin('scenario.tokens', 'token')
+            ->innerJoin('token.character', 'character')
+            ->where('scenario.id = :scenarioId')
+            ->select('character');
+
+        // Requête principale : Sélectionne les Characters dont l'ID n'est pas dans les résultats de la sous-requête
+        $query = $this->characterRepository->createQueryBuilder('c')
+            ->where($this->getEntityManager()->getExpressionBuilder()->notIn('c.id', $subQuery->getDQL()))
+            ->setParameter('scenarioId', $scenario->getId())
+            ->getQuery();
+
+        return $query->getResult();
+
+    }
 }

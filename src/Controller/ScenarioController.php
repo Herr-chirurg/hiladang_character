@@ -61,14 +61,14 @@ final class ScenarioController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_scenario_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Scenario $scenario, EntityManagerInterface $entityManager, TokenRepository $tokenRepository, CharacterRepository $characterRepository): Response
+    public function edit(Request $request, Scenario $scenario, EntityManagerInterface $entityManager, TokenRepository $tokenRepository, ScenarioRepository $scenarioRepository, CharacterRepository $characterRepository): Response
     {
         $form = $this->createForm(ScenarioType::class, $scenario);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $characters = $characterRepository->findCharactersNotInScenario($scenario);
+            $characters = $scenarioRepository->findCharactersNotInScenario($scenario);
 
             if ($request->request->has('addToken')) {
 
@@ -105,7 +105,7 @@ final class ScenarioController extends AbstractController
             return $this->redirectToRoute('app_scenario_edit', ['id' => $scenario->getId()]);
         }
 
-        $characters = $characterRepository->findCharactersNotInScenario($scenario);
+        $characters = $scenarioRepository->findCharactersNotInScenario($scenario);
 
         return $this->render('scenario/edit.html.twig', [
             'scenario' => $scenario,
