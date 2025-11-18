@@ -52,7 +52,7 @@ class WBLService {
 	}
 
 	public function rewardExtraPR(?int $scenarioLevel, ?int $level) {
-		return 50 + ($scenarioLevel - $level) * 25;
+		return ($scenarioLevel - $level) * 25;
 
 	}
 
