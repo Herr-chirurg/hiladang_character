@@ -9,6 +9,7 @@ use App\Form\ScenarioType;
 use App\Repository\CharacterRepository;
 use App\Repository\ScenarioRepository;
 use App\Repository\TokenRepository;
+use App\Service\WBLService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -53,18 +54,30 @@ final class ScenarioController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_scenario_show', methods: ['GET'])]
-    public function show(Scenario $scenario): Response
+    public function show(Scenario $scenario, WBLService $wBLService): Response
     {
+        foreach ($scenario->getTokens() as $token) {
+            $token->setDeltaPrFromLevel(
+                $wBLService->rewardExtraPR($scenario->getLevel(), $token->getCharacter()->getLevel()));
+        }
+
         return $this->render('scenario/show.html.twig', [
             'scenario' => $scenario,
         ]);
     }
 
     #[Route('/{id}/edit', name: 'app_scenario_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Scenario $scenario, EntityManagerInterface $entityManager, TokenRepository $tokenRepository, ScenarioRepository $scenarioRepository, CharacterRepository $characterRepository): Response
+    public function edit(Request $request, Scenario $scenario, EntityManagerInterface $entityManager, 
+        TokenRepository $tokenRepository, ScenarioRepository $scenarioRepository, CharacterRepository $characterRepository,
+        WBLService $wBLService): Response
     {
         $form = $this->createForm(ScenarioType::class, $scenario);
         $form->handleRequest($request);
+
+        foreach ($scenario->getTokens() as $token) {
+            $token->setDeltaPrFromLevel(
+                $wBLService->rewardExtraPR($scenario->getLevel(), $token->getCharacter()->getLevel()));
+        }
 
         if ($form->isSubmitted() && $form->isValid()) {
 
@@ -78,6 +91,7 @@ final class ScenarioController extends AbstractController
                 $token->setScenario($scenario);
                 $token->setCharacter($character);
                 $token->setTotalRate(100);
+                $token->setDeltaPr(100);
 
                 $token->setType("PJ");
 

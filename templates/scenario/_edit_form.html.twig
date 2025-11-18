@@ -35,6 +35,7 @@
                 <th>Nom</th>
                 <th>Niveau</th>
                 <th>Réussite</th>
+                <th>Reputation</th>
                 <th>Bonus Reputation</th>
                 <th>Actions</th>
             </tr>
@@ -48,6 +49,7 @@
                 
                 <td>{{ form_widget(tokenForm.totalRate) }}</td>
                 <td>{{ form_widget(tokenForm.delta_pr) }}</td>
+                <td>{{ tokenData.deltaPrFromLevel }}</td>
                 <td>        
                     <button type="submit" class="btn btn-primary btn-sm" 
                         name="removeToken" value="{{tokenData.id}}">Retirer</button>
@@ -70,8 +72,6 @@
             <tr>
                 <th>Nom</th>
                 <th>Niveau</th>
-                <th>Réussite</th>
-                <th>Bonus Reputation</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -80,8 +80,6 @@
             <tr>
                 <td>{{ character.name }}</td>
                 <td>{{ character.level }}</td>
-                <td>100%</td>
-                <td>+10 PR</td>
                 <td>
                     <button type="submit" class="btn btn-primary btn-sm" 
                         name="addToken" value="{{character.id}}">Ajouter</button>

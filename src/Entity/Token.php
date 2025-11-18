@@ -26,6 +26,9 @@ class Token
     #[ORM\Column(nullable: true)]
     private ?int $delta_pr = null;
 
+    //variable utilisée pour l'affichage
+    private ?int $delta_pr_from_level = null;
+
     #[ORM\ManyToOne(inversedBy: 'tokens')]
     private ?Scenario $scenario = null;
 
@@ -90,6 +93,18 @@ class Token
     public function setDeltaPr(int $delta_pr): static
     {
         $this->delta_pr = $delta_pr;
+
+        return $this;
+    }
+
+    public function getDeltaPrFromLevel(): ?int
+    {
+        return $this->delta_pr_from_level;
+    }
+
+    public function setDeltaPrFromLevel(int $delta_pr_from_level): static
+    {
+        $this->delta_pr_from_level = $delta_pr_from_level;
 
         return $this;
     }

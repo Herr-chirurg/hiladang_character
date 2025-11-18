@@ -51,4 +51,9 @@ class WBLService {
 		return ($this->levelData[$level][1] + $xp/$this->levelData[$level+1][2]) * $this->coeff_gv;
 	}
 
+	public function rewardExtraPR(?int $scenarioLevel, ?int $level) {
+		return 50 + ($scenarioLevel - $level) * 25;
+
+	}
+
 }

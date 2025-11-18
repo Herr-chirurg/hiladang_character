@@ -34,6 +34,7 @@
                 <th>Nom</th>
                 <th>Niveau</th>
                 <th>Réussite</th>
+                <th>Reputation</th>
                 <th>Bonus Reputation</th>
             </tr>
         </thead>
@@ -43,7 +44,8 @@
                 <td>{{ token.character.name }}</td>
                 <td>{{ token.character.level }}</td>
                 <td>{{ token.usageRate }}% / {{ token.totalRate }}%</td>
-                <td>{{ token.deltaPr }} %</td>
+                <td>{{ token.deltaPr }}%</td>
+                <td>{{ token.deltaPrFromLevel }}%</td>
             </tr>
                 
         {% else %}
