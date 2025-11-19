@@ -7,6 +7,7 @@ use App\Form\CharacterEditType;
 use App\Form\CharacterType;
 use App\Repository\CharacterRepository;
 use App\Service\WBLService;
+use DH\Auditor\Provider\Doctrine\Persistence\Reader\Reader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -56,10 +57,13 @@ final class CharacterController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_character_show', methods: ['GET'])]
-    public function show(Character $character, WBLService $wBLUtil): Response
-    {
+    public function show(Reader $auditReader, Character $character, WBLService $wBLUtil): Response
+    {        
  
         return $this->render('character/show.html.twig', [
+            'logs' => $audits = $auditReader->createQuery(
+                Character::class, 
+                ['object_id' => $character->getId()])->execute(),
             'user' => $this->getUser(),
             'character' => $character,
             'totalXP' => $wBLUtil->levelToMinXP($character->getLevel()),
@@ -69,7 +73,7 @@ final class CharacterController extends AbstractController
     }
 
     #[IsGranted('edit', subject: 'character'), Route('/{id}/edit', name: 'app_character_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Character $character, EntityManagerInterface $entityManager, WBLService $wBLUtil): Response
+    public function edit(Request $request, Reader $auditReader, Character $character, EntityManagerInterface $entityManager, WBLService $wBLUtil): Response
     {
         
         $form = $this->createForm(CharacterEditType::class, $character);
@@ -134,6 +138,9 @@ final class CharacterController extends AbstractController
         }
 
         return $this->render('character/edit.html.twig', [
+            'logs' => $audits = $auditReader->createQuery(
+                Character::class, 
+                ['object_id' => $character->getId()])->execute(),
             'form' => $form,
             'totalXP' => $wBLUtil->levelToMinXP($character->getLevel()),
             'XPNiveauSuivant' => $wBLUtil->levelToMinXP($character->getLevel()+1),
