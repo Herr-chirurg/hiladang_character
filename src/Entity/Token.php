@@ -47,6 +47,9 @@ class Token
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 0, nullable: true)]
     private ?string $pr = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $status = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -180,6 +183,18 @@ class Token
     public function setPr(?string $pr): static
     {
         $this->pr = $pr;
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?string $status): static
+    {
+        $this->status = $status;
 
         return $this;
     }
