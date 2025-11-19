@@ -12,8 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Scenario
 {
 
-    public const STATUS_PUBLISHED = 'published';
-    public const STATUS_PLAYED = 'played';
+    public const STATUS_CREATED = 'created';
     public const STATUS_AWARDED = 'awarded';
 
     #[ORM\Id]
