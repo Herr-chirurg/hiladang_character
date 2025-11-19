@@ -64,10 +64,11 @@
         <thead>
             <tr>
                 <th>Champ</th>
+                <th></th>
                 <th>Ancienne valeur</th>
+                <th></th>
                 <th>Nouvelle valeur</th>
-                <th>Date de changement</th>
-                <th>Par</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -75,8 +76,8 @@
             {% for key, diff in log.diffs %}
                 {% if key != 'last_action_description' %}
                     <tr>
-                        <td>{{ key }}</td>
-                        <td>
+                        <td colspan="2">{{ key }}</td>
+                        <td colspan="2">
                             {% if diff.old is defined %}
                                 {% if diff.old.id is defined %}
                                     {{ diff.old.id }}
@@ -85,7 +86,7 @@
                                 {% endif %}
                             {% endif %}
                         </td>
-                        <td>
+                        <td colspan="2">
                             {% if diff.new is defined %}
                                 {% if diff.new.id is defined %}
                                     {{ diff.new.id }}
@@ -94,15 +95,17 @@
                                 {% endif %}
                             {% endif %}
                         </td>
-                        <td>{{ log.createdAt | date('d/m/Y h:m:s') }}</td>
-                        <td>{{ log.username }}</td>
+
                     </tr>
                 {% endif %}
             {% endfor %}
             <tr>
-                <td colspan="5">
-                    {{ log.diffs['last_action_description'] is defined ? log.diffs['last_action_description'].new : "" }}
+                <td colspan="2">Description :
+                    {{ log.diffs['last_action_description'] is defined ? 
+                        log.diffs['last_action_description'].new : "Description vide !" }}
                 </td>
+                <td colspan="2">le {{ log.createdAt | date('d/m/Y h:m:s') }}</td>
+                <td colspan="2">par {{ log.username }}</td>
             </tr>
             <tr>
                 <td></td>
