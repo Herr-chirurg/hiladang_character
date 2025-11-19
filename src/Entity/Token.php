@@ -44,6 +44,9 @@ class Token
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 0, nullable: true)]
     private ?string $totalRate = null;
 
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 0, nullable: true)]
+    private ?string $pr = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -165,6 +168,18 @@ class Token
     public function setTotalRate(string $totalRate): static
     {
         $this->totalRate = $totalRate;
+
+        return $this;
+    }
+
+    public function getPr(): ?string
+    {
+        return $this->pr;
+    }
+
+    public function setPr(?string $pr): static
+    {
+        $this->pr = $pr;
 
         return $this;
     }
