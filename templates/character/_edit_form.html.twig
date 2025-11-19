@@ -71,6 +71,62 @@
     
     <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
     
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Champ</th>
+                <th>Ancienne valeur</th>
+                <th>Nouvelle valeur</th>
+                <th>Date de changement</th>
+                <th>Par</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for log in logs %}
+            {% for key, diff in log.diffs %}
+                {% if key != 'last_action_description' %}
+                    <tr>
+                        <td>{{ key }}</td>
+                        <td>
+                            {% if diff.old is defined %}
+                                {% if diff.old.id is defined %}
+                                    {{ diff.old.id }}
+                                {% else %}
+                                    {{ diff.old }}
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if diff.new is defined %}
+                                {% if diff.new.id is defined %}
+                                    {{ diff.new.id }}
+                                {% else %}
+                                    {{ diff.new }}
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                        <td>{{ log.createdAt | date('d/m/Y h:m:s') }}</td>
+                        <td>{{ log.username }}</td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+            <tr>
+                <td colspan="5">Description :
+                    {{ log.diffs['last_action_description'] is defined ? 
+                        log.diffs['last_action_description'].new : "Description vide !" }}
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="11">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
     {{ form_widget(form._token) }}
     
 </form>
