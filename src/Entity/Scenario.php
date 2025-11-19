@@ -54,6 +54,9 @@ class Scenario
     #[ORM\ManyToMany(targetEntity: Character::class, inversedBy: 'scenarios')]
     private Collection $characters;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $editable = null;
+
     public function __construct()
     {
         $this->tokens = new ArrayCollection();
@@ -199,6 +202,18 @@ class Scenario
     public function removeCharacter(Character $character): static
     {
         $this->characters->removeElement($character);
+
+        return $this;
+    }
+
+    public function isEditable(): ?bool
+    {
+        return $this->editable;
+    }
+
+    public function setEditable(?bool $editable): static
+    {
+        $this->editable = $editable;
 
         return $this;
     }
