@@ -25,6 +25,15 @@
                 <th>Lien du post</th>
                 <td>{{ scenario.postLink }}</td>
             </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ scenario.status }}</td>
+                <td>
+                    <form action="/traitement-du-formulaire" method="POST">
+                            <button type="submit">Publier token</button>
+                    </form>
+                </td>
+            </tr>
         </tbody>
     </table>
 
