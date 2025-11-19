@@ -49,7 +49,7 @@
                 
                 <td>{{ form_widget(tokenForm.totalRate) }}</td>
                 <td>{{ form_widget(tokenForm.delta_pr) }}</td>
-                <td>{{ tokenData.deltaPrFromLevel }}</td>
+                <td>{{ "%+d"|format(tokenData.deltaPrFromLevel) }}%</td>
                 <td>        
                     <button type="submit" class="btn btn-primary btn-sm" 
                         name="removeToken" value="{{tokenData.id}}">Retirer</button>

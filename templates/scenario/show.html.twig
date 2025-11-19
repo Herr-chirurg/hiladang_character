@@ -45,7 +45,7 @@
                 <td>{{ token.character.level }}</td>
                 <td>{{ token.usageRate }}% / {{ token.totalRate }}%</td>
                 <td>{{ token.deltaPr }}%</td>
-                <td>{{ token.deltaPrFromLevel }}%</td>
+                <td>{{ "%+d"|format(token.deltaPrFromLevel) }}%</td>
             </tr>
                 
         {% else %}
