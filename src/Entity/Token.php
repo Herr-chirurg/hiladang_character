@@ -12,6 +12,10 @@ class Token
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+
+    public const STATUS_PUBLISHED = 'created';
+    public const STATUS_AWARDED = 'awarded';
+
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
