@@ -134,7 +134,6 @@ final class CharacterController extends AbstractController
         }
 
         return $this->render('character/edit.html.twig', [
-            'character' => $character,
             'form' => $form,
             'totalXP' => $wBLUtil->levelToMinXP($character->getLevel()),
             'XPNiveauSuivant' => $wBLUtil->levelToMinXP($character->getLevel()+1),
