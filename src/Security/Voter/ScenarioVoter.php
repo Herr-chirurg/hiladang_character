@@ -2,6 +2,7 @@
 
 namespace App\Security\Voter;
 
+use App\Entity\Scenario;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
@@ -38,8 +39,7 @@ final class ScenarioVoter extends Voter
             case self::NEW:
                 return $this->security->isGranted('ROLE_GAMEMASTER');
             case self::EDIT:
-                return $securityUser == $scenario->getGameMaster();
-
+                return $scenario->getStatus() != Scenario::STATUS_AWARDED && $securityUser == $scenario->getGameMaster();
             case self::DELETE:
                 return $securityUser == $scenario->getGameMaster();
         }

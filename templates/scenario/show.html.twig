@@ -29,9 +29,11 @@
                 <th>Status</th>
                 <td>{{ scenario.status }}</td>
                 <td>
-                    <form action="/traitement-du-formulaire" method="POST">
-                            <button type="submit">Publier token</button>
-                    </form>
+                    {% if scenario.status != "awarded" %}
+                        <form action="{{ path("app_scenario_award", {'id': scenario.id}) }}" method="POST">
+                                <button type="submit">Récompenser token</button>
+                        </form>
+                    {% endif %}
                 </td>
             </tr>
         </tbody>
