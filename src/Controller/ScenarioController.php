@@ -42,6 +42,7 @@ final class ScenarioController extends AbstractController
 
             $scenario->setGameMaster($this->getUser());
 
+            $token = new Token();
             $token->setScenario($scenario);
             $token->setOwnerUser($this->getUser());
             $token->setTotalRate(100);
