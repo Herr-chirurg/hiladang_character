@@ -42,7 +42,7 @@
         </thead>
         <tbody>
         {% set mjToken = scenario.tokens|filter(token => token.type == 'MJ')|first %}
-        {% if mjToken is not null %}
+        {% if mjToken %}
             <tr>
                     <td>{{ mjToken.ownerUser.username }}</td>
                     <td></td>
