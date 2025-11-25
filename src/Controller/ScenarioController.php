@@ -29,7 +29,7 @@ final class ScenarioController extends AbstractController
         ]);
     }
 
-    #[IsGranted('new', subject: 'scenario'), Route('/new', name: 'app_scenario_new', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_GAMEMASTER'), Route('/new', name: 'app_scenario_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $scenario = new Scenario();
