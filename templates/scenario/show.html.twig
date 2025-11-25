@@ -50,14 +50,26 @@
             </tr>
         </thead>
         <tbody>
-        {% for token in scenario.tokens %}
+        {% set mjToken = scenario.tokens|filter(token => token.type == 'MJ')|first %}
+        {% if mjToken %}
             <tr>
-                <td>{{ token.character.name }}</td>
-                <td>{{ token.character.level }}</td>
-                <td>{{ token.usageRate != 0 ? token.usageRate ~ "% / " : "" }}{{ token.totalRate }}%</td>
-                <td>{{ token.deltaPr }}%</td>
-                <td>{{ "%+d"|format(token.deltaPrFromLevel) }}%</td>
+                    <td>{{ mjToken.ownerUser.username }}</td>
+                    <td></td>
+                    <td>{{ mjToken.usageRate != 0 ? mjToken.usageRate ~ "% / " : "" }}{{ mjToken.totalRate }}%</td>
+                    <td>{{ mjToken.deltaPr }}%</td>
+                    <td>{{ "%+d"|format(mjToken.deltaPrFromLevel) }}%</td>
             </tr>
+        {% endif %}
+        {% for token in scenario.tokens %}
+            {% if token.type == "PJ" %}
+                <tr>
+                    <td>{{ token.character.name }}</td>
+                    <td>{{ token.character.level }}</td>
+                    <td>{{ token.usageRate != 0 ? token.usageRate ~ "% / " : "" }}{{ token.totalRate }}%</td>
+                    <td>{{ token.deltaPr }}%</td>
+                    <td>{{ "%+d"|format(token.deltaPrFromLevel) }}%</td>
+                </tr>
+            {% endif %}
                 
         {% else %}
             <tr>

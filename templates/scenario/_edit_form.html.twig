@@ -41,22 +41,34 @@
             </tr>
         </thead>
         <tbody>
-        {% for tokenForm in form.tokens %}
-            {% set tokenData = tokenForm.vars.value %}
+        {% set mjToken = scenario.tokens|filter(token => token.type == 'MJ')|first %}
+        {% if mjToken is not null %}
             <tr>
-                <td>{{ tokenData.character.name }}</td>
-                <td>{{ tokenData.character.level }}</td>
-                
-                <td>{{ form_widget(tokenForm.totalRate) }}</td>
-                <td>{{ form_widget(tokenForm.delta_pr) }}</td>
-                <td>{{ "%+d"|format(tokenData.deltaPrFromLevel) }}%</td>
-                <td>        
-                    <button type="submit" class="btn btn-primary btn-sm" 
-                        name="removeToken" value="{{tokenData.id}}">Retirer</button>
-                </td>
-                
+                    <td>{{ mjToken.ownerUser.username }}</td>
+                    <td></td>
+                    <td>{{ mjToken.usageRate != 0 ? mjToken.usageRate ~ "% / " : "" }}{{ mjToken.totalRate }}%</td>
+                    <td>{{ mjToken.deltaPr }}%</td>
+                    <td>{{ "%+d"|format(mjToken.deltaPrFromLevel) }}%</td>
             </tr>
-                
+        {% endif %}
+        {% for tokenForm in form.tokens %}
+            
+            {% set tokenData = tokenForm.vars.value %}
+            {% if tokenData.type == "PJ" %}
+                <tr>
+                    <td>{{ tokenData.character.name }}</td>
+                    <td>{{ tokenData.character.level }}</td>
+                    
+                    <td>{{ form_widget(tokenForm.totalRate) }}</td>
+                    <td>{{ form_widget(tokenForm.delta_pr) }}</td>
+                    <td>{{ "%+d"|format(tokenData.deltaPrFromLevel) }}%</td>
+                    <td>        
+                        <button type="submit" class="btn btn-primary btn-sm" 
+                            name="removeToken" value="{{tokenData.id}}">Retirer</button>
+                    </td>
+                    
+                </tr>
+            {% endif %}    
         {% else %}
             <tr>
                 <td colspan="11">no records found</td>

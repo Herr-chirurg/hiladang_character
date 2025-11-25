@@ -42,6 +42,19 @@ final class ScenarioController extends AbstractController
 
             $scenario->setGameMaster($this->getUser());
 
+            $token = new Token();
+            $token->setScenario($scenario);
+            $token->setOwnerUser($this->getUser());
+            $token->setTotalRate(100);
+            $token->setDeltaPr(100);
+
+            $token->setType("MJ");
+
+            $scenario->addToken($token);
+            $entityManager->persist($token);
+
+            $scenario->addToken($token);
+
             $entityManager->persist($scenario);
             $entityManager->flush();
 
@@ -58,6 +71,9 @@ final class ScenarioController extends AbstractController
     public function show(Scenario $scenario, WBLService $wBLService): Response
     {
         foreach ($scenario->getTokens() as $token) {
+            if ($token->getType() == "MJ") {
+                continue;
+            }
             $token->setDeltaPrFromLevel(
                 $wBLService->rewardExtraPR($scenario->getLevel(), $token->getCharacter()->getLevel()));
         }
@@ -76,6 +92,10 @@ final class ScenarioController extends AbstractController
         $form->handleRequest($request);
 
         foreach ($scenario->getTokens() as $token) {
+
+            if ($token->getType() == "MJ") {
+                continue;
+            }
             $token->setDeltaPrFromLevel(
                 $wBLService->rewardExtraPR($scenario->getLevel(), $token->getCharacter()->getLevel()));
         }
