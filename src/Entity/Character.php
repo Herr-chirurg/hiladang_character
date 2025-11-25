@@ -64,6 +64,8 @@ class Character
     #[ORM\OneToMany(targetEntity: Token::class, mappedBy: 'character')]
     private Collection $tokens;
 
+    private ?Token $consumableToken = null;
+
     /**
      * @var Collection<int, Scenario>
      */
@@ -294,6 +296,16 @@ class Character
         }
 
         return $this;
+    }
+
+    public function setConsumableToken(Token $token): static {
+        $this->consumableToken = $token;
+
+        return $this;
+    }
+
+    public function getConsumableToken(): ?Token {
+        return $this->consumableToken;
     }
 
     /**

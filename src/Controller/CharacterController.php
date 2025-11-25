@@ -9,11 +9,13 @@ use App\Repository\CharacterRepository;
 use App\Service\WBLService;
 use DH\Auditor\Provider\Doctrine\Persistence\Reader\Reader;
 use Doctrine\ORM\EntityManagerInterface;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Option\Size;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\Validator\Constraints\Length;
 
 #[Route('/character')]
 final class CharacterController extends AbstractController
@@ -59,6 +61,29 @@ final class CharacterController extends AbstractController
     #[Route('/{id}', name: 'app_character_show', methods: ['GET'])]
     public function show(Reader $auditReader, Character $character, WBLService $wBLUtil): Response
     {        
+
+        $baseXP = $wBLUtil->levelToMinXP($character->getLevel());
+        $nextBaseXP = $wBLUtil->levelToMinXP($character->getLevel()+1);
+
+        //Je peux consommer un token si mon xp n'est pas suffisant pour passer de niveau
+        if ($character->getXpCurrent() <$nextBaseXP - $baseXP) {
+
+            //Je vérifie si j'inclu les tokens MJ
+            if ($character->getXpCurrentMj() >= ($nextBaseXP - $baseXP)/2) {
+                $array = $character->getTokens()->filter(function($token) {
+                    return $token->getType() === 'PJ';
+                })->toArray();
+
+            } else {
+                $array = $character->getTokens()->toArray();
+            }
+
+            usort($array, 
+                fn($a, $b) => $a->getDateOfReception() <=> $b->getDateOfReception());
+
+            $character->setConsumableToken(count($array) > 0 ? $array[0] : null );
+
+        }
  
         return $this->render('character/show.html.twig', [
             'logs' => $audits = $auditReader->createQuery(
