@@ -42,7 +42,6 @@ final class ScenarioController extends AbstractController
 
             $scenario->setGameMaster($this->getUser());
 
-            $token = new Token();
             $token->setScenario($scenario);
             $token->setOwnerUser($this->getUser());
             $token->setTotalRate(100);
@@ -163,10 +162,14 @@ final class ScenarioController extends AbstractController
         $scenario->setStatus(Scenario::STATUS_AWARDED);
 
         foreach ($scenario->getTokens() as $token) {
-            $token->setPr($token->getDeltaPr() + 
+            if ($token->getType() == "PJ") {
+                $token->setPr($token->getDeltaPr() + 
                 $wBLService->rewardExtraPR(
                     $token->getCharacter()->getLevel(), 
                     $token->getScenario()->getLevel()));
+            }
+            $token->setDateOfReception(new \DateTime());
+            $token->setName($scenario->getName());
             $token->setUsageRate($token->getTotalRate());  
             $token->setStatus(Token::STATUS_AWARDED);
         }
