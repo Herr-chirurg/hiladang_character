@@ -28,4 +28,33 @@
             </tr>
         </tbody>
     </table>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nom Token</th>
+                <th>Type</th>
+                <th>Taux</th>
+                <th>Date</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for token in user.tokens %}
+            {% if token.status == "awarded" %}
+                <tr>
+                    <td>{{ token.name }}</td>
+                    <td>{{ token.type }}</td>
+                    <td>{{ token.usageRate }} % / {{ token.totalRate }} %</td>
+                    <td>{{ token.dateOfReception }}</td>
+                    <td></td>
+                </tr>
+            {% endif %}
+            {% else %}
+                <tr>
+                    <td colspan="4">no records found</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}
