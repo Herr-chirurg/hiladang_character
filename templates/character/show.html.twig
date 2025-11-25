@@ -71,14 +71,24 @@
             </tr>
         </thead>
         <tbody>
-            {% for token in character.tokens %}
+            {% set canConsume = true %}
+            {% for token in character.tokens|sort((a, b) => a.dateOfReception <=> b.dateOfReception) %}
             {% if token.status == "awarded" %}
                 <tr>
                     <td>{{ token.name }}</td>
                     <td>{{ token.type }}</td>
                     <td>{{ token.usageRate }} % / {{ token.totalRate }} %</td>
-                    <td>{{ token.dateOfReception }}</td>
-                    <td></td>
+                    <td>{{ token.dateOfReception|date('d/m/Y') > date('now')|date('d/m/Y') }}</td>
+                    <td>
+                        <form method="post" action="">
+                            <button type="submit"
+                                    class="btn btn-primary btn-sm"
+                                    name="consumeToken"
+                                    value="{{ character.id }}">
+                                    Consommer
+                            </button>
+                        </form>
+                    </td>
                 </tr>
             {% endif %}
             {% else %}
