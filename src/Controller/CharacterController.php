@@ -243,14 +243,22 @@ final class CharacterController extends AbstractController
         $rateTransferred = $wBLUtil->xpToRate($character->getLevel(),$XpToNextLevel);
 
         //On s'assure de ne pas prendre plus que ce qu'il y a sur le token
-        $rateTransferred = min($token->getUsageRate(), $rateTransferred);
-
-
-        
+        $rateTransferred = min($token->getUsageRate(), $rateTransferred);        
 
         //On fait le transfer
         $token->setUsageRate($token->getUsageRate() - $rateTransferred);
+        $token->setPr($token->getPr() - $rateTransferred * $token->getPr());
         $character->setXpCurrent($character->getXpCurrent() + $wBLUtil->rateToXp($character->getLevel(), $rateTransferred));
+
+        $character->setGp($character->getGp() 
+            + $wBLUtil->rateToGp($character->getLevel(), $rateTransferred));
+
+        $character->setPr($character->getPr()
+            + $wBLUtil->rateToGp($character->getLevel(), $token->getDeltaPr())
+            + $wBLUtil->rateToGp($character->getLevel(), $token->getDeltaPrFromLevel()));
+
+        $character->setLastActionDescription('récompense '.$token->getName());
+
 
         //Si c'est un token MJ, on enregistre l'xp obtenu
         if ($token->getType() == "MJ") {
