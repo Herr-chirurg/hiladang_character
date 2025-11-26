@@ -169,6 +169,7 @@ final class ScenarioController extends AbstractController
                  + $wBLService->rewardExtraPR(
                     $token->getScenario()->getLevel(),
                     $token->getCharacter()->getLevel())));
+                $token->setTotalPr($token->getTotalPr());
             }
             $token->setDateOfReception(new \DateTime());
             $token->setName($scenario->getName());
