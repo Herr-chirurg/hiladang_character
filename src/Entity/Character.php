@@ -298,7 +298,7 @@ class Character
         return $this;
     }
 
-    public function setConsumableToken(Token $token): static {
+    public function setConsumableToken(?Token $token): static {
         $this->consumableToken = $token;
 
         return $this;
