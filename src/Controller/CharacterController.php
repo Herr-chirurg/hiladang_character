@@ -247,7 +247,7 @@ final class CharacterController extends AbstractController
 
         //On fait le transfer
         $token->setUsageRate($token->getUsageRate() - $rateTransferred);
-        $token->setPr($token->getPr() - $rateTransferred * $token->getPr());
+        $token->setPr($token->getPr() - ($rateTransferred/100) * $token->getPr());
         $character->setXpCurrent($character->getXpCurrent() + $wBLUtil->rateToXp($character->getLevel(), $rateTransferred));
 
         $character->setGp($character->getGp() 
