@@ -62,26 +62,32 @@ final class CharacterController extends AbstractController
     public function show(Reader $auditReader, Character $character, WBLService $wBLUtil): Response
     {        
 
-        $baseXP = $wBLUtil->levelToMinXP($character->getLevel());
-        $nextBaseXP = $wBLUtil->levelToMinXP($character->getLevel()+1);
+        //on calcule l'xp total du niveau actuel pour atteindre le niveau suivant
+        $totalXpToNextLevel = $wBLUtil->currentXPToLevelUp($character->getLevel());
+        
+        //on déduis l'xp déjà atteint
+        $XpToNextLevel = $totalXpToNextLevel - $character->getXpCurrent();
 
-        //Je peux consommer un token si mon xp n'est pas suffisant pour passer de niveau
-        if ($character->getXpCurrent() <$nextBaseXP - $baseXP) {
+        //je calcule l'xp MJ max que je peux consommer
+        $XpMJToNextCap = $totalXpToNextLevel/2 - $character->getXpCurrentMJ();
+
+        if ($XpToNextLevel > 0) {
 
             //Je vérifie si j'inclu les tokens MJ
-            if ($character->getXpCurrentMj() >= ($nextBaseXP - $baseXP)/2) {
+            if ($XpMJToNextCap > 0) {
                 $array = $character->getTokens()->filter(function($token) {
-                    return $token->getType() === 'PJ';
+                    return $token->getUsageRate() > 0;
                 })->toArray();
-
             } else {
-                $array = $character->getTokens()->toArray();
+                $array = $character->getTokens()->filter(function($token) {
+                    return $token->getType() === 'PJ' and $token->getUsageRate() > 0;
+                })->toArray();
             }
 
             usort($array, 
                 fn($a, $b) => $a->getDateOfReception() <=> $b->getDateOfReception());
 
-            $character->setConsumableToken(count($array) > 0 ? $array[0] : null );
+            $character->setConsumableToken(count($array) > 0 ? $array[0] : null);
 
         }
  
@@ -173,7 +179,7 @@ final class CharacterController extends AbstractController
         ]);
     }
 
-    #[IsGranted('delete', subject: 'character'), Route('/{id}', name: 'app_character_delete', methods: ['POST'])]
+    #[IsGranted('delete', subject: 'character'), Route('/delete/{id}', name: 'app_character_delete', methods: ['POST'])]
     public function delete(Request $request, Character $character, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$character->getId(), $request->getPayload()->getString('_token'))) {
@@ -182,5 +188,76 @@ final class CharacterController extends AbstractController
         }
 
         return $this->redirectToRoute('app_character_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[IsGranted('consume', subject: 'character'), Route('/consume/{id}', name: 'app_character_consume', methods: ['POST'])]
+    public function consume(Request $request, Character $character, WBLService $wBLUtil,EntityManagerInterface $entityManager): Response
+    {
+        //on calcule l'xp total du niveau actuel pour atteindre le niveau suivant
+        $totalXpToNextLevel = $wBLUtil->currentXPToLevelUp($character->getLevel());
+        
+        //on déduis l'xp déjà atteint
+        $XpToNextLevel = $totalXpToNextLevel - $character->getXpCurrent();
+
+        //je calcule l'xp MJ max que je peux consommer
+        $XpMJToNextCap = $totalXpToNextLevel/2 - $character->getXpCurrentMJ();
+
+        if ($XpToNextLevel = 0) {
+            //Ce cas n'est pas censé arrivé, on sort
+            return $this->redirectToRoute('app_character_show', ['id' => $character->getId()]);
+        }
+
+        //Je peux consommer un token si j'ai besoin d'xp pour passer de niveau
+        if ($totalXpToNextLevel > 0) {
+
+            //Je vérifie si j'inclu les tokens MJ
+            if ($XpMJToNextCap > 0) {
+                $array = $character->getTokens()->filter(function($token) {
+                    return $token->getUsageRate() > 0;
+                })->toArray();
+            } else {
+                $array = $character->getTokens()->filter(function($token) {
+                    return $token->getType() === 'PJ' and $token->getUsageRate() > 0;
+                })->toArray();
+            }
+
+            usort($array, 
+                fn($a, $b) => $a->getDateOfReception() <=> $b->getDateOfReception());
+
+            $character->setConsumableToken(count($array) > 0 ? $array[0] : null);
+
+        }
+
+        $token = $character->getConsumableToken();
+
+        if (!$token) {
+            return $this->redirectToRoute('app_character_show', ['id' => $character->getId()]);
+        }
+
+        if ($token->getType() == "MJ") {
+            //Si on est en train de déduire un token MJ, on prend en compte la restriction MJ
+            $XpToNextLevel = min($XpToNextLevel, $XpMJToNextCap);
+        }
+
+        //On convertit en taux
+        $rateTransferred = $wBLUtil->xpToRate($character->getLevel(),$XpToNextLevel);
+        
+        //On s'assure de ne pas prendre plus que ce qu'il y a sur le token
+        $rateTransferred = min($token->getUsageRate(), $rateTransferred);
+
+        //On fait le transfer
+        $token->setUsageRate($token->getUsageRate() - $rateTransferred);
+        $character->setXpCurrent($character->getXpCurrent() + $wBLUtil->rateToXp($character->getLevel(), $rateTransferred));
+
+        //Si c'est un token MJ, on enregistre l'xp obtenu
+        if ($token->getType() == "MJ") {
+            $character->setXpCurrentMJ(
+                $character->getXpCurrentMJ() 
+                + $wBLUtil->rateToXp($character->getLevel(), $rateTransferred));
+        }
+
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_character_show', ['id' => $character->getId()]);
     }
 }

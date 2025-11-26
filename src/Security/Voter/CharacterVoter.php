@@ -10,6 +10,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 final class CharacterVoter extends Voter
 {
     public const EDIT = 'edit';
+    public const CONSUME = 'consume';
     public const DELETE = 'delete';
     public const NEW = 'new';
 
@@ -21,13 +22,15 @@ final class CharacterVoter extends Voter
     {
         // replace with your own logic
         // https://symfony.com/doc/current/security/voters.html
-        return in_array($attribute, [self::EDIT, self::DELETE, self::NEW])
+        return in_array($attribute, [self::CONSUME, self::EDIT, self::DELETE, self::NEW])
             && $subject instanceof \App\Entity\Character;
     }
 
     protected function voteOnAttribute(string $attribute, mixed $character, TokenInterface $token): bool
     {
         $securityUser = $token->getUser();
+
+        dump("hello");
 
         if (!$securityUser instanceof UserInterface) {
             return false;
@@ -36,9 +39,10 @@ final class CharacterVoter extends Voter
         switch ($attribute) {
             case self::NEW:
                 return true;
+            case self::CONSUME:
+                return $character->getOwner() === $securityUser;
             case self::EDIT:
                 return $character->getOwner() === $securityUser;
-
             case self::DELETE:
                 return $character->getOwner() === $securityUser;
         }

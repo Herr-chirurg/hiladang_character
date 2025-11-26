@@ -8,10 +8,31 @@ use App\Entity\Token;
 class WBLService {
 
 	private array $levelData;
+	private array $scenarioData;
 	private float $coeff_gv = 1.25;
 
 	public function __construct()
     { 
+		$this->scenarioData = [
+			3  => [1000, 	1125],
+			4  => [1500, 	1406],
+			5  => [1600, 	1375],
+			6  => [2400, 	1875],
+			7  => [2667, 	1979],
+			8  => [4000, 	2708],
+			9  => [4286, 	2857],
+			10 => [6250, 	3125],
+			11 => [7222, 	3611],
+			12 => [9500,   	4000],
+			13 => [13000,  	5625],
+			14 => [19000,  	6875],
+			15 => [25500,  	9375],
+			16 => [41000,  	11875],
+			17 => [50000,  	15000],
+			18 => [75000,  	19375],
+			19 => [105000, 	24375],
+		];
+
 		$this->levelData = [
             1 	=> [0, 			0, 		0.00],
 			2 	=> [2000, 		1000, 	2.00],
@@ -46,14 +67,26 @@ class WBLService {
 		return $this->levelData[$level][1] * $this->coeff_gv;
 	}
 
-	public function levelAndXPToGV(?int $level, string $xp): int 
+	public function currentXPToLevelUp(?int $level): int {
+
+		return $this->levelToMinXP($level+1) - $this->levelToMinXP($level);
+	}
+
+	public function levelAndXPToGV(?int $level, string $currentXp): int 
 	{
-		return ($this->levelData[$level][1] + $xp/$this->levelData[$level+1][2]) * $this->coeff_gv;
+		return ($this->levelData[$level][1] + $currentXp/$this->levelData[$level+1][2]) * $this->coeff_gv;
 	}
 
 	public function rewardExtraPR(?int $scenarioLevel, ?int $level) {
 		return ($scenarioLevel - $level) * 25;
-
 	}
 
+	//
+	public function xpToRate(?int $level, ?int $xp) {
+		return ($xp / $this->scenarioData[$level][0]) * 100;
+	}
+
+	public function rateToXp(?int $level, ?int $rate) {
+		return $this->scenarioData[$level][0] * ($rate/100);
+	}
 }

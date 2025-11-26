@@ -80,11 +80,9 @@
                     <td>{{ token.dateOfReception|date('d/m/Y H:i', 'GMT+1') }}</td>
                     {% if token == character.consumableToken %}
                         <td>
-                            <form method="post" action="">
+                            <form action="{{ path("app_character_consume", {'id': character.id}) }}" method="POST">
                                 <button type="submit"
-                                        class="btn btn-primary btn-sm"
-                                        name="consumeToken"
-                                        value="{{ character.id }}">
+                                        class="btn btn-primary btn-sm">
                                         Consommer
                                 </button>
                             </form>
