@@ -31,11 +31,16 @@
             </tr>
             <tr>
                 <th>XP total</th>
-                <td class="fixed-width-value">{{ "%7d"|format(totalXP + character.xpCurrent + character.xpCurrentMj) }} XP</td>
+                <td class="fixed-width-value">{{ "%7d"|format(totalXP + character.xpCurrent) }} XP</td>
                 <td class="fixed-width-value">/ {{ "%7d"|format(XPNiveauSuivant) }} XP</td>
             </tr>
             <tr>
-                <th>XP maitrise actuel</th>
+                <th>XP actuel</th>
+                <td class="fixed-width-value">{{ "%7d"|format(character.xpCurrent) }} XP</td>
+                <td class="fixed-width-value">/ {{ "%7d"|format(XPNiveauSuivant - totalXP) }} XP</td>
+            </tr>
+            <tr>
+                <th>Dont XP maitrise</th>
                 <td class="fixed-width-value">{{ "%7d"|format(character.xpCurrentMj) }} XP</td>
                 <td class="fixed-width-value">/ {{ "%7d"|format((XPNiveauSuivant - totalXP)/2) }} XP</td>
             </tr>

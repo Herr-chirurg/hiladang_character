@@ -30,8 +30,6 @@ final class CharacterVoter extends Voter
     {
         $securityUser = $token->getUser();
 
-        dump("hello");
-
         if (!$securityUser instanceof UserInterface) {
             return false;
         }

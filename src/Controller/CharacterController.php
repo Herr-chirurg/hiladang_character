@@ -202,7 +202,7 @@ final class CharacterController extends AbstractController
         //je calcule l'xp MJ max que je peux consommer
         $XpMJToNextCap = $totalXpToNextLevel/2 - $character->getXpCurrentMJ();
 
-        if ($XpToNextLevel = 0) {
+        if ($XpToNextLevel == 0) {
             //Ce cas n'est pas censé arrivé, on sort
             return $this->redirectToRoute('app_character_show', ['id' => $character->getId()]);
         }
@@ -241,9 +241,12 @@ final class CharacterController extends AbstractController
 
         //On convertit en taux
         $rateTransferred = $wBLUtil->xpToRate($character->getLevel(),$XpToNextLevel);
-        
+
         //On s'assure de ne pas prendre plus que ce qu'il y a sur le token
         $rateTransferred = min($token->getUsageRate(), $rateTransferred);
+
+
+        
 
         //On fait le transfer
         $token->setUsageRate($token->getUsageRate() - $rateTransferred);
