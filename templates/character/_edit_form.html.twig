@@ -23,19 +23,16 @@
             </tr>
             <tr>
                 <th>Niveau</th>
-                <td  class="fixed-width-value">{{ "%7d"|format(characterData.level) }}</td>    
-                <td>{{ form_widget(form.level_add) }}</td>
+                <td  class="fixed-width-value">{{ "%7d"|format(characterData.level) }}</td>
             </tr>
             <tr>
                 <th>XP joueur</th>
                 <td class="fixed-width-value">{{ "%7d"|format(characterData.xpCurrent) }} XP</td>
-                <td>{{ form_widget(form.xp_add) }} XP</td>
                 <td class="fixed-width-value">/ {{ "%7d"|format((XPNiveauSuivant - totalXP)) }} XP</td>
             </tr>
             <tr>
-                <th>XP maitrise</th>
+                <th>Dont XP maitrise</th>
                 <td class="fixed-width-value">{{ "%7d"|format(characterData.xpCurrentMj) }} XP</td>
-                <td>{{ form_widget(form.xp_mj_add) }} XP</td>
                 <td class="fixed-width-value">/ {{ "%7d"|format((XPNiveauSuivant - totalXP)/2) }} XP</td>
             </tr>
             <tr>
@@ -47,7 +44,7 @@
             <tr>
                 <th>Reputation</th>
                 <td class="fixed-width-value">{{ "%7d"|format(characterData.pr) }} PR</td>
-                <td>{{ form_widget(form.pr_add) }} XP</td>
+                <td>{{ form_widget(form.pr_add) }} PR</td>
             </tr>
             <tr>
                 <th>Fin d'activité</th>
