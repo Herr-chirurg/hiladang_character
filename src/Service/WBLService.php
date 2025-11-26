@@ -89,4 +89,8 @@ class WBLService {
 	public function rateToXp(?int $level, ?int $rate) {
 		return $this->scenarioData[$level][0] * ($rate/100);
 	}
+
+	public function rateToGp(?int $level, ?int $rate) {
+		return $this->scenarioData[$level][1] * ($rate/100);
+	}
 }
