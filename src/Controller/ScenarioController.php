@@ -164,7 +164,7 @@ final class ScenarioController extends AbstractController
 
         foreach ($scenario->getTokens() as $token) {
             if ($token->getType() == "PJ") {
-                $token->setPr(min(0, 
+                $token->setPr(max(0, 
                 $token->getDeltaPr()
                  + $wBLService->rewardExtraPR(
                     $token->getCharacter()->getLevel(), 
