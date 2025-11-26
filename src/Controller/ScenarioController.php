@@ -164,10 +164,11 @@ final class ScenarioController extends AbstractController
 
         foreach ($scenario->getTokens() as $token) {
             if ($token->getType() == "PJ") {
-                $token->setPr($token->getDeltaPr() + 
-                $wBLService->rewardExtraPR(
+                $token->setPr(min(0, 
+                $token->getDeltaPr()
+                 + $wBLService->rewardExtraPR(
                     $token->getCharacter()->getLevel(), 
-                    $token->getScenario()->getLevel()));
+                    $token->getScenario()->getLevel())));
             }
             $token->setDateOfReception(new \DateTime());
             $token->setName($scenario->getName());
