@@ -56,6 +56,10 @@
                 <td>{{ form_widget(form.activity_add) }} jours</td>
             </tr>
             <tr>
+                <th>Webhook</th>
+                <td>{{ characterData.webhookLink ? 'Renseigné' : 'Non Renseigné' }}</td>
+            </tr>
+            <tr>
                 <th>Description</th>
                 <td colspan="3">{{ form_widget(form.description) }}</td>
             </tr>
@@ -82,7 +86,7 @@
         <tbody>
         {% for log in logs %}
             {% for key, diff in log.diffs %}
-                {% if key != 'last_action_description' %}
+                {% if key != 'last_action_description' and key != 'webhook_link'  %}
                     <tr>
                         <td colspan="2">{{ key }}</td>
                         <td colspan="2">
