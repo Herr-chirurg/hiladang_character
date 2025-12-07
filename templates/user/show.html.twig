@@ -46,7 +46,7 @@
                     <td>{{ token.name }}</td>
                     <td>{{ token.type }}</td>
                     <td>{{ token.usageRate }} % / {{ token.totalRate }} %</td>
-                    <td>{{ token.dateOfReception }}</td>
+                    <td>{{ token.dateOfReception is not null ? token.dateOfReception|date('d/m/Y H:i', 'GMT+1') : '' }}</td>
                     <td></td>
                 </tr>
             {% endif %}
