@@ -75,6 +75,9 @@ class Character
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $last_action_description = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $webhook_link = null;
+
     public function __construct()
     {
         $this->buildings = new ArrayCollection();
@@ -343,6 +346,18 @@ class Character
     public function setLastActionDescription(string $last_action_description): static
     {
         $this->last_action_description = $last_action_description;
+
+        return $this;
+    }
+
+    public function getWebhookLink(): ?string
+    {
+        return $this->webhook_link;
+    }
+
+    public function setWebhookLink(?string $webhook_link): static
+    {
+        $this->webhook_link = $webhook_link;
 
         return $this;
     }
