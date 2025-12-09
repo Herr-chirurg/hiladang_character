@@ -2,11 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\CartGP;
 use App\Entity\Character;
+use App\Form\CartGPType;
 use App\Form\CharacterEditType;
 use App\Form\CharacterType;
 use App\Repository\CharacterRepository;
 use App\Service\WBLService;
+use DateTime;
 use DH\Auditor\Provider\Doctrine\Persistence\Reader\Reader;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Option\Size;
@@ -270,5 +273,33 @@ final class CharacterController extends AbstractController
         $entityManager->flush();
 
         return $this->redirectToRoute('app_character_show', ['id' => $character->getId()]);
+    }
+
+    #[Route('/{id}/cart_gp', name: 'app_cart_gp_edit', methods: ['GET', 'POST'])]
+    public function editCartGP(Request $request, Character $character, EntityManagerInterface $entityManager): Response
+    {
+
+
+
+        if ($character->getCartGP() == null) {
+            $cart = new CartGP();
+            $cart->setDate(new DateTime());
+            $character->setCartGP($cart);
+        }
+
+        $cartGP = $character->getCartGP();
+
+        $form = $this->createForm(CartGPType::class, $cartGP);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            return $this->redirectToRoute('app_cart_gp_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('cart_gp/edit.html.twig', [
+            'cartGP' => $cartGP,
+            'form' => $form,
+        ]);
     }
 }
