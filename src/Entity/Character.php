@@ -81,6 +81,9 @@ class Character
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $last_action = null;
 
+    #[ORM\OneToOne(mappedBy: 'buyer', cascade: ['persist', 'remove'])]
+    private ?Cart $cart = null;
+
     public function __construct()
     {
         $this->buildings = new ArrayCollection();
@@ -373,6 +376,28 @@ class Character
     public function setLastAction(?string $last_action): static
     {
         $this->last_action = $last_action;
+
+        return $this;
+    }
+
+    public function getCart(): ?Cart
+    {
+        return $this->cart;
+    }
+
+    public function setCart(?Cart $cart): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($cart === null && $this->cart !== null) {
+            $this->cart->setBuyer(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($cart !== null && $cart->getBuyer() !== $this) {
+            $cart->setBuyer($this);
+        }
+
+        $this->cart = $cart;
 
         return $this;
     }
