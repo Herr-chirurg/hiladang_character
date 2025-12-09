@@ -24,7 +24,7 @@ class Item
     private ?string $price = null;
 
     #[ORM\ManyToOne(inversedBy: 'items')]
-    private ?Cart $cart = null;
+    private ?CartGP $cartGP = null;
 
     public function getId(): ?int
     {
@@ -67,14 +67,14 @@ class Item
         return $this;
     }
 
-    public function getCart(): ?Cart
+    public function getCartGP(): ?CartGP
     {
-        return $this->cart;
+        return $this->cartGP;
     }
 
-    public function setCart(?Cart $cart): static
+    public function setCartGP(?CartGP $cartGP): static
     {
-        $this->cart = $cart;
+        $this->cartGP = $cartGP;
 
         return $this;
     }

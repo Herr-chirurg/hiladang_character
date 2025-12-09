@@ -2,14 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\CartRepository;
+use App\Repository\CartGPRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: CartRepository::class)]
-class Cart
+#[ORM\Entity(repositoryClass: CartGPRepository::class)]
+class CartGP
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -22,10 +22,10 @@ class Cart
     /**
      * @var Collection<int, Item>
      */
-    #[ORM\OneToMany(targetEntity: Item::class, mappedBy: 'cart')]
+    #[ORM\OneToMany(targetEntity: Item::class, mappedBy: 'cartGP')]
     private Collection $items;
 
-    #[ORM\OneToOne(inversedBy: 'cart', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'cartGP', cascade: ['persist', 'remove'])]
     private ?Character $buyer = null;
 
     #[ORM\Column(length: 255)]
@@ -65,7 +65,7 @@ class Cart
     {
         if (!$this->items->contains($item)) {
             $this->items->add($item);
-            $item->setCart($this);
+            $item->setCartGP($this);
         }
 
         return $this;
@@ -75,8 +75,8 @@ class Cart
     {
         if ($this->items->removeElement($item)) {
             // set the owning side to null (unless already changed)
-            if ($item->getCart() === $this) {
-                $item->setCart(null);
+            if ($item->getCartGP() === $this) {
+                $item->setCartGP(null);
             }
         }
 

@@ -82,7 +82,7 @@ class Character
     private ?string $last_action = null;
 
     #[ORM\OneToOne(mappedBy: 'buyer', cascade: ['persist', 'remove'])]
-    private ?Cart $cart = null;
+    private ?CartGP $cartGP = null;
 
     public function __construct()
     {
@@ -380,24 +380,24 @@ class Character
         return $this;
     }
 
-    public function getCart(): ?Cart
+    public function getCartGP(): ?CartGP
     {
-        return $this->cart;
+        return $this->cartGP;
     }
 
-    public function setCart(?Cart $cart): static
+    public function setCartGP(?CartGP $cartGP): static
     {
         // unset the owning side of the relation if necessary
-        if ($cart === null && $this->cart !== null) {
-            $this->cart->setBuyer(null);
+        if ($cartGP === null && $this->cartGP !== null) {
+            $this->cartGP->setBuyer(null);
         }
 
         // set the owning side of the relation if necessary
-        if ($cart !== null && $cart->getBuyer() !== $this) {
-            $cart->setBuyer($this);
+        if ($cartGP !== null && $cartGP->getBuyer() !== $this) {
+            $cartGP->setBuyer($this);
         }
 
-        $this->cart = $cart;
+        $this->cartGP = $cartGP;
 
         return $this;
     }
