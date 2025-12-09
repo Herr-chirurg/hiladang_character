@@ -1,4 +1,56 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ user.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ user.username }}</td>
+            </tr>
+            <tr>
+                <th>Roles</th>
+                <td>{{ user.roles|join('/')|replace({'ROLE_': ''}) }}</td>
+            </tr>
+            <tr>
+                <th>Nombre de personnages</th>
+                <td> {{ user.characters.count }} </td>
+                <td>/ {{ user.nbCharacterMax }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Personnage</th>
+                <th>Réussite</th>
+                <th>Date d'attribution</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for tokenForm in form.tokens %}
+            {% set tokenData = tokenForm.vars.value %}
+            {% if tokenData.status == "awarded" %}
+                <tr>
+                    <td>{{ tokenData.name }}</td>
+                    <td>{{ form_widget(tokenForm.character) }}</td>
+                    <td>{{ tokenData.usageRate }} % / {{ tokenData.totalRate }} %</td>
+                    <td>{{ tokenData.dateOfReception is not null ? tokenData.dateOfReception|date('d/m/Y H:i', 'GMT+1') : '' }}</td>
+                    <td></td>
+                </tr>
+            {% endif %}
+        {% else %}
+            <tr>
+                <td colspan="11">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <button type="submit" class="btn btn-primary btn-sm">Update</button>
+
 {{ form_end(form) }}
