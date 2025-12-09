@@ -275,7 +275,7 @@ final class CharacterController extends AbstractController
         return $this->redirectToRoute('app_character_show', ['id' => $character->getId()]);
     }
 
-    #[Route('/{id}/cart_gp', name: 'app_cart_gp_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}/cart_gp', name: 'app_character_cart_gp', methods: ['GET', 'POST'])]
     public function editCartGP(Request $request, Character $character, EntityManagerInterface $entityManager): Response
     {
 
