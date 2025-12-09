@@ -13,14 +13,7 @@ class CartGPType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder
-            ->add('date')
-            ->add('status')
-            ->add('buyer', EntityType::class, [
-                'class' => Character::class,
-                'choice_label' => 'id',
-            ])
-        ;
+
     }
 
     public function configureOptions(OptionsResolver $resolver): void
