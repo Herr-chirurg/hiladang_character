@@ -37,7 +37,7 @@
             {% if tokenData.status == "awarded" %}
                 <tr>
                     <td>{{ tokenData.name }}</td>
-                    <td>{{ form_widget(tokenForm.character) }}</td>
+                    <td>{{ tokenData.character is not null ? tokenData.character.name : form_widget(tokenForm.character) }}</td>
                     <td>{{ tokenData.usageRate }} % / {{ tokenData.totalRate }} %</td>
                     <td>{{ tokenData.dateOfReception is not null ? tokenData.dateOfReception|date('d/m/Y H:i', 'GMT+1') : '' }}</td>
                     <td></td>
@@ -53,4 +53,4 @@
 
     <button type="submit" class="btn btn-primary btn-sm">Update</button>
 
-{{ form_end(form) }}
+{{ form_end(form, {'render_rest': false}) }}
