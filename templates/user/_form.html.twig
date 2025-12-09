@@ -37,7 +37,11 @@
             {% if tokenData.status == "awarded" %}
                 <tr>
                     <td>{{ tokenData.name }}</td>
-                    <td>{{ tokenData.character is not null ? tokenData.character.name : form_widget(tokenForm.character) }}</td>
+                    {% if tokenData.character is not null %}
+                        <td>{{ form_widget(tokenForm.character, {'attr': {'style': 'display: none;'}}) }} {{ tokenData.character.name }}</td>
+                    {% else %}
+                        <td>{{ form_widget(tokenForm.character) }}</td>
+                    {% endif %}
                     <td>{{ tokenData.usageRate }} % / {{ tokenData.totalRate }} %</td>
                     <td>{{ tokenData.dateOfReception is not null ? tokenData.dateOfReception|date('d/m/Y H:i', 'GMT+1') : '' }}</td>
                     <td></td>
