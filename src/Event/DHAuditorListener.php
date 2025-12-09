@@ -66,18 +66,24 @@ class DHAuditorListener implements EventSubscriberInterface
             $log = $key." : ";
             if (isset($diff->old)) {
                 if (isset($diff->old->id)) {
-                    $log = $log.$diff->old->id;
+                    $log .= $diff->old->id;
                 } else {
-                    $log = $log.$diff->old;
+                    $log .= $diff->old;
                 }
-                $log = $log." -> ";
             }
+
+            if (is_numeric($diff->old) && is_numeric($diff->new)) {
+                $substract = $diff->new - $diff->old;
+                $prefixe = ($substract >= 0) ? '+' : '-';
+                $log .= " ".$prefixe." ".($substract);
+            }
+            $log .= " -> ";
 
             if (isset($diff->new)) {
                 if (isset($diff->new->id)) {
-                    $log = $log." ".$diff->new->id;
+                    $log .= " ".$diff->new->id;
                 } else {
-                    $log = $log." ".$diff->new;
+                    $log .= " ".$diff->new;
                 }
             }
 
