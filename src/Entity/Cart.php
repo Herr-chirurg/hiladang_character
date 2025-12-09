@@ -28,6 +28,9 @@ class Cart
     #[ORM\OneToOne(inversedBy: 'cart', cascade: ['persist', 'remove'])]
     private ?Character $buyer = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $status = null;
+
     public function __construct()
     {
         $this->items = new ArrayCollection();
@@ -88,6 +91,18 @@ class Cart
     public function setBuyer(?Character $buyer): static
     {
         $this->buyer = $buyer;
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): static
+    {
+        $this->status = $status;
 
         return $this;
     }
