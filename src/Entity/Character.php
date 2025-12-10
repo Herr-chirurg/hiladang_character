@@ -11,6 +11,14 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: CharacterRepository::class)]
 class Character
 {
+
+    public const LEVEL_UP = "levelUp";
+    public const PURCHASE = "purchase";
+    public const EDIT = "edit";
+    public const NEW = "new";
+    public const DELETE = "delete";
+    public const TRADE = "trade";
+    
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
