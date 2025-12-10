@@ -275,11 +275,27 @@ final class CharacterController extends AbstractController
         return $this->redirectToRoute('app_character_show', ['id' => $character->getId()]);
     }
 
+    #[IsGranted('edit', subject: 'character'), Route('/level_up/{id}', name: 'app_character_level_up', methods: ['POST'])]
+    public function levelUp(Request $request, Character $character, EntityManagerInterface $entityManager, WBLService $wBLUtil) {
+        
+        if ($character->getXpCurrent() >= $wBLUtil->currentXPToLevelUp($character->getLevel())) {
+            
+            $character->setXpCurrent(0);
+            $character->setXpCurrentMJ(0);
+            $character->setLevel($character->getLevel() + 1);
+            $character->setLastAction(Character::LEVEL_UP);
+            $character->setLastActionDescription("Passage de niveau");
+
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('app_character_show', ['id' => $character->getId()]);
+
+    }
+
     #[Route('/{id}/cart_gp', name: 'app_character_cart_gp', methods: ['GET', 'POST'])]
     public function editCartGP(Request $request, Character $character, EntityManagerInterface $entityManager): Response
     {
-
-
 
         if ($character->getCartGP() == null) {
             $cart = new CartGP();

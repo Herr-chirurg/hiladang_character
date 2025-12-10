@@ -27,7 +27,15 @@
             </tr>
             <tr>
                 <th>Niveau</th>
-                <td  class="fixed-width-value">{{ "%7d"|format(character.level) }}</td>    
+                <td  class="fixed-width-value">{{ "%7d"|format(character.level) }}</td>  
+                {% if (totalXP + character.xpCurrent) >= XPNiveauSuivant %}
+                    <td>
+                        <form action="{{ path("app_character_level_up", {'id': character.id}) }}" method="POST">
+                            <button type="submit" class="btn btn-primary btn-sm">
+                                    Passer un niveau
+                            </button>
+                    </td>
+                {% endif %}
             </tr>
             <tr>
                 <th>XP total</th>
@@ -127,7 +135,7 @@
         <tbody>
         {% for log in logs %}
             {% for key, diff in log.diffs %}
-                {% if key != 'last_action_description' and key != 'webhook_link' %}
+                {% if key != 'last_action_description' and key != 'webhook_link' and key != 'last_action' %}
                     <tr>
                         <td colspan="2">{{ key }}</td>
                         <td colspan="2">
