@@ -51,7 +51,7 @@ class DHAuditorListener implements EventSubscriberInterface
     public function handleCharacter($event) {
         $character = $this->characterRepository->find($event->getPayload()["object_id"]);
 
-        if ($character->getWebhookLink() == null) {
+        if ($character == null || $character->getWebhookLink() == null) {
             return;
         }
 
