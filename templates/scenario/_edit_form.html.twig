@@ -47,9 +47,7 @@
                     <td>{{ mjToken.ownerUser.username }}</td>
                     <td></td>
                     <td>{{ mjToken.usageRate != 0 ? mjToken.usageRate ~ "% / " : "" }}{{ mjToken.totalRate }}%</td>
-                    {{ form_widget(tokenForm.totalRate, {'attr': {'style': 'display: none;'}}) }}
                     <td>{{ mjToken.deltaPr }}%</td>
-                    {{ form_widget(tokenForm.delta_pr, {'attr': {'style': 'display: none;'}}) }}
                     <td>{{ "%+d"|format(mjToken.deltaPrFromLevel) }}%</td>
             </tr>
         {% endif %}
@@ -70,6 +68,9 @@
                     </td>
                     
                 </tr>
+            {% else %}
+                {{ form_widget(tokenForm.totalRate, {'attr': {'style': 'display: none;'}}) }}
+                {{ form_widget(tokenForm.delta_pr, {'attr': {'style': 'display: none;'}}) }}
             {% endif %}    
         {% else %}
             <tr>
