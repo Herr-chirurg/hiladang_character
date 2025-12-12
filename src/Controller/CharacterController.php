@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\CartGP;
 use App\Entity\Character;
+use App\Entity\Item;
 use App\Form\CartGPType;
 use App\Form\CharacterEditType;
 use App\Form\CharacterType;
@@ -310,7 +311,46 @@ final class CharacterController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            return $this->redirectToRoute('app_cart_gp_index', [], Response::HTTP_SEE_OTHER);
+            if ($request->request->has('addItem')) { 
+                $item = new Item;
+                $cartGP->addItem($item);
+
+                $entityManager->persist($item);
+                $entityManager->flush();
+
+            }
+
+            if ($request->request->has('removeItem')) { 
+                
+                $idToFind = $request->request->get('removeItem');
+
+                $item = $cartGP->getItems()->filter(
+                    function (Item $item) use ($idToFind) {
+                        return $item->getId() == $idToFind;
+                    })->first();
+
+                $cartGP->removeItem($item);
+
+                $entityManager->remove($item);
+                $entityManager->flush();
+                
+            }
+
+            if ($request->request->has('empty')) { 
+                
+                foreach ($cartGP->getItems() as $item) {
+                    $entityManager->remove($item);
+                }
+
+                $cartGP->getItems()->clear();
+
+                $entityManager->flush();
+                
+            }
+
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_character_cart_gp', ['id' => $character->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('cart_gp/edit.html.twig', [
@@ -318,4 +358,5 @@ final class CharacterController extends AbstractController
             'form' => $form,
         ]);
     }
+    
 }
