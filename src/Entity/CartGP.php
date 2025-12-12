@@ -25,11 +25,9 @@ class CartGP
     #[ORM\OneToMany(targetEntity: Item::class, mappedBy: 'cartGP')]
     private Collection $items;
 
-    #[ORM\OneToOne(inversedBy: 'cartGP', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'cartGP')]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Character $buyer = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $status = null;
 
     public function __construct()
     {
@@ -94,16 +92,5 @@ class CartGP
 
         return $this;
     }
-
-    public function getStatus(): ?string
-    {
-        return $this->status;
-    }
-
-    public function setStatus(string $status): static
-    {
-        $this->status = $status;
-
-        return $this;
-    }
+    
 }

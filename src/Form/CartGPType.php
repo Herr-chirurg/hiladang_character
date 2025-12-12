@@ -6,6 +6,8 @@ use App\Entity\CartGP;
 use App\Entity\Character;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -13,7 +15,19 @@ class CartGPType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-
+        $builder
+            ->add('items', CollectionType::class, [
+                'entry_type' => ItemType::class,
+                'entry_options' => ['label' => false],
+            ])
+            ->add('addItem', HiddenType::class, [ 
+                'mapped' => false,
+                'required' => false,
+            ])
+            ->add('removeItem', HiddenType::class, [ 
+                'mapped' => false,
+                'required' => false,
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
