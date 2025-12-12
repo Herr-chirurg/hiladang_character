@@ -1,4 +1,46 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Quantité</th>
+                <th>Prix</th>
+                <th>Total</th>
+                <th>PR %</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in form.items %}
+            {% set itemData = item.vars.value %}
+                <tr>
+                    <td>{{ itemData.id }}</td>
+                    <td>{{ form_widget(item.name) }}</td>
+                    <td>{{ form_widget(item.quantity) }}</td>
+                    <td>{{ form_widget(item.price) }}</td>
+                    <td>{{ itemData.price * itemData.quantity }}</td>
+                    <td>{{ form_widget(item.ratio_pr) }}</td>
+                    <td>
+                        <button type="submit" class="btn btn-primary btn-sm" 
+                            name="removeItem" value="{{itemData.id}}">Retirer</button>
+                    </td>
+                </tr>
+            {% endfor %}
+            <tr>
+                <th>Total</th>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <button class="btn">Quitter</button>
+    <button type="submit" class="btn" name="addItem">Ajouter</button>
+    <button type="submit" class="btn" name="empty">Vider</button>
+    <button type="submit" class="btn">Enregistrer</button>
+    <br>
+    <br>
+    <button class="btn">Valider le panier</button>
+
 {{ form_end(form) }}
