@@ -256,10 +256,9 @@ final class CharacterController extends AbstractController
             + $wBLUtil->rateToGp($character->getLevel(), $rateTransferred));
 
         $character->setPr($character->getPr()
-            + $wBLUtil->rateToGp($character->getLevel(), $token->getPr()));
+            + $wBLUtil->rateToGp($character->getLevel(), $token->getTotalPr() * ($rateTransferred/100)));
 
         $token->setUsageRate($token->getUsageRate() - $rateTransferred);
-        $token->setPr($token->getPr() - ($rateTransferred/100) * $token->getPr());
 
         $character->setLastActionDescription('récompense '.$token->getName());
 
