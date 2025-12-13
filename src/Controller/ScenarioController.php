@@ -45,8 +45,8 @@ final class ScenarioController extends AbstractController
             $token = new Token();
             $token->setScenario($scenario);
             $token->setOwnerUser($this->getUser());
-            $token->setTotalRate(100);
-            $token->setDeltaPr(100);
+            $token->setTotalRate(150);
+            $token->setDeltaPr(150);
 
             $token->setType("MJ");
 
@@ -111,8 +111,8 @@ final class ScenarioController extends AbstractController
                 $token = new Token();
                 $token->setScenario($scenario);
                 $token->setCharacter($character);
-                $token->setTotalRate(150);
-                $token->setDeltaPr(150);
+                $token->setTotalRate(100);
+                $token->setDeltaPr(100);
 
                 $token->setType("PJ");
 
@@ -163,14 +163,20 @@ final class ScenarioController extends AbstractController
         $scenario->setStatus(Scenario::STATUS_AWARDED);
 
         foreach ($scenario->getTokens() as $token) {
+            $totalPr = 0;
             if ($token->getType() == "PJ") {
-                $token->setPr(max(0, 
-                $token->getDeltaPr()
-                 + $wBLService->rewardExtraPR(
-                    $token->getScenario()->getLevel(),
-                    $token->getCharacter()->getLevel())));
-                $token->setTotalPr($token->getTotalPr());
+                $characterLevel = $token->getCharacter()->getLevel();
+                $tokenLevel = $token->getScenario()->getLevel();
+
+                $rewardExtraPr = $wBLService->rewardExtraPR($tokenLevel, $characterLevel);
+                
+                $totalPr = $token->getDeltaPr() + $rewardExtraPr; 
+            } elseif ($token->getType() == "MJ") {
+                $totalPr = $token->getDeltaPr();
             }
+
+            $token->setTotalPr(max(0, $totalPr));
+
             $token->setDateOfReception(new \DateTime());
             $token->setName($scenario->getName());
             $token->setUsageRate($token->getTotalRate());  
