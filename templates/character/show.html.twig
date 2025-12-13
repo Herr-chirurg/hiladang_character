@@ -103,7 +103,7 @@
                     <td>{{ token.name }}</td>
                     <td>{{ token.type }}</td>
                     <td>{{ token.usageRate }} % / {{ token.totalRate }} %</td>
-                    <td>{{ token.pr }} % / {{ token.totalPr }} %</td>
+                    <td>{{ token.totalPr }} %</td>
                     <td>{{ token.dateOfReception|date('d/m/Y H:i', 'GMT+1') }}</td>
                     
                     {% if token == character.consumableToken %}

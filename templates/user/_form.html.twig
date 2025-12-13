@@ -43,6 +43,7 @@
                         <td>{{ form_widget(tokenForm.character) }}</td>
                     {% endif %}
                     <td>{{ tokenData.usageRate }} % / {{ tokenData.totalRate }} %</td>
+                    <td>{{ tokenData.totalPr }} %</td>
                     <td>{{ tokenData.dateOfReception is not null ? tokenData.dateOfReception|date('d/m/Y H:i', 'GMT+1') : '' }}</td>
                     <td></td>
                 </tr>

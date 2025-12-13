@@ -35,6 +35,7 @@
                 <th>Nom Token</th>
                 <th>Type</th>
                 <th>Taux</th>
+                <th>Pr</th>
                 <th>Date</th>
                 <th>Action</th>
             </tr>
@@ -46,6 +47,7 @@
                     <td>{{ token.name }}</td>
                     <td>{{ token.character != null ? token.character.name : "" }}</td>
                     <td>{{ token.usageRate }} % / {{ token.totalRate }} %</td>
+                    <td>{{ token.totalPr }}</td>
                     <td>{{ token.dateOfReception is not null ? token.dateOfReception|date('d/m/Y H:i', 'GMT+1') : '' }}</td>
                     <td></td>
                 </tr>
