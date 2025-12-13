@@ -2,15 +2,31 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\GetCollection;
 use App\Repository\CharacterRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CharacterRepository::class)]
+    #[ApiResource(
+        normalizationContext: ['groups' => ['owner:read']],
+        stateless: false,
+        operations: [
+            // Permet l'affichage de la collection (GET /clients)
+            new GetCollection(),
+            // Permet l'affichage d'un seul élément (GET /clients/{id})
+            new Get(),
+        ],
+    )]
 class Character
 {
+
+    
 
     public const LEVEL_UP = "levelUp";
     public const PURCHASE = "purchase";
@@ -24,30 +40,38 @@ class Character
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Groups(['owner:read'])]
     #[ORM\Column(length: 255, nullable: false)]
     private ?string $name = null;
 
+    #[Groups(['owner:read'])]
     #[ORM\Column(length: 255, nullable: false)]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::BLOB, nullable: true)]
     private $img;
 
+    #[Groups(['owner:read'])]
     #[ORM\Column(nullable: false)]
     private ?int $level = 3;
 
+    #[Groups(['owner:read'])]
     #[ORM\Column(type: Types::DECIMAL, precision: 7, scale: 0, nullable: false)]
     private ?string $xp_current = null;
 
+    #[Groups(['owner:read'])]
     #[ORM\Column(type: Types::DECIMAL, precision: 7, scale: 0, nullable: false)]
     private ?string $xp_current_mj = null;
 
+    #[Groups(['owner:read'])]
     #[ORM\Column(type: Types::DECIMAL, precision: 8, scale: 2, nullable: false)]
     private ?string $gp = null;
 
+    #[Groups(['owner:read'])]
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 0, nullable: false)]
     private ?string $pr = null;
 
+    #[Groups(['owner:read'])]
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: false)]
     private ?\DateTime $end_activity = null;
 
