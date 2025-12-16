@@ -29,6 +29,9 @@ class Item
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 0, nullable: true)]
     private ?string $ratio_pr = null;
 
+    #[ORM\ManyToOne(inversedBy: 'items')]
+    private ?Character $owner = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -90,6 +93,18 @@ class Item
     public function setRatioPr(?string $ratio_pr): static
     {
         $this->ratio_pr = $ratio_pr;
+
+        return $this;
+    }
+
+    public function getOwner(): ?Character
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(?Character $owner): static
+    {
+        $this->owner = $owner;
 
         return $this;
     }

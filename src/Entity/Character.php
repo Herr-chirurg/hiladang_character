@@ -24,10 +24,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
         ],
     )]
 class Character
-{
-
-    
-
+{    
     public const LEVEL_UP = "levelUp";
     public const PURCHASE = "purchase";
     public const EDIT = "edit";
@@ -116,12 +113,19 @@ class Character
     #[ORM\OneToOne(mappedBy: 'buyer', cascade: ['persist', 'remove'])]
     private ?CartGP $cartGP = null;
 
+    /**
+     * @var Collection<int, Item>
+     */
+    #[ORM\OneToMany(targetEntity: Item::class, mappedBy: 'owner')]
+    private Collection $items;
+
     public function __construct()
     {
         $this->buildings = new ArrayCollection();
         $this->activities = new ArrayCollection();
         $this->tokens = new ArrayCollection();
         $this->scenarios = new ArrayCollection();
+        $this->items = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -430,6 +434,36 @@ class Character
         }
 
         $this->cartGP = $cartGP;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Item>
+     */
+    public function getItems(): Collection
+    {
+        return $this->items;
+    }
+
+    public function addItem(Item $item): static
+    {
+        if (!$this->items->contains($item)) {
+            $this->items->add($item);
+            $item->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeItem(Item $item): static
+    {
+        if ($this->items->removeElement($item)) {
+            // set the owning side to null (unless already changed)
+            if ($item->getOwner() === $this) {
+                $item->setOwner(null);
+            }
+        }
 
         return $this;
     }
