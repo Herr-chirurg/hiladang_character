@@ -293,6 +293,16 @@ final class CharacterController extends AbstractController
 
     }
 
+    #[Route('/{id}/cart_gp_show', name: 'app_character_cart_gp_show', methods: ['GET', 'POST'])]
+    public function showCartGP(Request $request, Character $character, EntityManagerInterface $entityManager): Response
+    {  
+        $cartGP = $character->getCartGP();
+
+        return $this->render('cart_gp/show.html.twig', [
+            'character' => $character
+        ]);
+    }
+    
     #[Route('/{id}/cart_gp', name: 'app_character_cart_gp', methods: ['GET', 'POST'])]
     public function editCartGP(Request $request, Character $character, EntityManagerInterface $entityManager): Response
     {
@@ -347,15 +357,50 @@ final class CharacterController extends AbstractController
                 
             }
 
+            if ($request->request->has('validate')) { 
+                
+                foreach ($cartGP->getItems() as $item) {
+                    
+                }
+
+                $entityManager->flush();
+                
+            }
+
             $entityManager->flush();
 
             return $this->redirectToRoute('app_character_cart_gp', ['id' => $character->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('cart_gp/edit.html.twig', [
+            'character' => $character,
             'cartGP' => $cartGP,
             'form' => $form,
         ]);
+    }
+
+    #[Route('/{id}/cart_gp_validate', name: 'app_character_cart_gp_validate', methods: ['POST'])]
+    public function validateCart(Request $request, Character $character, EntityManagerInterface $entityManager, WBLService $wBLUtil) {
+        
+        foreach ($character->getCartGp()->getItems() as $item) {
+            $item->setOwner($character);
+            $item->setCartGP(null);
+
+            $cost = $item->getPrice() * $item->getQuantity();
+
+            $character->setGp($character->getGp() - $cost);
+            $character->setPr($character->getPr() - $cost * ($item->getRatioPr() / 100));
+
+            $character->setLastAction(Character::PURCHASE);
+            $character->setLastActionDescription("Achat de ".$item->getQuantity()." ".$item->getName());
+
+            $entityManager->flush();
+        }
+
+        $character->getCartGP()->getItems()->clear();
+
+        return $this->redirectToRoute('app_character_show', ['id' => $character->getId()]);
+
     }
     
 }
