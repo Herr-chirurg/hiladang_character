@@ -74,7 +74,7 @@ class WBLService {
 
 	public function levelAndXPToGV(?int $level, string $currentXp): int 
 	{
-		return ($this->levelData[$level][1] + $currentXp/$this->levelData[$level+1][2]) * $this->coeff_gv;
+		return ($this->levelData[$level][1] + $currentXp/$this->levelData[$level][2]) * $this->coeff_gv;
 	}
 
 	public function rewardExtraPR(?int $scenarioLevel, ?int $level) {
