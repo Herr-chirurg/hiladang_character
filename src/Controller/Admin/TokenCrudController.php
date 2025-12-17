@@ -30,6 +30,7 @@ class TokenCrudController extends AbstractCrudController
             ->setCustomOption('field_label', 'name');
         yield AssociationField::new('owner_user')
             ->setCustomOption('field_label', 'username');
+        yield TextField::new('status');
 
     }
 
