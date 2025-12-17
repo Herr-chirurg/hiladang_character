@@ -9,7 +9,6 @@ class WBLService {
 
 	private array $levelData;
 	private array $scenarioData;
-	private float $coeff_gv = 1.25;
 
 	public function __construct()
     { 
@@ -34,26 +33,24 @@ class WBLService {
 		];
 
 		$this->levelData = [
-            1 	=> [0, 			0, 		0.00],
-			2 	=> [2000, 		1000, 	2.00],
-			3 	=> [5000, 		3750, 	1.50],
-			4 	=> [9000, 		6000, 	1.33],
-			5 	=> [15000, 		10500, 	1.33],
-			6 	=> [23000, 		16000, 	1.45],
-			7 	=> [35000, 		23500, 	1.60],
-			8 	=> [51000, 		33000, 	1.68],
-			9 	=> [75000, 		46000, 	1.85],
-			10 	=> [105000, 	62000, 	1.88],
-			11 	=> [155000, 	82000, 	2.50],
-			12 	=> [220000, 	108000,	2.50],
-			13 	=> [315000, 	140000,	2.97],
-			14 	=> [445000, 	185000, 2.89],
-			15 	=> [635000, 	240000, 3.45],
-			16 	=> [890000, 	315000, 3.40],
-			17 	=> [1300000, 	410000, 4.32],
-			18 	=> [1800000, 	530000, 4.17],
-			19 	=> [2550000, 	685000, 4.84],
-			20 	=> [3600000, 	880000, 5.38],
+			3  => [5000,	3750],
+			4  => [9000,	8250],
+			5  => [15000,	13130],
+			6  => [23000,	20005],
+			7  => [35000,	29380],
+			8  => [51000,	41260],
+			9  => [75000,	57520],
+			10 => [105000,	77505],
+			11 => [155000,	102505],
+			12 => [220000,	134995],
+			13 => [315000,	174995],
+			14 => [445000,	231245],
+			15 => [635000,	299995],
+			16 => [890000,	393745],
+			17 => [1300000,	512495],
+			18 => [1800000,	662495],
+			19 => [2550000,	856245],
+			20 => [3600000,1099995]
 		];
 	}
 
@@ -64,7 +61,7 @@ class WBLService {
 
 	public function levelToMinGP(?int $level): int 
 	{
-		return $this->levelData[$level][1] * $this->coeff_gv;
+		return $this->levelData[$level][1];
 	}
 
 	public function currentXPToLevelUp(?int $level): int {
@@ -74,7 +71,7 @@ class WBLService {
 
 	public function levelAndXPToGV(?int $level, string $currentXp): int 
 	{
-		return ($this->levelData[$level][1] + $currentXp * $this->levelData[$level][2]) * $this->coeff_gv;
+		return $this->levelData[$level][1] + ($currentXp / $this->scenarioData[$level][0]) * $this->scenarioData[$level][1];
 	}
 
 	public function rewardExtraPR(?int $scenarioLevel, ?int $level) {
