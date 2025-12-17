@@ -162,10 +162,6 @@ final class CharacterController extends AbstractController
                 $symbol = $activity_add>0 ? "+ " : "- ";
                 $character->setEndActivity($date->modify($symbol . abs($activity_add) . ' days'));
             }
-
-            //Pas de conditions ici, ce cas est censé toujours arriver
-            $description = $form->get('description')->getData();
-            $character->setLastActionDescription($description);
             
             $entityManager->flush();
 
@@ -391,7 +387,7 @@ final class CharacterController extends AbstractController
             $character->setGp($character->getGp() - $cost);
             $character->setPr($character->getPr() - $cost * ($item->getRatioPr() / 100));
 
-            $character->setLastAction(Character::PURCHASE);
+            $character->setLastAction(Character::TRADE_PNJ);
             $character->setLastActionDescription("Achat de ".$item->getQuantity()." ".$item->getName());
 
             $entityManager->flush();

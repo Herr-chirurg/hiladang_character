@@ -65,9 +65,7 @@ class CharacterEditType extends AbstractType
                     'Correction' => Character::CORRECTION,
                 ],
             ])
-            ->add('description', TextType::class, [
-                'mapped' => false, 
-                'required' => true,
+            ->add('last_action_description', TextType::class, [
                 'attr' => ['class' => 'description-textarea', 'placeholder' => 'achat de 10 feu alchimistes'],
             ])
         ;
