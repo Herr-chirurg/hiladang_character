@@ -57,6 +57,7 @@
                 <th>Richesse</th>
                 <td class="fixed-width-value">{{ "%7d"|format(character.gp) }} GP</td>
                 <td class="fixed-width-value">/ {{ "%7d"|format(GV) }} GV</td>
+                {#
                 <td>
                     <form action="{{ path("app_character_cart_gp", {'id': character.id}) }}" method="GET">
                         <button type="submit" class="btn btn-primary btn-sm">
@@ -64,6 +65,7 @@
                         </button>
                     </form>
                 </td>
+                #}
             </tr>
             <tr>
                 <th>Reputation</th>
