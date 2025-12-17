@@ -20,10 +20,6 @@ class TokenType extends AbstractType
             ->add('usage_rate')
             ->add('delta_pr')
             ->add('date_of_reception')
-            ->add('scenario', EntityType::class, [
-                'class' => Scenario::class,
-                'choice_label' => 'id',
-            ])
             ->add('character', EntityType::class, [
                 'class' => Character::class,
                 'choice_label' => 'id',
