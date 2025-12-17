@@ -23,6 +23,7 @@ class TokenCrudController extends AbstractCrudController
         yield TextField::new('name');
         yield TextField::new('type');
         yield IntegerField::new('usage_rate');
+        yield IntegerField::new('totalRate');
         yield IntegerField::new('totalPr');
         yield IntegerField::new('usage_rate');
         yield DateTimeField::new('date_of_reception');
