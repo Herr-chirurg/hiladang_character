@@ -63,8 +63,8 @@
         {% for token in scenario.tokens %}
             {% if token.type == "PJ" %}
                 <tr>
-                    <td>{{ token.character.name }}</td>
-                    <td>{{ token.character.level }}</td>
+                    <td>{{ token.character is null ? token.character.name : null }}</td>
+                    <td>{{ token.character is null ? token.character.level : null }}</td>
                     <td>{{ token.usageRate != 0 ? token.usageRate ~ "% / " : "" }}{{ token.totalRate }}%</td>
                     <td>{{ token.deltaPr }}%</td>
                     <td>{{ "%+d"|format(token.deltaPrFromLevel) }}%</td>
