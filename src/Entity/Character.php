@@ -27,11 +27,13 @@ use ApiPlatform\Metadata\Get;
 class Character
 {    
     public const LEVEL_UP = "levelUp";
-    public const PURCHASE = "purchase";
+    public const TRADE_PNJ = "tradePNJ";
+    public const TRADE_PJ = "tradePJ";
     public const EDIT = "edit";
     public const NEW = "new";
     public const DELETE = "delete";
-    public const TRADE = "trade";
+    public const CORRECTION = "correction";
+    
     
     #[ORM\Id]
     #[ORM\GeneratedValue]
