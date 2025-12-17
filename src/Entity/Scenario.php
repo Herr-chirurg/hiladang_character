@@ -7,8 +7,20 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Get;
 
 #[ORM\Entity(repositoryClass: ScenarioRepository::class)]
+    #[ApiResource(
+        normalizationContext: ['groups' => ['owner:read']],
+        stateless: false,
+        operations: [
+            new GetCollection(),
+            new Get(),
+        ],
+    )]
 class Scenario
 {
 
@@ -20,24 +32,30 @@ class Scenario
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Groups(['owner:read'])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
+    #[Groups(['owner:read'])]
     #[ORM\Column(type: Types::DECIMAL, precision: 2, scale: 0, nullable: false)]
     private ?string $level = null;
 
+    #[Groups(['owner:read'])]
     #[ORM\Column(nullable: false)]
     private ?\DateTime $date = null;
 
     #[ORM\Column(type: Types::BLOB, nullable: true)]
     private $img;
 
+    #[Groups(['owner:read'])]
     #[ORM\Column(length: 255, nullable: false)]
     private ?string $post_link = null;
 
+    #[Groups(['owner:read'])]
     #[ORM\Column(length: 255, nullable: false)]
     private ?string $status = null;
 
+    #[Groups(['owner:read'])]
     #[ORM\ManyToOne(inversedBy: 'scenarios')]
     private ?User $game_master = null;
 
@@ -53,6 +71,7 @@ class Scenario
     #[ORM\ManyToMany(targetEntity: Character::class, inversedBy: 'scenarios')]
     private Collection $characters;
 
+    #[Groups(['owner:read'])]
     #[ORM\Column(nullable: true)]
     private ?bool $editable = null;
 

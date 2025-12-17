@@ -5,8 +5,20 @@ namespace App\Entity;
 use App\Repository\TokenRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Get;
 
 #[ORM\Entity(repositoryClass: TokenRepository::class)]
+    #[ApiResource(
+        normalizationContext: ['groups' => ['owner:read']],
+        stateless: false,
+        operations: [
+            new GetCollection(),
+            new Get(),
+        ],
+    )]
 class Token
 {
     public const STATUS_PUBLISHED = 'created';
@@ -17,39 +29,50 @@ class Token
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Groups(['owner:read'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $name = null;
-
+    
+    #[Groups(['owner:read'])]
     #[ORM\Column(length: 255, nullable: false)]
     private ?string $type = null;
 
+    #[Groups(['owner:read'])]
     #[ORM\Column(nullable: true)]
     private ?int $usage_rate = null;
 
+    #[Groups(['owner:read'])]
     #[ORM\Column(nullable: true)]
     private ?int $delta_pr = null;
 
-    //variable utilisée pour l'affichage
+    #[Groups(['owner:read'])]
     private ?int $delta_pr_from_level = null;
 
+    #[Groups(['owner:read'])]
     #[ORM\ManyToOne(inversedBy: 'tokens')]
     private ?Scenario $scenario = null;
 
+    #[Groups(['owner:read'])]
     #[ORM\ManyToOne(inversedBy: 'tokens')]
     private ?Character $character = null;
 
+    #[Groups(['owner:read'])]
     #[ORM\Column(nullable: true)]
     private ?\DateTime $date_of_reception = null;
 
+    #[Groups(['owner:read'])]
     #[ORM\ManyToOne(inversedBy: 'tokens')]
     private ?User $owner_user = null;
 
+    #[Groups(['owner:read'])]
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 0, nullable: true)]
     private ?string $totalRate = null;
 
+    #[Groups(['owner:read'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $status = null;
 
+    #[Groups(['owner:read'])]
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 0, nullable: true)]
     private ?string $totalPr = null;
 
