@@ -60,6 +60,10 @@
                 <td>{{ characterData.webhookLink ? 'Renseigné' : 'Non Renseigné' }}</td>
             </tr>
             <tr>
+                <th>Type correction</th>
+                <td colspan="3">{{ form_widget(form.last_action) }}</td>
+            </tr>
+            <tr>
                 <th>Description</th>
                 <td colspan="3">{{ form_widget(form.description) }}</td>
             </tr>
@@ -86,7 +90,7 @@
         <tbody>
         {% for log in logs %}
             {% for key, diff in log.diffs %}
-                {% if key != 'last_action_description' and key != 'webhook_link'  %}
+                {% if key != 'last_action_description' and key != 'webhook_link' and key != 'last_action'  %}
                     <tr>
                         <td colspan="2">{{ key }}</td>
                         <td colspan="2">
