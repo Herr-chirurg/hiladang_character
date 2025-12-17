@@ -75,7 +75,7 @@ class DHAuditorListener implements EventSubscriberInterface
             if (is_numeric($diff->old) && is_numeric($diff->new)) {
                 $substract = $diff->new - $diff->old;
                 $prefixe = ($substract >= 0) ? '+' : "";
-                $log .= " ".$prefixe." ".($substract);
+                $log .= $prefixe.($substract);
             }
             $log .= " -> ";
 
