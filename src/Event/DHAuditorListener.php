@@ -8,16 +8,19 @@ use App\Entity\Scenario;
 use App\Repository\CharacterRepository;
 use App\Service\DiscordWebhookService;
 use DH\Auditor\Event\LifecycleEvent;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class DHAuditorListener implements EventSubscriberInterface
 {
     private $characterRepository;
+    private ParameterBagInterface $params;
     private DiscordWebhookService $discordWebhookService;
 
-    public function __construct(DiscordWebhookService $discordWebhookService, CharacterRepository $characterRepository) {
+    public function __construct(DiscordWebhookService $discordWebhookService, CharacterRepository $characterRepository, ParameterBagInterface $params) {
         $this->discordWebhookService = $discordWebhookService;
         $this->characterRepository = $characterRepository;
+        $this->params = $params;
     }
 
     
@@ -51,13 +54,13 @@ class DHAuditorListener implements EventSubscriberInterface
     public function handleCharacter($event) {
         $character = $this->characterRepository->find($event->getPayload()["object_id"]);
 
-        if ($character == null || $character->getWebhookLink() == null) {
+        if ($character == null) {
             return;
         }
 
         $diffs = json_decode($event->getPayload()["diffs"]);
 
-        $logs = "";
+        $logs = $character->getName()."\n";
         foreach ($diffs as $key => $diff) {
             if ($key == "last_action_description" || $key == "webhook_link") {
                 continue;
@@ -91,9 +94,18 @@ class DHAuditorListener implements EventSubscriberInterface
 
         }
 
-        $logs = $logs."Description : ".$diffs->last_action_description->new;
+        $logs = $logs."Description : ".$character->getLastActionDescription();
 
-        $this->discordWebhookService->send($character->getWebhookLink(), $logs);
+
+        if ($character->getWebhookLink()) {
+            $this->discordWebhookService->send($character->getWebhookLink(), $logs);
+        }
+
+        if ($character->getLastAction() == Character::TRADE_PNJ && $this->params->get('webhook_trade_npc')) {
+            $this->discordWebhookService->send($this->params->get('webhook_trade_pc'), $logs);
+        } elseif ($character->getLastAction() == Character::TRADE_PJ && $this->params->get('webhook_trade_pc')) {
+            $this->discordWebhookService->send($this->params->get('webhook_trade_pc'), $logs);
+        }
     }
 
     public function handleBuilding($event) {
@@ -105,6 +117,15 @@ class DHAuditorListener implements EventSubscriberInterface
     }
 
     public function handleDefault($event) {
+
+    }
+
+    public function tradePJ($event) {
+
+
+    }
+
+    public function tradePNJ($event) {
 
     }
 }

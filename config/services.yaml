@@ -20,6 +20,8 @@ services:
     App\Service\DiscordWebhookService:
 
 parameters:
+    webhook_trade_npc: '%env(WEBHOOK_TRADE_NPC)%'
+    webhook_trade_pc: '%env(WEBHOOK_TRADE_PC)%'
     # La valeur sera remplacée au moment du déploiement
     app.version_date: '%env(APP_VERSION_DATE)%'
     app.version_commit: '%env(APP_VERSION_COMMIT)%'
