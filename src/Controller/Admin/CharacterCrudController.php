@@ -34,6 +34,7 @@ class CharacterCrudController extends AbstractCrudController
         yield DateTimeField::new('end_activity');
         yield TextField::new('webhook_link');
         yield TextField::new('last_action');
+        yield TextField::new('last_action_description');
 
     }
 
