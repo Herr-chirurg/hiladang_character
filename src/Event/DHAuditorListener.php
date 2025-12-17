@@ -94,16 +94,16 @@ class DHAuditorListener implements EventSubscriberInterface
 
         }
 
-        $logs = $logs."Description : ".$character->getLastActionDescription();
+        $logs = $logs."Description : ".$diffs['last_action_description'];
 
 
         if ($character->getWebhookLink()) {
             $this->discordWebhookService->send($character->getWebhookLink(), $logs);
         }
 
-        if ($character->getLastAction() == Character::TRADE_PNJ && $this->params->get('webhook_trade_npc')) {
+        if (isset($diffs['last_action']) && $character->getLastAction() == Character::TRADE_PNJ && $this->params->get('webhook_trade_npc')) {
             $this->discordWebhookService->send($this->params->get('webhook_trade_pc'), $logs);
-        } elseif ($character->getLastAction() == Character::TRADE_PJ && $this->params->get('webhook_trade_pc')) {
+        } elseif (isset($diffs['last_action']) && $character->getLastAction() == Character::TRADE_PJ && $this->params->get('webhook_trade_pc')) {
             $this->discordWebhookService->send($this->params->get('webhook_trade_pc'), $logs);
         }
     }
