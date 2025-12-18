@@ -251,8 +251,10 @@ final class CharacterController extends AbstractController
         $character->setGp($character->getGp() 
             + $wBLUtil->rateToGp($character->getLevel(), $rateTransferred));
 
+        $rateRateTransferred = $rateTransferred / $token->getTotalRate();
+
         $character->setPr($character->getPr()
-            + $wBLUtil->rateToGp($character->getLevel(), $token->getTotalPr() * ($rateTransferred/100)));
+            + $wBLUtil->rateToGp($character->getLevel(), $token->getTotalPr() * ($rateRateTransferred)));
 
         $token->setUsageRate($token->getUsageRate() - $rateTransferred);
 
