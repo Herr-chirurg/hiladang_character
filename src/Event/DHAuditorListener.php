@@ -96,6 +96,7 @@ class DHAuditorListener implements EventSubscriberInterface
 
         $logs = $logs."Description : ".$diffs->last_action_description->new;
 
+        return; // desactivation de ce code. pas satisfait du comportement de last_action.
 
         if ($character->getWebhookLink()) {
             $this->discordWebhookService->send($character->getWebhookLink(), $logs);
