@@ -57,7 +57,7 @@ class CharacterEditType extends AbstractType
                 'mapped' => false, 
                 'required' => false,
                 'attr' => ['placeholder' => '+10'],
-            ])
+            ])/*
             ->add('last_action', ChoiceType::class, [
                 'choices'  => [
                     'Transaction PNJ' => Character::TRADE_PNJ,
@@ -67,8 +67,7 @@ class CharacterEditType extends AbstractType
             ])
             ->add('last_action_description', TextType::class, [
                 'attr' => ['class' => 'description-textarea', 'placeholder' => 'achat de 10 feu alchimistes'],
-            ])
-        ;
+            ])*/;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
