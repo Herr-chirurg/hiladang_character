@@ -64,10 +64,10 @@ class CharacterEditType extends AbstractType
                     'Transaction PJ' => Character::TRADE_PJ,
                     'Correction' => Character::CORRECTION,
                 ],
-            ])
+            ])*/
             ->add('last_action_description', TextType::class, [
                 'attr' => ['class' => 'description-textarea', 'placeholder' => 'achat de 10 feu alchimistes'],
-            ])*/;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
