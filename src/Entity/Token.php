@@ -9,6 +9,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Get;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 
 #[ORM\Entity(repositoryClass: TokenRepository::class)]
     #[ApiResource(
@@ -48,13 +49,26 @@ class Token
     #[Groups(['owner:read'])]
     private ?int $delta_pr_from_level = null;
 
-    #[Groups(['owner:read'])]
     #[ORM\ManyToOne(inversedBy: 'tokens')]
     private ?Scenario $scenario = null;
 
     #[Groups(['owner:read'])]
+    #[SerializedName('scenario')]
+    public function getScenarioId(): ?int
+    {
+        return $this->scenario ? $this->scenario->getId() : null;
+    }
+
+    #[Groups(['owner:read'])]
     #[ORM\ManyToOne(inversedBy: 'tokens')]
     private ?Character $character = null;
+
+    #[Groups(['owner:read'])]
+    #[SerializedName('character')]
+    public function getCharacterId(): ?int
+    {
+        return $this->character ? $this->character->getId() : null;
+    }
 
     #[Groups(['owner:read'])]
     #[ORM\Column(nullable: true)]
@@ -63,6 +77,13 @@ class Token
     #[Groups(['owner:read'])]
     #[ORM\ManyToOne(inversedBy: 'tokens')]
     private ?User $owner_user = null;
+
+    #[Groups(['owner:read'])]
+    #[SerializedName('owner_user')]
+    public function getOwnerId(): ?int
+    {
+        return $this->owner_user ? $this->owner_user->getId() : null;
+    }
 
     #[Groups(['owner:read'])]
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 0, nullable: true)]
