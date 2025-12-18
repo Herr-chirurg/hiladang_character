@@ -96,11 +96,11 @@ class DHAuditorListener implements EventSubscriberInterface
 
         $logs = $logs."Description : ".(isset($diffs->last_action_description) ? $diffs->last_action_description->new : "");
 
-        return; // desactivation de ce code. pas satisfait du comportement de last_action.
-
         if ($character->getWebhookLink()) {
             $this->discordWebhookService->send($character->getWebhookLink(), $logs);
         }
+
+        return; // desactivation de ce code. pas satisfait du comportement de last_action.
 
         if (isset($diffs->last_action) && $character->getLastAction() == Character::TRADE_PNJ && $this->params->get('webhook_trade_npc')) {
             $this->discordWebhookService->send($this->params->get('webhook_trade_pc'), $logs);
