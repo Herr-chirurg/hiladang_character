@@ -66,6 +66,7 @@ class CharacterEditType extends AbstractType
                 ],
             ])*/
             ->add('last_action_description', TextType::class, [
+                'data'  => "",
                 'attr' => ['class' => 'description-textarea', 'placeholder' => 'achat de 10 feu alchimistes'],
             ]);
     }
