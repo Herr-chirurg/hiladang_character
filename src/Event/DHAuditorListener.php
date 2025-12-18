@@ -75,7 +75,7 @@ class DHAuditorListener implements EventSubscriberInterface
                 }
             }
 
-            if (is_numeric($diff->old) && is_numeric($diff->new)) {
+            if (isset($diff->old) && is_numeric($diff->old) && is_numeric($diff->new) && isset($diff->new)) {
                 $substract = $diff->new - $diff->old;
                 $prefixe = ($substract >= 0) ? '+' : "";
                 $log .= $prefixe.($substract);
@@ -94,7 +94,7 @@ class DHAuditorListener implements EventSubscriberInterface
 
         }
 
-        $logs = $logs."Description : ".$diffs->last_action_description->new;
+        $logs = $logs."Description : ".(isset($diffs->last_action_description) ? $diffs->last_action_description->new : "");
 
         return; // desactivation de ce code. pas satisfait du comportement de last_action.
 
