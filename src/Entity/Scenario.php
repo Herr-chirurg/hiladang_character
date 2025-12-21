@@ -11,6 +11,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Get;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 
 #[ORM\Entity(repositoryClass: ScenarioRepository::class)]
     #[ApiResource(
@@ -55,9 +56,15 @@ class Scenario
     #[ORM\Column(length: 255, nullable: false)]
     private ?string $status = null;
 
-    #[Groups(['owner:read'])]
     #[ORM\ManyToOne(inversedBy: 'scenarios')]
     private ?User $game_master = null;
+
+    #[Groups(['owner:read'])]
+    #[SerializedName('gamemaster')]
+    public function getGameMasterId(): ?int
+    {
+        return $this->game_master ? $this->game_master->getId() : null;
+    }
 
     /**
      * @var Collection<int, Token>
