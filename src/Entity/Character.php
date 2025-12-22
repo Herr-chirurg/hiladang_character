@@ -12,6 +12,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Get;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 
 #[ORM\Entity(repositoryClass: CharacterRepository::class)]
     #[ApiResource(
@@ -87,8 +88,16 @@ class Character
     #[ORM\OneToMany(targetEntity: Activity::class, mappedBy: 'participant')]
     private Collection $activities;
 
+
     #[ORM\ManyToOne(inversedBy: 'characters')]
     private ?User $owner = null;
+
+    #[Groups(['owner:read'])]
+    #[SerializedName('owner')]
+    public function getOwnerId(): ?int
+    {
+        return $this->owner ? $this->owner->getId() : null;
+    }
 
     /**
      * @var Collection<int, Token>
