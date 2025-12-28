@@ -51,7 +51,7 @@ use ApiPlatform\Metadata\Get;
     /**
      * @var list<string> The user roles
      */
-    #[Groups(['owner:read'])]
+    #[ORM\Column]
     private array $roles = [];
 
     /**
