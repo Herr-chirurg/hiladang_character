@@ -42,7 +42,6 @@ class Token
     #[ORM\Column(nullable: true)]
     private ?int $usage_rate = null;
 
-    #[Groups(['owner:read'])]
     #[ORM\Column(nullable: true)]
     private ?int $delta_pr = null;
 
