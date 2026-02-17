@@ -44,8 +44,7 @@ class Token
 
     #[ORM\Column(nullable: true)]
     private ?int $delta_pr = null;
-
-    #[Groups(['owner:read'])]
+    
     private ?int $delta_pr_from_level = null;
 
     #[ORM\ManyToOne(inversedBy: 'tokens')]
